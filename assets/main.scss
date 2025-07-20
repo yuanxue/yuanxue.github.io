@@ -7,32 +7,14 @@
 
 /* Add your custom heading styles below this line to override Minima's defaults */
 
-.post-content h1 {
-  font-size: 38px; /* Example: Make H1 much larger */
-  font-weight: 700; /* Example: Make it bolder than the default 400 */
-}
-@media screen and (max-width: 800px) {
-  .post-content h1 {
-    font-size: 34px;
-  }
-}
+.post-content h1 { font-size: 36px; }
+@media screen and (max-width: 800px) { .post-content h1 { font-size: 32px; } }
+.post-content h2 { font-size: 32px; }
+@media screen and (max-width: 800px) { .post-content h2 { font-size: 28px; } }
+.post-content h3 { font-size: 26px; }
+@media screen and (max-width: 800px) { .post-content h3 { font-size: 22px; } }
+.post-content h4 { font-size: 20px; }
+@media screen and (max-width: 800px) { .post-content h4 { font-size: 18px; } }
 
-.post-content h2 {
-  font-size: 32px; /* Example: Make H2 smaller than the new H1, but larger than the original 30px from style.css */
-}
-@media screen and (max-width: 800px) {
-  .post-content h2 {
-    font-size: 28px;
-  }
-}
-
-/* You might want to remove the general h1, h2 rules from a separate style.css
-   if you intend main.scss to be your primary stylesheet.
-   Otherwise, ensure these .post-content rules are more specific. */
-
-/* If you want to change ALL H1s, not just those in post-content: */
-h1 {
-  font-size: 36px; /* Example: Affects all H1s unless a more specific rule applies */
-}
 
 /* TEST */ /* Keep this test comment for now to confirm the file is updating */
