@@ -12,7 +12,7 @@ If you're embarking on the journey of LLM development – whether you're a curio
 
 In ML 101, we learn about "loss," "backpropagation," and "optimizers." While these terms are foundational, the intricate details of gradients often remain somewhat elusive. You've probably heard about "Vanishing Gradients" and "Exploding Gradients," and perhaps even some of the techniques to mitigate them. This blog post aims to peel back the layers and demystify gradients, providing a deeper understanding that will empower you in your LLM endeavors. Understanding these phenomena and the techniques to combat them (like residual connections, normalization layers, and gradient clipping) isn't just for theoreticians; it's a fundamental part of successfully training any non-trivial LLM.
 
-# The Mathematical Definition and Concepts
+## The Mathematical Definition and Concepts
 
 At its core, a gradient is a vector that points in the direction of the steepest ascent of a function. In the context of neural networks, we're typically interested in the gradient of the loss function with respect to the model's parameters (weights and biases). This gradient tells us how much to adjust each parameter to minimize the loss.
 
