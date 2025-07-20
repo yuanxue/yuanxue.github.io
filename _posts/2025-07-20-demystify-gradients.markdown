@@ -6,17 +6,6 @@ tags: [Gradients, Normalization, Residuals, Clipping]
 categories: [LLM, AI, Deep Learning]
 ---
 
-## Demystifying Gradients
-
-Markdown
-
----
-layout: post
-title: Demystifying Gradients
-author: Your Name Here
-date: 2025-07-20 08:00:00 -0700
-categories: machine-learning LLM gradients
----
 
 ## Demystifying Gradients
 
@@ -100,7 +89,7 @@ loss.backward()
 for name, param in model.named_parameters():
     if param.grad is not None:
         print(f"Gradient for {name}: {param.grad.norm().item()}")
-
+```
 
 #### 4.2 Monitor Gradients During Training, Existing Metrics and Logs from LLM Training Libraries (e.g., TRL, VLLM)
 
