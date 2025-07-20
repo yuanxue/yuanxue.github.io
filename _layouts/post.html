@@ -15,9 +15,14 @@ layout: default
       {%- endif -%}</p>
   </header>
 
+    <nav class="post-toc" aria-label="Table of Contents">
+    {{ content | toc_only }}
+  </nav>
+
   <div class="post-content e-content" itemprop="articleBody">
-    {{ content }}
+    {{ content | remove_toc }}
   </div>
+
 
   {%- if site.disqus.shortname -%}
     {%- include disqus_comments.html -%}
