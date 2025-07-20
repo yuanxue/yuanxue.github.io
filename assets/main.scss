@@ -4,17 +4,44 @@
 
 @import "minima";
 
+/* Custom heading styles */
 
-/* Add your custom heading styles below this line to override Minima's defaults */
+.post-content h1 {
+  font-size: 38px; /* Make H1 noticeably larger than H2 */
+  font-weight: 700; /* Makes H1 bold */
+}
+@media screen and (max-width: 800px) {
+  .post-content h1 {
+    font-size: 34px;
+  }
+}
 
-.post-content h1 { font-size: 36px; }
-@media screen and (max-width: 800px) { .post-content h1 { font-size: 32px; } }
-.post-content h2 { font-size: 32px; }
-@media screen and (max-width: 800px) { .post-content h2 { font-size: 28px; } }
-.post-content h3 { font-size: 26px; }
-@media screen and (max-width: 800px) { .post-content h3 { font-size: 22px; } }
-.post-content h4 { font-size: 20px; }
-@media screen and (max-width: 800px) { .post-content h4 { font-size: 18px; } }
+.post-content h2 {
+  font-size: 28px; /* Make H2 smaller than the new H1, and slightly smaller than your previous 32px */
+  font-weight: 600; /* Optionally make H2 a bit bolder than normal text, but less than H1 */
+}
+@media screen and (max-width: 800px) {
+  .post-content h2 {
+    font-size: 24px; /* Adjust responsive size for H2 */
+  }
+}
 
+.post-content h3 {
+  font-size: 22px; /* Make H3 smaller than H2, and slightly larger than your previous 20px */
+  font-weight: 500; /* Optionally make H3 slightly bold */
+}
+@media screen and (max-width: 800px) {
+  .post-content h3 {
+    font-size: 19px; /* Adjust responsive size for H3 */
+  }
+}
 
-/* TEST */ /* Keep this test comment for now to confirm the file is updating */
+.post-content h4 {
+  font-size: 18px; /* H4 can remain as is, or adjust */
+  font-weight: 400; /* Often regular weight for H4 */
+}
+@media screen and (max-width: 800px) {
+  .post-content h4 {
+    font-size: 16px; /* Adjust responsive size for H4 */
+  }
+}
