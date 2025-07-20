@@ -1,0 +1,17 @@
+---
+layout: post
+title: "Test Blog Post for Verification"
+date: 2025-07-20 10:30:00 -0700
+categories: test verification
+---
+
+# This is a Test Post
+
+This post is to verify that the blog functionality is working correctly on `yuanxue.github.io`.
+
+If you can see this, then Jekyll is successfully processing new blog posts!
+
+* Item 1
+* Item 2
+
+**Testing complete!**
