@@ -1,8 +1,9 @@
 ---
 layout: post
 title: "Test Blog Post for Verification"
-date:   2026-07-20 00:17:56 -0700
-categories: genAI
+date:   2025-07-20 00:17:56 -0700
+tags: [Gradients, Normalization, Residuals, Clipping]
+categories: [LLM, AI, Deep Learning]
 ---
 
 
