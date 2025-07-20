@@ -5,6 +5,7 @@ date:   2025-07-20 00:17:56 -0700
 tags: [Gradients, Normalization, Residuals, Clipping]
 categories: [LLM, AI, Deep Learning]
 ---
+{:toc}
 
 In the fascinating world of Large Language Models (LLMs), we're constantly pushing the boundaries of what AI can achieve. From generating coherent text to translating languages, LLMs have revolutionized how we interact with technology. And at the heart of LLM training (and indeed, any neural network training), quietly orchestrating every learning step, are gradients.
 
