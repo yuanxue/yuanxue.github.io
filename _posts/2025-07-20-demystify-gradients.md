@@ -1,7 +1,7 @@
 ---
 layout: post
 title: "Demystifying Gradients"
-date:   2025-07-20 00:17:56 -0700
+date:   2025-09-20 00:17:56 -0700
 tags: [Gradients, Normalization, Residuals, Clipping]
 categories: [LLM, AI, Deep Learning]
 ---
