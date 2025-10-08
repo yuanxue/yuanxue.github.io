@@ -2,6 +2,7 @@
 layout: post
 title: "Test Blog Post for Verification"
 date:   2026-07-20 00:17:56 -0700
+mermaid: true
 ---
 
 
@@ -15,3 +16,9 @@ If you can see this, then Jekyll is successfully processing new blog posts!
 * Item 2
 
 **Testing complete!**
+
+<div class="mermaid" markdown="0">
+graph TD
+  A["Works"] -->|Yes| B["Great"]
+  A -->|No| C["Check layout and console"]
+</div>

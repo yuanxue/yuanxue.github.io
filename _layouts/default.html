@@ -1,10 +1,9 @@
 <!DOCTYPE html>
-<html lang="{{ page.lang | default: site.lang | default: "en" }}">
-
-  {%- include head.html -%}
-
+<html lang="{{ page.lang | default: site.lang | default: 'en' }}">
+  <head>
+    {%- include head.html -%}
+  </head>
   <body>
-
     {%- include header.html -%}
 
     <main class="page-content" aria-label="Content">
@@ -15,6 +14,16 @@
 
     {%- include footer.html -%}
 
+    {% if page.mermaid or site.mermaid %}
+      <script src="https://cdn.jsdelivr.net/npm/mermaid@10/dist/mermaid.min.js"></script>
+      <script>
+        document.addEventListener('DOMContentLoaded', function () {
+          mermaid.initialize({
+            startOnLoad: true,
+            securityLevel: 'loose' // allows <br/> in labels
+          });
+        });
+      </script>
+    {% endif %}
   </body>
-
 </html>
