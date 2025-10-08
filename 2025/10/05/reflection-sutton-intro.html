@@ -1,0 +1,181 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head><head>
+  <meta charset="utf-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1"><!-- Begin Jekyll SEO tag v2.8.0 -->
+<title>Reflections on Richard Sutton’s Interview: Intro | Yuan (Emily) Xue</title>
+<meta name="generator" content="Jekyll v4.4.1" />
+<meta property="og:title" content="Reflections on Richard Sutton’s Interview: Intro" />
+<meta property="og:locale" content="en_US" />
+<meta name="description" content="Check out my blog." />
+<meta property="og:description" content="Check out my blog." />
+<link rel="canonical" href="https://yuanxue.github.io/2025/10/05/reflection-sutton-intro.html" />
+<meta property="og:url" content="https://yuanxue.github.io/2025/10/05/reflection-sutton-intro.html" />
+<meta property="og:site_name" content="Yuan (Emily) Xue" />
+<meta property="og:type" content="article" />
+<meta property="article:published_time" content="2025-10-05T00:17:56-07:00" />
+<meta name="twitter:card" content="summary" />
+<meta property="twitter:title" content="Reflections on Richard Sutton’s Interview: Intro" />
+<script type="application/ld+json">
+{"@context":"https://schema.org","@type":"BlogPosting","dateModified":"2025-10-05T00:17:56-07:00","datePublished":"2025-10-05T00:17:56-07:00","description":"Check out my blog.","headline":"Reflections on Richard Sutton’s Interview: Intro","mainEntityOfPage":{"@type":"WebPage","@id":"https://yuanxue.github.io/2025/10/05/reflection-sutton-intro.html"},"url":"https://yuanxue.github.io/2025/10/05/reflection-sutton-intro.html"}</script>
+<!-- End Jekyll SEO tag -->
+<link rel="stylesheet" href="/assets/main.css"><link type="application/atom+xml" rel="alternate" href="https://yuanxue.github.io/feed.xml" title="Yuan (Emily) Xue" /></head>
+</head>
+  <body><header class="site-header" role="banner">
+
+  <div class="wrapper"><a class="site-title" rel="author" href="/">Yuan (Emily) Xue</a><nav class="site-nav">
+        <input type="checkbox" id="nav-trigger" class="nav-trigger" />
+        <label for="nav-trigger">
+          <span class="menu-icon">
+            <svg viewBox="0 0 18 15" width="18px" height="15px">
+              <path d="M18,1.484c0,0.82-0.665,1.484-1.484,1.484H1.484C0.665,2.969,0,2.304,0,1.484l0,0C0,0.665,0.665,0,1.484,0 h15.032C17.335,0,18,0.665,18,1.484L18,1.484z M18,7.516C18,8.335,17.335,9,16.516,9H1.484C0.665,9,0,8.335,0,7.516l0,0 c0-0.82,0.665-1.484,1.484-1.484h15.032C17.335,6.031,18,6.696,18,7.516L18,7.516z M18,13.516C18,14.335,17.335,15,16.516,15H1.484 C0.665,15,0,14.335,0,13.516l0,0c0-0.82,0.665-1.483,1.484-1.483h15.032C17.335,12.031,18,12.695,18,13.516L18,13.516z"/>
+            </svg>
+          </span>
+        </label>
+
+        <div class="trigger"><a class="page-link" href="/blog/">Blog</a><a class="page-link" href="/">Home</a></div>
+      </nav></div>
+</header>
+<main class="page-content" aria-label="Content">
+      <div class="wrapper">
+        <article class="post h-entry" itemscope itemtype="http://schema.org/BlogPosting">
+
+  <header class="post-header">
+    <h1 class="post-title p-name" itemprop="name headline">Reflections on Richard Sutton&#39;s Interview: Intro</h1>
+    <p class="post-meta">
+      <time class="dt-published" datetime="2025-10-05T00:17:56-07:00" itemprop="datePublished">Oct 5, 2025
+      </time></p>
+      <script>
+      window.MathJax = {
+        tex: {
+          inlineMath: [['$', '$'], ['\\(', '\\)']],
+          displayMath: [['$$', '$$'], ['\\[', '\\]']]
+        },
+        svg: {
+          fontCache: 'global'
+        }
+      };
+    </script>
+    <script src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-svg.js"></script>
+  </header>
+
+    <nav class="post-toc" aria-label="Table of Contents">
+    <ul id="toc" class="section-nav">
+<li class="toc-entry toc-h3"><a href="#1-is-next-token-prediction-a-fundamental-limitationor-an-efficient-way-to-compress-knowledge">1. Is next-token prediction a fundamental limitation—or an efficient way to compress knowledge?</a></li>
+<li class="toc-entry toc-h3"><a href="#2-is-the-issue-about-when-learning-happensduring-training-or-after-deployment">2. Is the issue about when learning happens—during training or after deployment?</a></li>
+<li class="toc-entry toc-h3"><a href="#3-is-the-problem-one-of-modalitytext-versus-multi-modality">3. Is the problem one of modality—text versus multi-modality?</a></li>
+<li class="toc-entry toc-h3"><a href="#4-scaling-experience-can-abstraction-replace-direct-interaction">4. Scaling experience: Can abstraction replace direct interaction?</a></li>
+<li class="toc-entry toc-h3"><a href="#5-can-a-system-learn-through-cultural-feedback-as-humans-do">5. Can a system learn through cultural feedback, as humans do?</a></li>
+<li class="toc-entry toc-h3"><a href="#6-the-value-of-imitation">6. The Value of Imitation</a></li>
+</ul>
+  </nav>
+
+  <div class="post-content e-content" itemprop="articleBody">
+    
+<p>I recently listened to <a href="https://www.youtube.com/watch?v=BF1aXbY0hS8">Richard Sutton’s interview on the <em>Dwarkesh Podcast</em></a>. Often called the father of reinforcement learning, Sutton spoke candidly about the limitations of large language models (LLMs), the importance of continual learning, and his lifelong conviction that true intelligence arises from experience—not imitation.</p>
+
+<p>For me, the conversation was both intellectually dense and personally inspiring.</p>
+
+<p>Sutton’s interview raised questions that reach beyond algorithms and touch on the philosophical core of modern AI research and the practical of LLM in support Agent develpment via reasoning.</p>
+
+<p>As I listened, a few themes stood out.</p>
+
+<hr />
+
+<h3 id="1-is-next-token-prediction-a-fundamental-limitationor-an-efficient-way-to-compress-knowledge">1. Is next-token prediction a fundamental limitation—or an efficient way to compress knowledge?</h3>
+
+<p>The term <em>LLM</em> has become a kind of shorthand.<br />
+Pretraining is indeed next-token prediction—but post-training introduces reinforcement learning from human or verifier feedback (RLHF, RLVF), injecting goals, preferences, and interaction loops.<br />
+Are these systems still “just predicting the next word,” or have they quietly evolved beyond that description?</p>
+
+<hr />
+
+<h3 id="2-is-the-issue-about-when-learning-happensduring-training-or-after-deployment">2. Is the issue about <strong>when</strong> learning happens—during training or after deployment?</h3>
+
+<p>Sutton often emphasizes continual learning: the ability to adapt through experience after deployment.<br />
+Most models today are fixed—trained once, deployed behind APIs, and updated in large batches.<br />
+But that boundary is softening.<br />
+Techniques like reinforcement fine-tuning based on customer objectives, Cursor’s online RL tuning, and adaptive personalization models hint at systems that can keep learning safely in the wild.<br />
+If models could adapt continuously after deployment, would that address Sutton’s critique?</p>
+
+<hr />
+
+<h3 id="3-is-the-problem-one-of-modalitytext-versus-multi-modality">3. Is the problem one of modality—text versus multi-modality?</h3>
+
+<p>LLMs began in text, yet they sparked the broader generative wave: diffusion models for vision, multimodal architectures like Gemini and Claude 3, and DeepMind’s <em>Genie 3</em>, a video-based world model that predicts and controls future frames.<br />
+When video data provides sequences of passive perception and reaction, can we learn a world model from it—without explicit interaction or embodied experience?</p>
+
+<hr />
+
+<h3 id="4-scaling-experience-can-abstraction-replace-direct-interaction">4. Scaling experience: Can abstraction replace direct interaction?</h3>
+
+<p>The world is vast. Even humans, unlike squirrels, cannot experience everything firsthand.<br />
+Language became our bridge—allowing us to share abstract concepts and accumulated knowledge across generations.<br />
+If <em>experience</em> is the right paradigm, how can we scale it to the richness of human understanding without millions of years of simulation?<br />
+And if <em>language abstraction</em> is not the answer, how can we enable scalable experience—and ensure that learned world models are passed on and inherited?</p>
+
+<hr />
+
+<h3 id="5-can-a-system-learn-through-cultural-feedback-as-humans-do">5. Can a system learn through <strong>cultural feedback</strong>, as humans do?</h3>
+
+<p>(Here, I turn to Joseph Henrich and Yuval Harari for insight.)<br />
+Humans learn not only through direct reinforcement but also through the social feedback loops of culture—stories, norms, and shared values.<br />
+Could an LLM, trained on human language and behavior, serve as a foundation for this kind of cultural learning?</p>
+
+<hr />
+
+<h3 id="6-the-value-of-imitation">6. The Value of Imitation</h3>
+
+<p>Each of these questions sits at the edge of what LLMs <em>are</em> and what true intelligence might <em>require</em>.<br />
+They prompted me to reflect on past insights from many great minds:<br />
+Ilya Sutskever’s optimism about scaling, Geoff Hinton’s biologically inspired view of learning, Yann LeCun’s vision of world models, and Demis Hassabis’s synthesis of agents, planning, and memory.</p>
+
+<p>Together, these perspectives trace a continuum of thought about what it means to learn and to be intelligent.</p>
+
+<p>This blog series is my attempt to connect those threads—<br />
+to see how these ideas align, diverge, and evolve—<br />
+and to ask whether, by organizing our questions clearly,<br />
+we might reason a little better together.</p>
+
+  </div><a class="u-url" href="/2025/10/05/reflection-sutton-intro.html" hidden></a>
+</article>
+
+      </div>
+    </main><footer class="site-footer h-card">
+  <data class="u-url" href="/"></data>
+
+  <div class="wrapper">
+
+    <h2 class="footer-heading">Yuan (Emily) Xue</h2>
+
+    <div class="footer-col-wrapper">
+      <div class="footer-col footer-col-1">
+        <ul class="contact-list">
+          <li class="p-name">Yuan (Emily) Xue</li><li><a class="u-email" href="mailto:yuanxue00@gmail.com">yuanxue00@gmail.com</a></li></ul>
+      </div>
+
+      <div class="footer-col footer-col-2"><ul class="social-media-list"><li><a href="https://github.com/yuanxue"><svg class="svg-icon"><use xlink:href="/assets/minima-social-icons.svg#github"></use></svg> <span class="username">yuanxue</span></a></li><li><a href="https://www.twitter.com/yuanxue00"><svg class="svg-icon"><use xlink:href="/assets/minima-social-icons.svg#twitter"></use></svg> <span class="username">yuanxue00</span></a></li></ul>
+</div>
+
+      <div class="footer-col footer-col-3">
+        <p>Check out my blog. </p>
+      </div>
+    </div>
+
+  </div>
+
+</footer>
+
+      <script src="https://cdn.jsdelivr.net/npm/mermaid@10/dist/mermaid.min.js"></script>
+      <script>
+        document.addEventListener('DOMContentLoaded', function () {
+          mermaid.initialize({
+            startOnLoad: true,
+            securityLevel: 'loose' // allows <br/> in labels
+          });
+        });
+      </script>
+    
+  </body>
+</html>

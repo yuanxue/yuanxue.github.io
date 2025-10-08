@@ -1,303 +1,128 @@
-<?xml version="1.0" encoding="utf-8"?><feed xmlns="http://www.w3.org/2005/Atom" ><generator uri="https://jekyllrb.com/" version="4.4.1">Jekyll</generator><link href="https://yuanxue.github.io/feed.xml" rel="self" type="application/atom+xml" /><link href="https://yuanxue.github.io/" rel="alternate" type="text/html" /><updated>2025-10-08T07:11:22-07:00</updated><id>https://yuanxue.github.io/feed.xml</id><title type="html">Yuan (Emily) Xue</title><subtitle>Check out my blog. </subtitle><entry><title type="html">Reflections on Richard Sutton’s Interview: Part II — Goal and Acting</title><link href="https://yuanxue.github.io/2025/10/07/reflection-sutton-part2.html" rel="alternate" type="text/html" title="Reflections on Richard Sutton’s Interview: Part II — Goal and Acting" /><published>2025-10-07T00:00:00-07:00</published><updated>2025-10-07T00:00:00-07:00</updated><id>https://yuanxue.github.io/2025/10/07/reflection-sutton-part2</id><content type="html" xml:base="https://yuanxue.github.io/2025/10/07/reflection-sutton-part2.html"><![CDATA[<p>In <a href="#">Part I</a>, I explored the idea of a <em>world model</em> — how systems like large language models (LLMs) understand the world, and where that understanding falls short.<br />
-In this second part, I turn to the other half of intelligence: <strong>acting toward a goal</strong>.<br />
-Understanding describes the world; goals decide what to do in it.</p>
+<!DOCTYPE html>
+<html lang="en">
+  <head><head>
+  <meta charset="utf-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1"><!-- Begin Jekyll SEO tag v2.8.0 -->
+<title>Demystifying Gradients | Yuan (Emily) Xue</title>
+<meta name="generator" content="Jekyll v4.4.1" />
+<meta property="og:title" content="Demystifying Gradients" />
+<meta property="og:locale" content="en_US" />
+<meta name="description" content="Check out my blog." />
+<meta property="og:description" content="Check out my blog." />
+<link rel="canonical" href="https://yuanxue.github.io/2025/09/20/demystify-gradients.html" />
+<meta property="og:url" content="https://yuanxue.github.io/2025/09/20/demystify-gradients.html" />
+<meta property="og:site_name" content="Yuan (Emily) Xue" />
+<meta property="og:type" content="article" />
+<meta property="article:published_time" content="2025-09-20T00:17:56-07:00" />
+<meta name="twitter:card" content="summary" />
+<meta property="twitter:title" content="Demystifying Gradients" />
+<script type="application/ld+json">
+{"@context":"https://schema.org","@type":"BlogPosting","dateModified":"2025-09-20T00:17:56-07:00","datePublished":"2025-09-20T00:17:56-07:00","description":"Check out my blog.","headline":"Demystifying Gradients","mainEntityOfPage":{"@type":"WebPage","@id":"https://yuanxue.github.io/2025/09/20/demystify-gradients.html"},"url":"https://yuanxue.github.io/2025/09/20/demystify-gradients.html"}</script>
+<!-- End Jekyll SEO tag -->
+<link rel="stylesheet" href="/assets/main.css"><link type="application/atom+xml" rel="alternate" href="https://yuanxue.github.io/feed.xml" title="Yuan (Emily) Xue" /></head>
+</head>
+  <body><header class="site-header" role="banner">
 
-<hr />
+  <div class="wrapper"><a class="site-title" rel="author" href="/">Yuan (Emily) Xue</a><nav class="site-nav">
+        <input type="checkbox" id="nav-trigger" class="nav-trigger" />
+        <label for="nav-trigger">
+          <span class="menu-icon">
+            <svg viewBox="0 0 18 15" width="18px" height="15px">
+              <path d="M18,1.484c0,0.82-0.665,1.484-1.484,1.484H1.484C0.665,2.969,0,2.304,0,1.484l0,0C0,0.665,0.665,0,1.484,0 h15.032C17.335,0,18,0.665,18,1.484L18,1.484z M18,7.516C18,8.335,17.335,9,16.516,9H1.484C0.665,9,0,8.335,0,7.516l0,0 c0-0.82,0.665-1.484,1.484-1.484h15.032C17.335,6.031,18,6.696,18,7.516L18,7.516z M18,13.516C18,14.335,17.335,15,16.516,15H1.484 C0.665,15,0,14.335,0,13.516l0,0c0-0.82,0.665-1.483,1.484-1.483h15.032C17.335,12.031,18,12.695,18,13.516L18,13.516z"/>
+            </svg>
+          </span>
+        </label>
 
-<h3 id="intelligence-requires-a-goal">Intelligence Requires a Goal</h3>
+        <div class="trigger"><a class="page-link" href="/blog/">Blog</a><a class="page-link" href="/">Home</a></div>
+      </nav></div>
+</header>
+<main class="page-content" aria-label="Content">
+      <div class="wrapper">
+        <article class="post h-entry" itemscope itemtype="http://schema.org/BlogPosting">
 
-<p>As Richard Sutton reminds us, <em>“Intelligence is about achieving goals in the world.”</em><br />
-A system can model the world endlessly, but without a purpose, its knowledge remains inert.<br />
-Where Part I focused on learning the world’s dynamics, this part centers on <strong>learning to act</strong> — the bridge from prediction to decision.</p>
+  <header class="post-header">
+    <h1 class="post-title p-name" itemprop="name headline">Demystifying Gradients</h1>
+    <p class="post-meta">
+      <time class="dt-published" datetime="2025-09-20T00:17:56-07:00" itemprop="datePublished">Sep 20, 2025
+      </time></p>
+      <script>
+      window.MathJax = {
+        tex: {
+          inlineMath: [['$', '$'], ['\\(', '\\)']],
+          displayMath: [['$$', '$$'], ['\\[', '\\]']]
+        },
+        svg: {
+          fontCache: 'global'
+        }
+      };
+    </script>
+    <script src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-svg.js"></script>
+  </header>
 
-<p>In reinforcement learning (RL), this bridge is formalized through the <strong>Markov Decision Process (MDP)</strong>, defined by a tuple ( (S, A, P, R, \gamma) ):</p>
+    <nav class="post-toc" aria-label="Table of Contents">
+    <ul id="toc" class="section-nav">
+<li class="toc-entry toc-h1"><a href="#mathematical-definition-and-concepts">Mathematical Definition and Concepts</a>
 <ul>
-  <li>( S ): states</li>
-  <li>( A ): actions</li>
-  <li>( P ): transition dynamics (the world model)</li>
-  <li>( R ): reward function</li>
-  <li>( \gamma ): discount factor for future rewards</li>
-</ul>
-
-<p>The world model tells us <em>what happens</em>; the reward tells us <em>what matters</em>.</p>
-
-<hr />
-
-<h3 id="from-dynamics-to-objective">From Dynamics to Objective</h3>
-
-<p>Once we can model transitions ( f(s, a) \rightarrow (s’, r) ), we can define the agent’s objective:</p>
-
-<p>[
-J(\pi) = \mathbb{E}_{\pi}!\left[\sum_t \gamma^t r_t\right]
-]</p>
-
-<p>This objective expresses intelligence as <em>optimization through experience</em>.<br />
-The agent learns a <strong>policy</strong> ( \pi(a|s) ) — a mapping from states to actions — that maximizes expected cumulative reward.</p>
-
-<p>Two broad approaches emerge:</p>
+<li class="toc-entry toc-h3"><a href="#-example-model-setup-a-simple-2-layer-mlp">🧠 Example Model Setup: A Simple 2-Layer MLP</a></li>
+<li class="toc-entry toc-h3"><a href="#-forward-pass">🔁 Forward Pass</a></li>
+<li class="toc-entry toc-h3"><a href="#-backward-pass-computing-gradients-with-the-chain-rule">🔄 Backward Pass: Computing Gradients with the Chain Rule</a>
 <ul>
-  <li><strong>Model-based RL</strong>, which plans actions using an explicit world model.</li>
-  <li><strong>Model-free RL</strong>, which learns directly from trial and error, without ever constructing the model explicitly.</li>
+<li class="toc-entry toc-h4"><a href="#️-the-chain-rule">⛓️ The Chain Rule</a></li>
+<li class="toc-entry toc-h4"><a href="#output-layer-layer-2">Output Layer (Layer 2)</a></li>
+<li class="toc-entry toc-h4"><a href="#hidden-layer-layer-1">Hidden Layer (Layer 1)</a></li>
 </ul>
-
-<hr />
-
-<h3 id="two-broad-approaches-to-rl">Two Broad Approaches to RL</h3>
-
-<h4 id="value-based-approach"><strong>Value-Based Approach</strong></h4>
-
-<p>Value-based methods estimate the long-term return of each state or action via a <strong>value function</strong> ( V(s) ) or <strong>action-value function</strong> ( Q(s, a) ).<br />
-This estimation connects short-term decisions to long-term outcomes — a way to see beyond the immediate reward.<br />
-Sutton’s <em>startup analogy</em> illustrates this: an early-stage company may take actions that lose money now, but yield value later.<br />
-Without a sense of long-term value, intelligent action collapses into short-sighted imitation.</p>
-
-<h4 id="policy-based-approach"><strong>Policy-Based Approach</strong></h4>
-
-<p>Policy-based methods take a different route. Instead of estimating value first, they directly <strong>optimize the policy parameters</strong> to improve expected performance.<br />
-This approach, known as <strong>policy gradient</strong>, adjusts the policy in proportion to the goodness of outcomes:</p>
-
-<p>[
-\nabla_\theta J(\pi_\theta) = \mathbb{E}!\left[\nabla_\theta \log \pi_\theta(a|s) \, Q^\pi(s,a)\right]
-]</p>
-
-<p>In Sutton’s interview, he put it simply:</p>
-<blockquote>
-  <p>“You act, you see what happens, and you change your behavior accordingly — not because someone told you what to do, but because the world responded.”</p>
-</blockquote>
-
-<p>This line captures the spirit of policy-based RL: intelligence as the art of adjusting to feedback, not imitating prescriptions.</p>
-
-<hr />
-
-<h3 id="the-llm-analogy-policy-without-and-with-goals">The LLM Analogy: Policy Without and With Goals</h3>
-
-<h4 id="pretraining-policy-from-imitation"><strong>Pretraining: Policy from Imitation</strong></h4>
-
-<p>A pretrained LLM can be viewed as a <strong>policy</strong> ( \pi_\text{LLM}(a_t | s_t) ) that imitates human linguistic behavior.<br />
-It generates the next token by predicting what <em>a human would likely say next</em>.<br />
-This is statistical learning — powerful but passive.<br />
-Such a model lacks goal-driven correction; it learns human <em>descriptions</em> of success, not the <em>experience</em> of success itself.</p>
-
-<h4 id="post-training-policy-with-a-goal"><strong>Post-Training: Policy with a Goal</strong></h4>
-
-<p>Post-training introduces goals through <strong>reinforcement learning</strong>.<br />
-In <strong>RLHF (Reinforcement Learning from Human Feedback)</strong>, the goal is to align outputs with human preferences encoded in a reward model.<br />
-In <strong>RLVR</strong> and related techniques, the objective becomes <em>task success</em> — e.g., solving a math problem or generating correct code.</p>
-
-<p>These phases transform LLMs from pure imitators into systems that optimize for explicit outcomes.<br />
-Yet the transformation is partial: the model learns within narrow, human-specified boundaries.<br />
-It is still far from an open-ended learner that explores and redefines its goals through experience.</p>
-
-<hr />
-
-<h3 id="open-reflections">Open Reflections</h3>
-
-<h4 id="is-post-training-correction-enough"><strong>Is Post-Training Correction Enough?</strong></h4>
-
-<p>RLHF and RLVR bring purpose, but within limited and static objectives.<br />
-Recent work in RL emphasizes the importance of <strong>entropy</strong> — the capacity to keep exploring.<br />
-High-entropy policies resist premature convergence, maintaining curiosity in uncertain environments.<br />
-Perhaps the next leap for LLMs lies in <em>continual, on-policy interaction</em> with the world — learning not just from labeled feedback but from the consequences of their own actions.</p>
-
-<h4 id="reasoning-as-exploration"><strong>Reasoning as Exploration</strong></h4>
-
-<p>Reasoning models and <strong>Chain-of-Thought (CoT)</strong> prompting introduce implicit exploration.<br />
-Each reasoning step expands the model’s internal trajectory beyond the training corpus, forming a kind of <em>mental simulation</em>.<br />
-Inference-time scaling — generating multiple thought chains before selecting the best one — resembles <em>policy rollout and evaluation</em>.<br />
-Could this process act as an internal feedback loop, a primitive form of on-policy learning?</p>
-
-<hr />
-
-<h3 id="closing-thought">Closing Thought</h3>
-
-<p>Understanding is half of intelligence; acting completes it.<br />
-A world model provides <em>prediction</em>, but a goal gives <em>direction</em>.<br />
-As Sutton has long argued, the essence of intelligence lies in the continual cycle of <strong>acting, observing, and adjusting</strong>.<br />
-Only when knowledge and purpose form a closed loop can we say a system truly learns from the world — not just about it.</p>]]></content><author><name></name></author><category term="LLM" /><category term="AI" /><category term="Deep Learning" /><category term="Reinforcement Learning" /><category term="LLM" /><category term="AGI" /><category term="Sutton" /></entry><entry><title type="html">Reflections on Richard Sutton’s Interview: Part I — World Model and Understanding</title><link href="https://yuanxue.github.io/2025/10/06/reflection-sutton-part1.html" rel="alternate" type="text/html" title="Reflections on Richard Sutton’s Interview: Part I — World Model and Understanding" /><published>2025-10-06T00:00:00-07:00</published><updated>2025-10-06T00:00:00-07:00</updated><id>https://yuanxue.github.io/2025/10/06/reflection-sutton-part1</id><content type="html" xml:base="https://yuanxue.github.io/2025/10/06/reflection-sutton-part1.html"><![CDATA[<h3 id="suttons-view-lack-of-world-model-in-llms">Sutton’s View: Lack of World Model in LLMs</h3>
-
-<p>Sutton begins with a simple observation: <strong>LLMs never experience the world.</strong> He argues that these systems <strong>lack a world model</strong> — a sense of cause and effect, surprise, and correction.<br />
-Without it, they cannot truly understand.</p>
-
-<blockquote>
-  <p>“They learn what people would say, not what would happen,” Sutton notes.</p>
-</blockquote>
-
-<p>An LLM is a <strong>statistical mirror</strong> of human linguistic behavior. It reflects how people describe reality, not how reality unfolds.</p>
-
-<p>But this raises a question: if LLMs truly lack a model that connects actions to consequences — the essence of understanding — then how do they still appear to know? When we ask LLM with a promot, “If I touch a boiling pot, what will happen?” the model will respond, “you’ll likely burn your skin immediately.” How should we reconcile this ability to state consequences with Sutton’s claim that LLMs don’t possess a world model? Or put more simply — is the ability to describe a consequence through language good enough, or even equivalent, to understanding the consequence itself?</p>
-
-<h3 id="what-is-a-world-model">What Is a World Model?</h3>
-
-<p>To unpack Sutton’s view, we must first understand what a <em>world model</em> is, why it is central to intelligence, and how it can be built.</p>
-
-<p>Let’s begin with its simplest and most fundamental form: the dynamics model in reinforcement learning — a predictive model that describes how states evolve in response to actions.</p>
-
-<p>A dynamics model is a function, often written as $\hat{f}$, that predicts the next state $s_{t+1}$ and reward $r_t$ given the current state $s_t$ and action $a_t$:</p>
-
-\[s_{t+1},\ r_t \approx \hat{f}(s_t, a_t)\]
-
-<p>With such a model, we can predict possible outcomes before acting — an ability fundamental to planning and reasoning.
-In reality, we rarely have direct access to the true state of the world. Instead, we rely on observations from various senses — vision, hearing, touch — to infer an internal representation of the hidden state. State transition is also stochastic, reflecting ambiguity in how actions affect future states. A conceptual world model can therefore be represented as:</p>
-
-\[\begin{aligned}
-s_t &amp;= \text{Enc}(o_t) &amp;&amp; \text{(state inference)} \\
-s_{t+1} &amp;\sim P(s_{t+1} \mid s_t, a_t) &amp;&amp; \text{(stochastic transition)} \\
-r_t &amp;= g(s_t, a_t) &amp;&amp; \text{(reward model)} \\
-o_t &amp;\sim P(o_t \mid s_t) &amp;&amp; \text{(observation generation)}
-\end{aligned}\]
-
-<h3 id="how-a-world-model-should-be-built">How a World Model Should Be Built</h3>
-
-<p>Building a world model involves three intertwined processes:</p>
-
-<ol>
-  <li>
-    <p>Exploration — Gathering Experience</p>
-
-    <p>One must act in the world to learn its dynamics. It explores different states and actions, collecting trajectories of experience:</p>
-
-\[(s_t, a_t, r_t, s_{t+1})\]
-
-    <p>Through this process, we uncover causal relationships — how actions produce outcomes.</p>
-  </li>
-  <li>
-    <p>Perception — Interpreting Observations</p>
-
-    <p>In real environments, the true state ( s_t ) is often hidden. One perceives observations ( o_t ) (images, sounds, text) and infer latent states:</p>
-
-\[s_t \approx g(o_t)\]
-
-    <p>Here, ( g ) is a perceptual encoder that extracts the relevant information from raw sensory data.</p>
-  </li>
-  <li>
-    <p>Representation - Modeling the Dynamics</p>
-
-\[\hat{f}(s_t, a_t) \rightarrow (s_{t+1}, r_t)\]
-  </li>
-</ol>
-
-<h3 id="how-a-world-model-is-built-in-llms">How a World Model Is Built in LLMs</h3>
-
-<p>Now, let’s turn to LLMs. Unlike embodied agents, they do not explore the physical world; instead, they learn from human experience recorded as language.</p>
-
-<div class="mermaid">
-graph TD
-A[Human Interaction with the World] --&gt;|Trajectory| B[Experience Expressed in Language]
-B --&gt;|Text Corpus| C[LLM Pretraining]
-C --&gt;|Next-Token Prediction| D[LLM as Learned Model]
-</div>
-
-<p>LLMs are trained on the trajectories of humans interacting with the world.
-Language acts as the medium through which those experiences are compressed and transmitted.</p>
-
-<p>However, this introduces several gaps:</p>
-
-<p>Limited Perception: LLMs observe only text — not sensory, spatial, or causal data.</p>
-
-<p>Limited Exploration: The exploration policy comes from humans; the model cannot try new actions or observe new consequences.</p>
-
-<p>Biased Representation: The distribution of text reflects cultural, social, and cognitive biases of its authors.</p>
-
-<p>Despite these gaps, some argue that next-token prediction can implicitly build a world model.</p>
-
-<h3 id="the-case-for-llms-as-world-models">The Case For LLMs as World Models</h3>
-
-<p>Ilya Sutskever offers a counter-view: that large-scale next-token prediction is itself a form of world-model learning.</p>
-
-<p>Compression Argument:
-To predict the next token accurately, a neural network must compress reality.
-It must infer latent structures behind text — physical facts, social dynamics, emotions, intentions.
-In this view, accurate prediction requires implicitly modeling the causes behind human language.</p>
-
-<p>World Manifest in Language:
-Since all human experience — physical, emotional, cultural — is encoded in language, mastering language could mean mastering the structures of the world itself.</p>
-
-<p>Next-Token Prediction Is Enough:
-Sutskever challenges the notion that imitation limits intelligence.
-A model that perfectly predicts human text, he suggests, might even surpass its teachers — because understanding the generator of the data can enable extrapolation beyond it.</p>
-
-<h3 id="the-limitations-and-possible-paths-forward">The Limitations and Possible Paths Forward</h3>
-
-<p>Sutton’s skepticism remains grounded in a different intuition — experience matters.
-Without feedback, there is no surprise; without surprise, no learning beyond imitation.</p>
-
-<p>Still, progress is being made to close this gap:</p>
-
-<p>Perception: Multimodal models extend beyond text, integrating vision, audio, and embodiment.</p>
-
-<p>Representation: Research (e.g., Anthropic’s findings on internal representations) shows LLMs learning latent world structures spontaneously.</p>
-
-<p>Exploration: The hardest part — models still rely on human-collected trajectories.
-True world modeling may require interactive agents that can experiment, observe, and revise their own understanding.</p>
-
-<p>Yet perhaps the lesson is more nuanced.
-Humans themselves operate under incomplete world models — limited perception, biased exploration — yet still act intelligently.
-So the question shifts from “Can LLMs learn the whole world?” to “Can they reason and act effectively within their limited one?”</p>
-
-<p>That brings us to the next part: Goal and Policy — where understanding meets action.</p>]]></content><author><name></name></author><category term="LLM" /><category term="AI" /><category term="Deep Learning" /><category term="Reinforcement Learning" /><category term="LLM" /><category term="World Model" /><category term="Sutton" /></entry><entry><title type="html">Reflections on Richard Sutton’s Interview: Intro</title><link href="https://yuanxue.github.io/2025/10/05/reflection-sutton-intro.html" rel="alternate" type="text/html" title="Reflections on Richard Sutton’s Interview: Intro" /><published>2025-10-05T00:17:56-07:00</published><updated>2025-10-05T00:17:56-07:00</updated><id>https://yuanxue.github.io/2025/10/05/reflection-sutton-intro</id><content type="html" xml:base="https://yuanxue.github.io/2025/10/05/reflection-sutton-intro.html"><![CDATA[<p>I recently listened to <a href="https://www.youtube.com/watch?v=BF1aXbY0hS8">Richard Sutton’s interview on the <em>Dwarkesh Podcast</em></a>. Often called the father of reinforcement learning, Sutton spoke candidly about the limitations of large language models (LLMs), the importance of continual learning, and his lifelong conviction that true intelligence arises from experience—not imitation.</p>
-
-<p>For me, the conversation was both intellectually dense and personally inspiring.</p>
-
-<p>Sutton’s interview raised questions that reach beyond algorithms and touch on the philosophical core of modern AI research and the practical of LLM in support Agent develpment via reasoning.</p>
-
-<p>As I listened, a few themes stood out.</p>
-
-<hr />
-
-<h3 id="1-is-next-token-prediction-a-fundamental-limitationor-an-efficient-way-to-compress-knowledge">1. Is next-token prediction a fundamental limitation—or an efficient way to compress knowledge?</h3>
-
-<p>The term <em>LLM</em> has become a kind of shorthand.<br />
-Pretraining is indeed next-token prediction—but post-training introduces reinforcement learning from human or verifier feedback (RLHF, RLVF), injecting goals, preferences, and interaction loops.<br />
-Are these systems still “just predicting the next word,” or have they quietly evolved beyond that description?</p>
-
-<hr />
-
-<h3 id="2-is-the-issue-about-when-learning-happensduring-training-or-after-deployment">2. Is the issue about <strong>when</strong> learning happens—during training or after deployment?</h3>
-
-<p>Sutton often emphasizes continual learning: the ability to adapt through experience after deployment.<br />
-Most models today are fixed—trained once, deployed behind APIs, and updated in large batches.<br />
-But that boundary is softening.<br />
-Techniques like reinforcement fine-tuning based on customer objectives, Cursor’s online RL tuning, and adaptive personalization models hint at systems that can keep learning safely in the wild.<br />
-If models could adapt continuously after deployment, would that address Sutton’s critique?</p>
-
-<hr />
-
-<h3 id="3-is-the-problem-one-of-modalitytext-versus-multi-modality">3. Is the problem one of modality—text versus multi-modality?</h3>
-
-<p>LLMs began in text, yet they sparked the broader generative wave: diffusion models for vision, multimodal architectures like Gemini and Claude 3, and DeepMind’s <em>Genie 3</em>, a video-based world model that predicts and controls future frames.<br />
-When video data provides sequences of passive perception and reaction, can we learn a world model from it—without explicit interaction or embodied experience?</p>
-
-<hr />
-
-<h3 id="4-scaling-experience-can-abstraction-replace-direct-interaction">4. Scaling experience: Can abstraction replace direct interaction?</h3>
-
-<p>The world is vast. Even humans, unlike squirrels, cannot experience everything firsthand.<br />
-Language became our bridge—allowing us to share abstract concepts and accumulated knowledge across generations.<br />
-If <em>experience</em> is the right paradigm, how can we scale it to the richness of human understanding without millions of years of simulation?<br />
-And if <em>language abstraction</em> is not the answer, how can we enable scalable experience—and ensure that learned world models are passed on and inherited?</p>
-
-<hr />
-
-<h3 id="5-can-a-system-learn-through-cultural-feedback-as-humans-do">5. Can a system learn through <strong>cultural feedback</strong>, as humans do?</h3>
-
-<p>(Here, I turn to Joseph Henrich and Yuval Harari for insight.)<br />
-Humans learn not only through direct reinforcement but also through the social feedback loops of culture—stories, norms, and shared values.<br />
-Could an LLM, trained on human language and behavior, serve as a foundation for this kind of cultural learning?</p>
-
-<hr />
-
-<h3 id="6-the-value-of-imitation">6. The Value of Imitation</h3>
-
-<p>Each of these questions sits at the edge of what LLMs <em>are</em> and what true intelligence might <em>require</em>.<br />
-They prompted me to reflect on past insights from many great minds:<br />
-Ilya Sutskever’s optimism about scaling, Geoff Hinton’s biologically inspired view of learning, Yann LeCun’s vision of world models, and Demis Hassabis’s synthesis of agents, planning, and memory.</p>
-
-<p>Together, these perspectives trace a continuum of thought about what it means to learn and to be intelligent.</p>
-
-<p>This blog series is my attempt to connect those threads—<br />
-to see how these ideas align, diverge, and evolve—<br />
-and to ask whether, by organizing our questions clearly,<br />
-we might reason a little better together.</p>]]></content><author><name></name></author><category term="LLM" /><category term="AI" /><category term="Deep Learning" /><category term="AGI" /><category term="Reinforcement Learning" /><category term="LLM" /></entry><entry><title type="html">Demystifying Gradients</title><link href="https://yuanxue.github.io/2025/09/20/demystify-gradients.html" rel="alternate" type="text/html" title="Demystifying Gradients" /><published>2025-09-20T00:17:56-07:00</published><updated>2025-09-20T00:17:56-07:00</updated><id>https://yuanxue.github.io/2025/09/20/demystify-gradients</id><content type="html" xml:base="https://yuanxue.github.io/2025/09/20/demystify-gradients.html"><![CDATA[<p>Gradients are at the core of training LLMs—or any neural network—powering each learning step. You’ve likely heard terms like <em>loss</em>, <em>backpropagation</em>, and <em>optimizers</em> in ML 101, and maybe even <em>vanishing</em> or <em>exploding</em> gradients. But what do these really mean—and how do you handle them in practice?</p>
+</li>
+</ul>
+</li>
+<li class="toc-entry toc-h1"><a href="#vanishing-gradients-and-exploding-gradients">Vanishing Gradients and Exploding Gradients</a>
+<ul>
+<li class="toc-entry toc-h3"><a href="#-vanishing-gradients">🧊 Vanishing Gradients</a></li>
+<li class="toc-entry toc-h3"><a href="#-exploding-gradients">🔥 Exploding Gradients</a></li>
+<li class="toc-entry toc-h3"><a href="#-generalizing-the-problem">🧠 Generalizing the Problem</a></li>
+<li class="toc-entry toc-h3"><a href="#-why-it-matters">❗ Why It Matters</a></li>
+<li class="toc-entry toc-h2"><a href="#the-core-problem-products-of-derivatives">The Core Problem: Products of Derivatives</a>
+<ul>
+<li class="toc-entry toc-h3"><a href="#vanishing-gradients">Vanishing Gradients</a></li>
+<li class="toc-entry toc-h3"><a href="#exploding-gradients">Exploding Gradients</a></li>
+</ul>
+</li>
+<li class="toc-entry toc-h2"><a href="#general-contributing-factors">General Contributing Factors</a></li>
+<li class="toc-entry toc-h2"><a href="#mitigations-and-solutions">Mitigations and Solutions</a></li>
+<li class="toc-entry toc-h2"><a href="#by-carefully-choosing-activation-functions-initializing-weights-employing-normalization-techniques-and-leveraging-advanced-architectures-we-can-successfully-train-very-deep-neural-networks-unlocking-their-immense-potential">By carefully choosing activation functions, initializing weights, employing normalization techniques, and leveraging advanced architectures, we can successfully train very deep neural networks, unlocking their immense potential.</a></li>
+</ul>
+</li>
+<li class="toc-entry toc-h1"><a href="#approaches-to-address-the-issues">Approaches to Address the Issues</a>
+<ul>
+<li class="toc-entry toc-h2"><a href="#normalization-dealing-with-inputs-and-activations-in-architecture-design">Normalization (Dealing with Inputs and Activations in Architecture Design)</a></li>
+<li class="toc-entry toc-h2"><a href="#residual-connections">Residual Connections</a></li>
+<li class="toc-entry toc-h2"><a href="#post-normalization-vs-pre-normalization-interaction-of-normalization-with-residuals">Post-Normalization vs. Pre-Normalization: Interaction of Normalization with Residuals</a>
+<ul>
+<li class="toc-entry toc-h3"><a href="#post-normalization-post-ln">Post-Normalization (Post-LN)</a></li>
+<li class="toc-entry toc-h3"><a href="#pre-normalization-pre-ln">Pre-Normalization (Pre-LN)</a></li>
+<li class="toc-entry toc-h3"><a href="#why-post-normalization-could-interfere-with-residuals-and-why-its-a-trade-off">Why Post-Normalization Could Interfere with Residuals (and why it’s a trade-off)</a></li>
+<li class="toc-entry toc-h3"><a href="#current-trends-and-solutions">Current Trends and Solutions</a></li>
+</ul>
+</li>
+<li class="toc-entry toc-h2"><a href="#gradient-clipping">Gradient Clipping</a>
+<ul>
+<li class="toc-entry toc-h4"><a href="#34-data-cleaning-and-preprocessing">3.4 Data Cleaning and Preprocessing</a></li>
+</ul>
+</li>
+</ul>
+</li>
+<li class="toc-entry toc-h1"><a href="#hands-on">Hands-On</a>
+<ul>
+<li class="toc-entry toc-h2"><a href="#get-gradients-from-training-libraries-pytorch-tensorflow">Get Gradients from Training Libraries (PyTorch, TensorFlow)</a></li>
+<li class="toc-entry toc-h2"><a href="#monitor-gradients-during-training-existing-metrics-and-logs-from-llm-training-libraries-eg-trl-vllm">Monitor Gradients During Training, Existing Metrics and Logs from LLM Training Libraries (e.g., TRL, VLLM)</a></li>
+</ul>
+</li>
+</ul>
+  </nav>
+
+  <div class="post-content e-content" itemprop="articleBody">
+    
+<p>Gradients are at the core of training LLMs—or any neural network—powering each learning step. You’ve likely heard terms like <em>loss</em>, <em>backpropagation</em>, and <em>optimizers</em> in ML 101, and maybe even <em>vanishing</em> or <em>exploding</em> gradients. But what do these really mean—and how do you handle them in practice?</p>
 
 <p>Whether you’re fine-tuning pre-trained models or training your own from scratch, understanding how gradients behave is essential—it can make or break your training.</p>
 
@@ -782,4 +607,46 @@ Here, $F$ operates on the normalized version of $x$, and the original $x$ is add
   <li><strong>Histograms of Gradients:</strong> Visualizing the distribution of gradient values over time to identify problematic patterns.</li>
 </ul>
 
-<p>Just like life is a continuous hill-climbing journey towards your goals, gradients represent each strategic step. Happy <strong>gradient ascending!</strong></p>]]></content><author><name></name></author><category term="LLM" /><category term="AI" /><category term="Deep Learning" /><category term="Gradients" /><category term="Normalization" /><category term="Residuals" /><category term="Clipping" /></entry></feed>
+<p>Just like life is a continuous hill-climbing journey towards your goals, gradients represent each strategic step. Happy <strong>gradient ascending!</strong></p>
+
+  </div><a class="u-url" href="/2025/09/20/demystify-gradients.html" hidden></a>
+</article>
+
+      </div>
+    </main><footer class="site-footer h-card">
+  <data class="u-url" href="/"></data>
+
+  <div class="wrapper">
+
+    <h2 class="footer-heading">Yuan (Emily) Xue</h2>
+
+    <div class="footer-col-wrapper">
+      <div class="footer-col footer-col-1">
+        <ul class="contact-list">
+          <li class="p-name">Yuan (Emily) Xue</li><li><a class="u-email" href="mailto:yuanxue00@gmail.com">yuanxue00@gmail.com</a></li></ul>
+      </div>
+
+      <div class="footer-col footer-col-2"><ul class="social-media-list"><li><a href="https://github.com/yuanxue"><svg class="svg-icon"><use xlink:href="/assets/minima-social-icons.svg#github"></use></svg> <span class="username">yuanxue</span></a></li><li><a href="https://www.twitter.com/yuanxue00"><svg class="svg-icon"><use xlink:href="/assets/minima-social-icons.svg#twitter"></use></svg> <span class="username">yuanxue00</span></a></li></ul>
+</div>
+
+      <div class="footer-col footer-col-3">
+        <p>Check out my blog. </p>
+      </div>
+    </div>
+
+  </div>
+
+</footer>
+
+      <script src="https://cdn.jsdelivr.net/npm/mermaid@10/dist/mermaid.min.js"></script>
+      <script>
+        document.addEventListener('DOMContentLoaded', function () {
+          mermaid.initialize({
+            startOnLoad: true,
+            securityLevel: 'loose' // allows <br/> in labels
+          });
+        });
+      </script>
+    
+  </body>
+</html>
