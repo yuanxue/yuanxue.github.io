@@ -1,4 +1,4 @@
-<?xml version="1.0" encoding="utf-8"?><feed xmlns="http://www.w3.org/2005/Atom" ><generator uri="https://jekyllrb.com/" version="4.4.1">Jekyll</generator><link href="https://yuanxue.github.io/feed.xml" rel="self" type="application/atom+xml" /><link href="https://yuanxue.github.io/" rel="alternate" type="text/html" /><updated>2025-10-08T07:11:22-07:00</updated><id>https://yuanxue.github.io/feed.xml</id><title type="html">Yuan (Emily) Xue</title><subtitle>Check out my blog. </subtitle><entry><title type="html">Reflections on Richard Sutton’s Interview: Part II — Goal and Acting</title><link href="https://yuanxue.github.io/2025/10/07/reflection-sutton-part2.html" rel="alternate" type="text/html" title="Reflections on Richard Sutton’s Interview: Part II — Goal and Acting" /><published>2025-10-07T00:00:00-07:00</published><updated>2025-10-07T00:00:00-07:00</updated><id>https://yuanxue.github.io/2025/10/07/reflection-sutton-part2</id><content type="html" xml:base="https://yuanxue.github.io/2025/10/07/reflection-sutton-part2.html"><![CDATA[<p>In <a href="#">Part I</a>, I explored the idea of a <em>world model</em> — how systems like large language models (LLMs) understand the world, and where that understanding falls short.<br />
+<?xml version="1.0" encoding="utf-8"?><feed xmlns="http://www.w3.org/2005/Atom" ><generator uri="https://jekyllrb.com/" version="4.4.1">Jekyll</generator><link href="https://yuanxue.github.io/feed.xml" rel="self" type="application/atom+xml" /><link href="https://yuanxue.github.io/" rel="alternate" type="text/html" /><updated>2025-10-11T22:26:45-07:00</updated><id>https://yuanxue.github.io/feed.xml</id><title type="html">Yuan (Emily) Xue</title><subtitle>Check out my blog. </subtitle><entry><title type="html">Reflection Sutton Part4</title><link href="https://yuanxue.github.io/2025/10/11/reflection-sutton-part4.html" rel="alternate" type="text/html" title="Reflection Sutton Part4" /><published>2025-10-11T00:00:00-07:00</published><updated>2025-10-11T00:00:00-07:00</updated><id>https://yuanxue.github.io/2025/10/11/reflection-sutton-part4</id><content type="html" xml:base="https://yuanxue.github.io/2025/10/11/reflection-sutton-part4.html"><![CDATA[]]></content><author><name></name></author><summary type="html"><![CDATA[]]></summary></entry><entry><title type="html">Reflections on Richard Sutton’s Interview: Part II — Goal and Acting</title><link href="https://yuanxue.github.io/2025/10/07/reflection-sutton-part2.html" rel="alternate" type="text/html" title="Reflections on Richard Sutton’s Interview: Part II — Goal and Acting" /><published>2025-10-07T00:00:00-07:00</published><updated>2025-10-07T00:00:00-07:00</updated><id>https://yuanxue.github.io/2025/10/07/reflection-sutton-part2</id><content type="html" xml:base="https://yuanxue.github.io/2025/10/07/reflection-sutton-part2.html"><![CDATA[<p>In <a href="#">Part I</a>, I explored the idea of a <em>world model</em> — how systems like large language models (LLMs) understand the world, and where that understanding falls short.<br />
 In this second part, I turn to the other half of intelligence: <strong>acting toward a goal</strong>.<br />
 Understanding describes the world; goals decide what to do in it.</p>
 
@@ -122,7 +122,7 @@ Without it, they cannot truly understand.</p>
   <p>“They learn what people would say, not what would happen,” Sutton notes.</p>
 </blockquote>
 
-<p>An LLM is a <strong>statistical mirror</strong> of human linguistic behavior. It reflects how people describe reality, not how reality unfolds.</p>
+<p>Put in another way, an LLM is a <strong>statistical mirror</strong> of human linguistic behavior. It reflects how people describe reality, not how reality unfolds.</p>
 
 <p>But this raises a question: if LLMs truly lack a model that connects actions to consequences — the essence of understanding — then how do they still appear to know? When we ask LLM with a promot, “If I touch a boiling pot, what will happen?” the model will respond, “you’ll likely burn your skin immediately.” How should we reconcile this ability to state consequences with Sutton’s claim that LLMs don’t possess a world model? Or put more simply — is the ability to describe a consequence through language good enough, or even equivalent, to understanding the consequence itself?</p>
 
@@ -136,13 +136,13 @@ Without it, they cannot truly understand.</p>
 
 \[s_{t+1},\ r_t \approx \hat{f}(s_t, a_t)\]
 
-<p>With such a model, we can predict possible outcomes before acting — an ability fundamental to planning and reasoning.
-In reality, we rarely have direct access to the true state of the world. Instead, we rely on observations from various senses — vision, hearing, touch — to infer an internal representation of the hidden state. State transition is also stochastic, reflecting ambiguity in how actions affect future states. A conceptual world model can therefore be represented as:</p>
+<p>With such a model, an <strong>agent</strong> can predict possible outcomes before acting — an ability fundamental to planning and reasoning.
+In reality, we rarely have direct access to the true state of the world. Instead, we rely on observations from various senses — vision, hearing, touch — to infer an internal representation of the hidden state. State transition is also stochastic, reflecting ambiguity in how actions affect future states. A conceptual <strong>world model</strong> can therefore be represented as:</p>
 
 \[\begin{aligned}
-s_t &amp;= \text{Enc}(o_t) &amp;&amp; \text{(state inference)} \\
+s_t &amp;= g(o_t) &amp;&amp; \text{(state inference)} \\
 s_{t+1} &amp;\sim P(s_{t+1} \mid s_t, a_t) &amp;&amp; \text{(stochastic transition)} \\
-r_t &amp;= g(s_t, a_t) &amp;&amp; \text{(reward model)} \\
+r_t &amp;= r(s_t, a_t) &amp;&amp; \text{(reward model)} \\
 o_t &amp;\sim P(o_t \mid s_t) &amp;&amp; \text{(observation generation)}
 \end{aligned}\]
 
@@ -152,33 +152,40 @@ o_t &amp;\sim P(o_t \mid s_t) &amp;&amp; \text{(observation generation)}
 
 <ol>
   <li>
-    <p>Exploration — Gathering Experience</p>
+    <p><strong>Exploration</strong> — Gathering Experience</p>
 
-    <p>One must act in the world to learn its dynamics. It explores different states and actions, collecting trajectories of experience:</p>
+    <p>To learn the dynamics of an environment, an agent must act within it. It explores different states and actions, collecting trajectories of experience:</p>
 
 \[(s_t, a_t, r_t, s_{t+1})\]
 
-    <p>Through this process, we uncover causal relationships — how actions produce outcomes.</p>
+    <p>These trajectories encode causal relationships — how actions lead to consequences — forming the empirical foundation of the model.</p>
   </li>
   <li>
-    <p>Perception — Interpreting Observations</p>
+    <p><strong>Perception</strong> — Interpreting Observations</p>
 
-    <p>In real environments, the true state ( s_t ) is often hidden. One perceives observations ( o_t ) (images, sounds, text) and infer latent states:</p>
+    <p>In most real-world settings, the true state $s_t$ is often hidden. Instead, the agent observes sensory inputs $o_t$ (images, sounds, text) and infer latent states:</p>
 
 \[s_t \approx g(o_t)\]
 
-    <p>Here, ( g ) is a perceptual encoder that extracts the relevant information from raw sensory data.</p>
+    <p>Here, $g$ is a perceptual encoder that extracts task-relevant information from raw sensory data, transforming perception into internal understanding.</p>
   </li>
   <li>
-    <p>Representation - Modeling the Dynamics</p>
+    <p><strong>Learning</strong> - Modeling the Dynamics</p>
+
+    <p>Finally, learning integrates exploration and perception into a coherent predictive framework. Given collected trajectories and inferred latent states, the agent learns a stochastic transition function that approximates how the world evolves:</p>
 
 \[\hat{f}(s_t, a_t) \rightarrow (s_{t+1}, r_t)\]
+
+    <p>This process typically involves representation learning (to encode  latent states), sequence modeling (to capture temporal dependencies), and probabilistic estimation (to handle ambiguity).</p>
+
+    <p>With deep learning becoming the de facto approach for representation due to its expressive power, large neural networks now serve as the core mechanism for modeling dynamics. They are trained on sequences of state transitions as ground truth, where each step in the trajectory supervises the model to minimize prediction error between predicted and observed outcomes. Through this iterative process, the learned model captures both environmental regularities and stochastic variability — forming the foundation of world model learning.</p>
   </li>
 </ol>
 
 <h3 id="how-a-world-model-is-built-in-llms">How a World Model Is Built in LLMs</h3>
 
-<p>Now, let’s turn to LLMs. Unlike embodied agents, they do not explore the physical world; instead, they learn from human experience recorded as language.</p>
+<p>Now, let’s turn to large language models (LLMs).
+LLMs do not interact with the physical world directly. Instead, they learn from humans — observers and actors who have already explored the world and recorded their experiences as language. As shown in the diagram below, LLMs are trained on traces of human experience: vast text corpus that reflects how people perceive, reason about, and describe the world around them. Language serves as a powerful medium — distilling complex sensory, emotional, and causal interactions into symbols and sequences. Next-token prediction, the objective of pretraining, provides the concrete mechanism through which this learning occurs.</p>
 
 <div class="mermaid">
 graph TD
@@ -187,52 +194,43 @@ B --&gt;|Text Corpus| C[LLM Pretraining]
 C --&gt;|Next-Token Prediction| D[LLM as Learned Model]
 </div>
 
-<p>LLMs are trained on the trajectories of humans interacting with the world.
-Language acts as the medium through which those experiences are compressed and transmitted.</p>
-
-<p>However, this introduces several gaps:</p>
-
-<p>Limited Perception: LLMs observe only text — not sensory, spatial, or causal data.</p>
-
-<p>Limited Exploration: The exploration policy comes from humans; the model cannot try new actions or observe new consequences.</p>
-
-<p>Biased Representation: The distribution of text reflects cultural, social, and cognitive biases of its authors.</p>
-
-<p>Despite these gaps, some argue that next-token prediction can implicitly build a world model.</p>
-
-<h3 id="the-case-for-llms-as-world-models">The Case For LLMs as World Models</h3>
-
-<p>Ilya Sutskever offers a counter-view: that large-scale next-token prediction is itself a form of world-model learning.</p>
-
-<p>Compression Argument:
-To predict the next token accurately, a neural network must compress reality.
-It must infer latent structures behind text — physical facts, social dynamics, emotions, intentions.
-In this view, accurate prediction requires implicitly modeling the causes behind human language.</p>
-
-<p>World Manifest in Language:
-Since all human experience — physical, emotional, cultural — is encoded in language, mastering language could mean mastering the structures of the world itself.</p>
-
-<p>Next-Token Prediction Is Enough:
-Sutskever challenges the notion that imitation limits intelligence.
-A model that perfectly predicts human text, he suggests, might even surpass its teachers — because understanding the generator of the data can enable extrapolation beyond it.</p>
-
 <h3 id="the-limitations-and-possible-paths-forward">The Limitations and Possible Paths Forward</h3>
 
-<p>Sutton’s skepticism remains grounded in a different intuition — experience matters.
-Without feedback, there is no surprise; without surprise, no learning beyond imitation.</p>
+<p>This process clearly introduces several fundamental limitations:</p>
 
-<p>Still, progress is being made to close this gap:</p>
+<ul>
+  <li>
+    <p>Limited Exploration:
+The exploration originates from human experience, producing a narrow trajectory that reflects only a fraction of the world. The model cannot act or gather new evidence beyond what humans have already recorded.</p>
+  </li>
+  <li>
+    <p>Limited Perception and Representation:
+LLMs perceive only text — a symbolic medium through which humans express sensory, visual, spatial, and auditory experiences. Inevitably, some information is lost or distorted in translation. This representational gap leads to incomplete or inaccurate estimates of the underlying state of the world.</p>
+  </li>
+</ul>
 
-<p>Perception: Multimodal models extend beyond text, integrating vision, audio, and embodiment.</p>
+<p>Acknowledging these limitations, it is worth examining what learning truly means in this context — and whether next-token prediction provides a sufficient form of self-supervision and deep neural networks, serve as powerful function approximators, capable of capturing complex dependencies and representations at scale.</p>
 
-<p>Representation: Research (e.g., Anthropic’s findings on internal representations) shows LLMs learning latent world structures spontaneously.</p>
+<p>On this point, Ilya Sutskever — in his conversation with Dwarkesh Patel on <em><a href="https://www.youtube.com/watch?v=Yf1o0TQzry8&amp;t=1671s">The Dwarkesh Podcast</a></em> (OpenAI, 2024) — offered a particularly insightful perspective.<br />
+He argued that large-scale next-token prediction is not a trivial task: to perform it well, a neural network must learn to <strong>compress information</strong> into efficient internal representations and to <strong>generalize from the collective knowledge encoded in language</strong>, effectively synthesizing what he calls a kind of <em>super-knowledge</em>.</p>
 
-<p>Exploration: The hardest part — models still rely on human-collected trajectories.
-True world modeling may require interactive agents that can experiment, observe, and revise their own understanding.</p>
+<p>On this point, Ilya Sutskever — in his conversation with Dwarkesh Patel (same Youtube Podcast) <em><a href="https://www.youtube.com/watch?v=Yf1o0TQzry8&amp;t=1671s">Why Next-Token Prediction Could Surpass Human Intelligence</a></em> — offered a particularly insightful perspective.</p>
 
-<p>Yet perhaps the lesson is more nuanced.
-Humans themselves operate under incomplete world models — limited perception, biased exploration — yet still act intelligently.
-So the question shifts from “Can LLMs learn the whole world?” to “Can they reason and act effectively within their limited one?”</p>
+<p>Sutskever views next-token prediction as a profoundly deep task that extends far beyond surface-level statistics:</p>
+
+<blockquote>
+  <p>“Predicting the next token well means that you understand the underlying reality that led to the creation of that token.” While the process is statistical, Sutskever notes that the compression required to perform it effectively forces the model to internalize what it is about the world that produces those statistics.</p>
+</blockquote>
+
+<p>If this interpretation holds, then approaches such as increasing the diversity of pretraining data through large-scale simulation environments or expanding perception through multimodal models become practical and valuable directions for advancing LLMs.</p>
+
+<p>Still, exploration remains the hardest frontier — models continue to rely on fixed set of human-collected trajectories. True world modeling requires interactive systems that can act, observe, and revise their own understanding through experience.</p>
+
+<p><strong>Continuous learning</strong> represents a promising direction — adapting models within real-world environments through domain-specific fine-tuning. Such post-training adaptation could mark a step toward bridging static knowledge and experiential learning.
+This also raises a compelling question: if we place an LLM in a new environment after pretraining, how well could it explore within that domain and generate new representations grounded in its evolving experience?</p>
+
+<p>Viewed from another angle, we might ask whether a complete world model is even necessary.
+Humans themselves operate under incomplete world models — constrained by limited perception and biased exploration — yet still act intelligently. Thus, the question shifts from “Can LLMs learn the whole world?” to “Can they reason, act, and gather enough information to accomplish the task at hand?”</p>
 
 <p>That brings us to the next part: Goal and Policy — where understanding meets action.</p>]]></content><author><name></name></author><category term="LLM" /><category term="AI" /><category term="Deep Learning" /><category term="Reinforcement Learning" /><category term="LLM" /><category term="World Model" /><category term="Sutton" /></entry><entry><title type="html">Reflections on Richard Sutton’s Interview: Intro</title><link href="https://yuanxue.github.io/2025/10/05/reflection-sutton-intro.html" rel="alternate" type="text/html" title="Reflections on Richard Sutton’s Interview: Intro" /><published>2025-10-05T00:17:56-07:00</published><updated>2025-10-05T00:17:56-07:00</updated><id>https://yuanxue.github.io/2025/10/05/reflection-sutton-intro</id><content type="html" xml:base="https://yuanxue.github.io/2025/10/05/reflection-sutton-intro.html"><![CDATA[<p>I recently listened to <a href="https://www.youtube.com/watch?v=BF1aXbY0hS8">Richard Sutton’s interview on the <em>Dwarkesh Podcast</em></a>. Often called the father of reinforcement learning, Sutton spoke candidly about the limitations of large language models (LLMs), the importance of continual learning, and his lifelong conviction that true intelligence arises from experience—not imitation.</p>
 
