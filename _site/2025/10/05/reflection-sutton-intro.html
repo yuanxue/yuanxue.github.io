@@ -1,0 +1,158 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head><head>
+  <meta charset="utf-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1"><!-- Begin Jekyll SEO tag v2.8.0 -->
+<title>Reflections on Richard Sutton’s Interview: Intro | Yuan (Emily) Xue</title>
+<meta name="generator" content="Jekyll v4.4.1" />
+<meta property="og:title" content="Reflections on Richard Sutton’s Interview: Intro" />
+<meta property="og:locale" content="en_US" />
+<meta name="description" content="(last updated: Oct 2025)" />
+<meta property="og:description" content="(last updated: Oct 2025)" />
+<link rel="canonical" href="https://yuanxue.github.io/2025/10/05/reflection-sutton-intro.html" />
+<meta property="og:url" content="https://yuanxue.github.io/2025/10/05/reflection-sutton-intro.html" />
+<meta property="og:site_name" content="Yuan (Emily) Xue" />
+<meta property="og:type" content="article" />
+<meta property="article:published_time" content="2025-10-05T00:17:56-07:00" />
+<meta name="twitter:card" content="summary" />
+<meta property="twitter:title" content="Reflections on Richard Sutton’s Interview: Intro" />
+<script type="application/ld+json">
+{"@context":"https://schema.org","@type":"BlogPosting","dateModified":"2025-10-05T00:17:56-07:00","datePublished":"2025-10-05T00:17:56-07:00","description":"(last updated: Oct 2025)","headline":"Reflections on Richard Sutton’s Interview: Intro","mainEntityOfPage":{"@type":"WebPage","@id":"https://yuanxue.github.io/2025/10/05/reflection-sutton-intro.html"},"url":"https://yuanxue.github.io/2025/10/05/reflection-sutton-intro.html"}</script>
+<!-- End Jekyll SEO tag -->
+<link rel="stylesheet" href="/assets/main.css"><link type="application/atom+xml" rel="alternate" href="https://yuanxue.github.io/feed.xml" title="Yuan (Emily) Xue" /></head>
+</head>
+  <body><header class="site-header" role="banner">
+
+  <div class="wrapper"><a class="site-title" rel="author" href="/">Yuan (Emily) Xue</a><nav class="site-nav">
+        <input type="checkbox" id="nav-trigger" class="nav-trigger" />
+        <label for="nav-trigger">
+          <span class="menu-icon">
+            <svg viewBox="0 0 18 15" width="18px" height="15px">
+              <path d="M18,1.484c0,0.82-0.665,1.484-1.484,1.484H1.484C0.665,2.969,0,2.304,0,1.484l0,0C0,0.665,0.665,0,1.484,0 h15.032C17.335,0,18,0.665,18,1.484L18,1.484z M18,7.516C18,8.335,17.335,9,16.516,9H1.484C0.665,9,0,8.335,0,7.516l0,0 c0-0.82,0.665-1.484,1.484-1.484h15.032C17.335,6.031,18,6.696,18,7.516L18,7.516z M18,13.516C18,14.335,17.335,15,16.516,15H1.484 C0.665,15,0,14.335,0,13.516l0,0c0-0.82,0.665-1.483,1.484-1.483h15.032C17.335,12.031,18,12.695,18,13.516L18,13.516z"/>
+            </svg>
+          </span>
+        </label>
+
+        <div class="trigger"><a class="page-link" href="/blog/">Blog</a><a class="page-link" href="/">Home</a></div>
+      </nav></div>
+</header>
+<main class="page-content" aria-label="Content">
+      <div class="wrapper">
+        <article class="post h-entry" itemscope itemtype="http://schema.org/BlogPosting">
+
+  <header class="post-header">
+    <h1 class="post-title p-name" itemprop="name headline">Reflections on Richard Sutton&#39;s Interview: Intro</h1>
+    <p class="post-meta">
+      <time class="dt-published" datetime="2025-10-05T00:17:56-07:00" itemprop="datePublished">Oct 5, 2025
+      </time></p>
+      <script>
+      window.MathJax = {
+        tex: {
+          inlineMath: [['$', '$'], ['\\(', '\\)']],
+          displayMath: [['$$', '$$'], ['\\[', '\\]']]
+        },
+        svg: {
+          fontCache: 'global'
+        }
+      };
+    </script>
+    <script src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-svg.js"></script>
+  </header>
+
+    <nav class="post-toc" aria-label="Table of Contents">
+    <ul id="toc" class="section-nav">
+</ul>
+  </nav>
+
+  <div class="post-content e-content" itemprop="articleBody">
+    
+<p>I recently listened to <a href="https://www.youtube.com/watch?v=BF1aXbY0hS8">Richard Sutton’s interview on the <em>Dwarkesh Podcast</em></a>. Often called the father of reinforcement learning, Sutton spoke candidly about the limitations of large language models (LLMs), the importance of continual learning, and his lifelong conviction that true intelligence arises from experience—not imitation.</p>
+
+<p>For me, the conversation was both intellectually dense and personally inspiring. I approach it from two perspectives:</p>
+
+<ul>
+  <li>
+    <p>As a <strong>curious researcher</strong>, I’m drawn to questions at the core of AGI: What does it mean to understand and to act with purpose?</p>
+  </li>
+  <li>
+    <p>As a <strong>practitioner</strong>, I would ask a more practical question:</p>
+    <blockquote>
+      <p><em>If our goal is not AGI, but AI systems that function as capable knowledge workers—delivering real-world, economically valuable tasks—is the current path of LLM scaling still a feasible one? And what boundaries or blindspots should we be mindful of?</em></p>
+    </blockquote>
+  </li>
+</ul>
+
+<p>These reflections led me to a set of questions:</p>
+
+<ul>
+  <li>Is the problem with next-token prediction itself?</li>
+</ul>
+
+<p>Next-token prediction defines pretraining and much of supervised fine-tuning. But modern post-training relies heavily on reinforcement learning—RLHF (human feedback) for human alignment and verifier-based RL (RLVF) for eliciting reasoning capabilities.
+<em>Can post-training RL reshape a model’s behavior beyond pretraining limits—or does it remain bounded by what was initially imitated?</em></p>
+
+<ul>
+  <li>Is the limitation about when learning happens—training-time vs. deployment-time?</li>
+</ul>
+
+<p>Sutton argues for continual learning: adapting through direct experience after deployment.
+Most current models are trained once and then frozen, accessed via APIs. However, this boundary is beginning to soften. Techniques like Reinforcement Fine-Tuning (RFT) allow models to adapt based on customer-specific objectives within real environments. Cursor’s recent work(https://cursor.com/en-US/blog/tab-rl) on online RL demonstrate early but promising signs of on-the-fly adaptation. If models can learn continuously from real-world interaction, could this represent a meaningful step toward addressing Sutton’s critique?</p>
+
+<ul>
+  <li>Is it about modality—text versus interaction-rich experience?</li>
+</ul>
+
+<p>LLMs originated in language, yet sparked a multimodal wave: diffusion models, Gemini, Claude 3, and embodied predictive models like Genie 3, which predicts future video frames from passive observation. Can multimodal prediction serve as a proxy for world experience—or is true interactivity necessary for agency?</p>
+
+<ul>
+  <li>If direct experience is essential, how do we scale it?</li>
+</ul>
+
+<p>The world is vast; no single agent can live enough lifetimes to experience it fully. Humans transcend this through language—abstracting and transmitting experiences across generations. If experience is the key, how do we scale it to match the richness of human understanding without millions of years of simulation?  And if <em>language abstraction</em> is not the answer, how can we enable scalable experience—and ensure that learned world models are passed on and inherited?</p>
+
+<p>These questions echo ideas from many voices—Sutton’s belief in experience, Ilya Sutskever’s conviction in next-token prediction, and Andrej Karpathy’s optimism about scaling.</p>
+
+<p>This blog series is my attempt to connect these threads: to explore where these views align, where they diverge, and how they might evolve. My hope is that by structuring the questions clearly, we can reason a little better—collectively.</p>
+
+  </div><a class="u-url" href="/2025/10/05/reflection-sutton-intro.html" hidden></a>
+</article>
+
+      </div>
+    </main><footer class="site-footer h-card">
+  <data class="u-url" href="/"></data>
+
+  <div class="wrapper">
+
+    <h2 class="footer-heading">Yuan (Emily) Xue</h2>
+
+    <div class="footer-col-wrapper">
+      <div class="footer-col footer-col-1">
+        <ul class="contact-list">
+          <li class="p-name">Yuan (Emily) Xue</li><li><a class="u-email" href="mailto:yuanxue00@gmail.com">yuanxue00@gmail.com</a></li></ul>
+      </div>
+
+      <div class="footer-col footer-col-2"><ul class="social-media-list"><li><a href="https://www.linkedin.com/in/yuan-emily-xue-3483012"><svg class="svg-icon"><use xlink:href="/assets/minima-social-icons.svg#linkedin"></use></svg> <span class="username">yuan-emily-xue-3483012</span></a></li><li><a href="https://www.x.com/yuanxue00"><svg class="svg-icon"><use xlink:href="/assets/minima-social-icons.svg#twitter"></use></svg> <span class="username">yuanxue00</span></a></li></ul>
+</div>
+
+      <div class="footer-col footer-col-3">
+        <p>(last updated: Oct 2025)</p>
+      </div>
+    </div>
+
+  </div>
+
+</footer>
+
+      <script src="https://cdn.jsdelivr.net/npm/mermaid@10/dist/mermaid.min.js"></script>
+      <script>
+        document.addEventListener('DOMContentLoaded', function () {
+          mermaid.initialize({
+            startOnLoad: true,
+            securityLevel: 'loose' // allows <br/> in labels
+          });
+        });
+      </script>
+    
+  </body>
+</html>

@@ -1,0 +1,197 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head><head>
+  <meta charset="utf-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1"><!-- Begin Jekyll SEO tag v2.8.0 -->
+<title>Reflection Sutton Part4 | Yuan (Emily) Xue</title>
+<meta name="generator" content="Jekyll v4.4.1" />
+<meta property="og:title" content="Reflection Sutton Part4" />
+<meta property="og:locale" content="en_US" />
+<meta name="description" content="Reward sparse 1) value function 2) self-supervision to learn presentation." />
+<meta property="og:description" content="Reward sparse 1) value function 2) self-supervision to learn presentation." />
+<link rel="canonical" href="https://yuanxue.github.io/2025/10/29/reflection-sutton-part4.html" />
+<meta property="og:url" content="https://yuanxue.github.io/2025/10/29/reflection-sutton-part4.html" />
+<meta property="og:site_name" content="Yuan (Emily) Xue" />
+<meta property="og:type" content="article" />
+<meta property="article:published_time" content="2025-10-29T00:00:00-07:00" />
+<meta name="twitter:card" content="summary" />
+<meta property="twitter:title" content="Reflection Sutton Part4" />
+<script type="application/ld+json">
+{"@context":"https://schema.org","@type":"BlogPosting","dateModified":"2025-10-29T00:00:00-07:00","datePublished":"2025-10-29T00:00:00-07:00","description":"Reward sparse 1) value function 2) self-supervision to learn presentation.","headline":"Reflection Sutton Part4","mainEntityOfPage":{"@type":"WebPage","@id":"https://yuanxue.github.io/2025/10/29/reflection-sutton-part4.html"},"url":"https://yuanxue.github.io/2025/10/29/reflection-sutton-part4.html"}</script>
+<!-- End Jekyll SEO tag -->
+<link rel="stylesheet" href="/assets/main.css"><link type="application/atom+xml" rel="alternate" href="https://yuanxue.github.io/feed.xml" title="Yuan (Emily) Xue" /></head>
+</head>
+  <body><header class="site-header" role="banner">
+
+  <div class="wrapper"><a class="site-title" rel="author" href="/">Yuan (Emily) Xue</a><nav class="site-nav">
+        <input type="checkbox" id="nav-trigger" class="nav-trigger" />
+        <label for="nav-trigger">
+          <span class="menu-icon">
+            <svg viewBox="0 0 18 15" width="18px" height="15px">
+              <path d="M18,1.484c0,0.82-0.665,1.484-1.484,1.484H1.484C0.665,2.969,0,2.304,0,1.484l0,0C0,0.665,0.665,0,1.484,0 h15.032C17.335,0,18,0.665,18,1.484L18,1.484z M18,7.516C18,8.335,17.335,9,16.516,9H1.484C0.665,9,0,8.335,0,7.516l0,0 c0-0.82,0.665-1.484,1.484-1.484h15.032C17.335,6.031,18,6.696,18,7.516L18,7.516z M18,13.516C18,14.335,17.335,15,16.516,15H1.484 C0.665,15,0,14.335,0,13.516l0,0c0-0.82,0.665-1.483,1.484-1.483h15.032C17.335,12.031,18,12.695,18,13.516L18,13.516z"/>
+            </svg>
+          </span>
+        </label>
+
+        <div class="trigger"><a class="page-link" href="/blog/">Blog</a><a class="page-link" href="/">Home</a></div>
+      </nav></div>
+</header>
+<main class="page-content" aria-label="Content">
+      <div class="wrapper">
+        <article class="post h-entry" itemscope itemtype="http://schema.org/BlogPosting">
+
+  <header class="post-header">
+    <h1 class="post-title p-name" itemprop="name headline">Reflection Sutton Part4</h1>
+    <p class="post-meta">
+      <time class="dt-published" datetime="2025-10-29T00:00:00-07:00" itemprop="datePublished">Oct 29, 2025
+      </time></p>
+      <script>
+      window.MathJax = {
+        tex: {
+          inlineMath: [['$', '$'], ['\\(', '\\)']],
+          displayMath: [['$$', '$$'], ['\\[', '\\]']]
+        },
+        svg: {
+          fontCache: 'global'
+        }
+      };
+    </script>
+    <script src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-svg.js"></script>
+  </header>
+
+    <nav class="post-toc" aria-label="Table of Contents">
+    <ul id="toc" class="section-nav">
+<li class="toc-entry toc-h3"><a href="#todo-is-genie-3-a-world-model">TODO: Is Genie 3 a World Model</a></li>
+</ul>
+  </nav>
+
+  <div class="post-content e-content" itemprop="articleBody">
+    <p>Reward sparse
+1) value function
+2) self-supervision to learn presentation.</p>
+
+<p>Human knowledge is the limit to optimization space.</p>
+
+<p>Bootstrap and limitation.</p>
+
+<p>Bitter lesson</p>
+
+<p>Part I Addition:</p>
+
+<h3 id="todo-is-genie-3-a-world-model">TODO: Is Genie 3 a World Model</h3>
+
+<p>Demis Hassabis and Google DeepMind explicitly describe Genie 3 as a “world model” and a crucial step toward Artificial General Intelligence (AGI). 
+<strong>What Makes Genie 3 a World Model</strong> Unlike traditional Large Language Models (LLMs) that only generate text, Genie 3 generates interactive, dynamic 3D environments from a single text prompt. This is vital because it addresses the missing elements in current LLMs.</p>
+<ul>
+  <li>Real-time Interaction: The environments are playable and can be navigated in real-time (e.g., at 24 frames per second). This allows an agent (or a user) to act within the world, not just watch a generated video.</li>
+  <li>Physical Consistency/Memory: Genie 3 is designed to maintain “long-horizon consistency” and a form of short-term visual memory. If you walk past an object and come back, it’s still there. This is critical for an AI to learn object permanence and the causality of the physical world—an agent’s actions have consequences that persist.</li>
+</ul>
+
+<p><strong>How it is trained</strong></p>
+
+<p>Genie 3 is trained on massive amounts of Video Data</p>
+<ul>
+  <li>Learning from Observation: The model’s “experience” comes from watching countless hours of video (likely including gameplay footage, public video clips, and real-world video) from the internet.</li>
+  <li>Intuitive Physics: By observing how things move and interact in these videos—how a ball falls, how water splashes, how a person’s perspective changes when they walk—the model develops an “intuitive understanding of physics” and causality. It learns the rules of the world not from explicit programming (like a game engine), but from pattern recognition in data, much like how a human child develops common sense.
+Genie is trained using a technique that infers the action that must have occurred between frames, even though the video data is unlabeled (meaning no one explicitly tagged it with “move right,” “jump,” etc.).
+<strong>Latent Action Model</strong>:</li>
+</ul>
+
+<p>Inferred Actions: Genie includes a component called a Latent Action Model. This model is trained to look at two consecutive frames in a video and figure out the most compact, discrete “action” that explains the change between them.</p>
+
+<p>The “Why” of Motion: For example, if frame t shows a character standing still and frame t+1 shows the character a bit to the right, the model infers a discrete token that represents “move right.” It is forced to learn a small set of these abstract, latent actions that are consistent across all the videos it sees.</p>
+
+<p>Unsupervised Learning: This is done entirely without human-provided action labels, a form of unsupervised learning. The training objective is to successfully predict the next frame, but it can only do this accurately if it first correctly infers the underlying action that caused the change.</p>
+
+<p>While Genie 3 itself is trained on observational data (videos), its primary value as a world model is to create a dynamic, interactive environment where other AI systems, called agents (like DeepMind’s SIMA), can learn through experience. The primary strategic purpose is to provide an “unlimited curriculum” of rich, flexible simulation environments to train AI agents like robots and autonomous systems. This allows agents to learn through trial and error (reinforcement learning) in a safe, cost-effective manner before deployment in the real world</p>
+
+<p>Prediction is the Key to Interaction: Once the Latent Action Model is trained, the main Dynamics Model is trained to predict the next frame. Crucially, it predicts the next frame based on the previous frame AND an action token.</p>
+
+<p>Training for Cause and Effect: During training, it learns: Next Frame=f(Previous Frames,Inferred Action). This teaches the model the causal relationship—what happens when a specific action is taken in a specific world state.</p>
+
+<p>Replacing the Inferrer: When a human or an AI agent uses Genie 3 in real-time, the Latent Action Model (the part that infers the action) is thrown out.</p>
+
+<p>External Control: Instead, the user’s input (like pressing the ‘D’ key on the keyboard) is mapped to one of the learned latent action tokens (e.g., the “move right” token).</p>
+
+<p>Interactive Generation: The model then uses the Dynamics Model to generate the next frame based on the previous frame and the action token it just received from the user: New Frame=f(Previous Frames,User’s Latent Action).</p>
+
+<p>In short, DeepMind ingeniously turned passive observation (video) into an active experience by training a sub-model to reverse-engineer the “controller input” from the visual changes in the video, and then replacing that inferrer with a real-time user controller.</p>
+
+<p>Genie bridges this gap by incorporating a latent action model to infer an action space from observation and then using that to enable real-time interaction. While Genie is built on a large-scale generative model foundation, its core technical leap is an embrace of the RL paradigm: it’s not just generating video; it’s generating a controllable world where actions lead to predictable outcomes.</p>
+
+<p>For Sutton, models like Genie represent a step toward his vision because they are fundamentally about predicting what will happen when an action is taken, a hallmark of an experience-based world model, even if the training data started as passive video.</p>
+
+<p>TODO:</p>
+
+<p>https://gemini.google.com/app/ace75346537b8674
+Yann LeCun is highly skeptical that Large Language Models (LLMs) like ChatGPT can ever achieve true human-level intelligence (often referred to as AGI). Instead, he advocates for an architectural approach centered on World Models.</p>
+
+<p>LeCun’s View on LLMs
+LeCun views current LLMs as fundamentally limited due to their reliance on language and token prediction. Key criticisms include:</p>
+
+<p>Lack of World Understanding: LLMs are primarily trained on text, which, in LeCun’s view, represents only a small, constrained, and serialized version of human knowledge. They lack a true, grounded understanding of the physical world, its objects, and the laws of common sense physics.</p>
+
+<p>No True Reasoning or Planning: LLMs operate like a “System 1” (fast, reactive, and intuitive) in the Daniel Kahneman framework. They produce one token after another through a fixed amount of computation, making them reactive and incapable of the deliberative, long-term reasoning and planning required for complex tasks. They primarily exploit statistical patterns from their training data rather than performing genuine causal reasoning.</p>
+
+<p>Data Inefficiency: While LLMs are trained on massive text datasets (trillions of tokens), LeCun argues that humans (e.g., a four-year-old child) acquire an equivalent amount of data through high-bandwidth visual and sensory perception in a fraction of the time, demonstrating the superior efficiency of non-linguistic learning.</p>
+
+<p>“Obsolete” Architecture: He has stated that LLMs are a technological dead-end for achieving human-level intelligence and advises young developers to focus on the next generation of AI systems.</p>
+
+<p>LeCun’s Vision for World Models
+LeCun believes the path to advanced machine intelligence lies in systems that can build and utilize World Models.</p>
+
+<p>What is a World Model? A world model is an internal, abstract representation of the structure, dynamics, and causal relationships of the environment. It allows an intelligent agent to predict consequences, plan action sequences, and perform reasoning. Humans and animals constantly run simulations based on their mental world models to navigate reality.</p>
+
+<p>The Goal: Prediction and Planning: AI systems need to learn how the world works by observing it, primarily through sensory data like videos, rather than just text. By predicting the “next state of the world” given a potential action, the AI can plan a sequence of actions to reach a goal.</p>
+
+<p>Proposed Architecture: LeCun’s research at Meta focuses on the Joint Embedding Predictive Architecture (JEPA). This approach aims to create abstract representations of the physical world based on multi-modal input, allowing the system to predict how its internal representations will evolve, which is far more efficient than predicting raw, high-dimensional inputs like every pixel in a video frame.</p>
+
+<p>Key Capabilities: World Models are designed to give AI the capabilities LLMs lack: understanding the physical world, having persistent memory, and the ability to reason and plan hierarchically.</p>
+
+<p>The video below features Yann LeCun discussing the limitations of Large Language Models and the need for new approaches.</p>
+
+<p>Yann LeCun: We Won’t Reach AGI By Scaling Up LLMS
+This YouTube clip is relevant because Yann LeCun directly explains why he believes scaling up Large Language Models is not the way to achieve Artificial General Intelligence.</p>
+
+  </div><a class="u-url" href="/2025/10/29/reflection-sutton-part4.html" hidden></a>
+</article>
+
+      </div>
+    </main><footer class="site-footer h-card">
+  <data class="u-url" href="/"></data>
+
+  <div class="wrapper">
+
+    <h2 class="footer-heading">Yuan (Emily) Xue</h2>
+
+    <div class="footer-col-wrapper">
+      <div class="footer-col footer-col-1">
+        <ul class="contact-list">
+          <li class="p-name">Yuan (Emily) Xue</li><li><a class="u-email" href="mailto:yuanxue00@gmail.com">yuanxue00@gmail.com</a></li></ul>
+      </div>
+
+      <div class="footer-col footer-col-2"><ul class="social-media-list"><li><a href="https://www.linkedin.com/in/yuan-emily-xue-3483012"><svg class="svg-icon"><use xlink:href="/assets/minima-social-icons.svg#linkedin"></use></svg> <span class="username">yuan-emily-xue-3483012</span></a></li><li><a href="https://www.x.com/yuanxue00"><svg class="svg-icon"><use xlink:href="/assets/minima-social-icons.svg#twitter"></use></svg> <span class="username">yuanxue00</span></a></li></ul>
+</div>
+
+      <div class="footer-col footer-col-3">
+        <p>(last updated: Oct 2025)</p>
+      </div>
+    </div>
+
+  </div>
+
+</footer>
+
+      <script src="https://cdn.jsdelivr.net/npm/mermaid@10/dist/mermaid.min.js"></script>
+      <script>
+        document.addEventListener('DOMContentLoaded', function () {
+          mermaid.initialize({
+            startOnLoad: true,
+            securityLevel: 'loose' // allows <br/> in labels
+          });
+        });
+      </script>
+    
+  </body>
+</html>
