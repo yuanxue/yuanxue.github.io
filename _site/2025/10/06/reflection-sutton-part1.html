@@ -1,0 +1,231 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head><head>
+  <meta charset="utf-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1"><!-- Begin Jekyll SEO tag v2.8.0 -->
+<title>Reflections on Richard Sutton’s Interview: Part I — World Model and Understanding | Yuan (Emily) Xue</title>
+<meta name="generator" content="Jekyll v4.4.1" />
+<meta property="og:title" content="Reflections on Richard Sutton’s Interview: Part I — World Model and Understanding" />
+<meta property="og:locale" content="en_US" />
+<meta name="description" content="(last updated: Oct 2025)" />
+<meta property="og:description" content="(last updated: Oct 2025)" />
+<link rel="canonical" href="http://localhost:4000/2025/10/06/reflection-sutton-part1.html" />
+<meta property="og:url" content="http://localhost:4000/2025/10/06/reflection-sutton-part1.html" />
+<meta property="og:site_name" content="Yuan (Emily) Xue" />
+<meta property="og:type" content="article" />
+<meta property="article:published_time" content="2025-10-06T00:00:00-07:00" />
+<meta name="twitter:card" content="summary" />
+<meta property="twitter:title" content="Reflections on Richard Sutton’s Interview: Part I — World Model and Understanding" />
+<script type="application/ld+json">
+{"@context":"https://schema.org","@type":"BlogPosting","dateModified":"2025-10-06T00:00:00-07:00","datePublished":"2025-10-06T00:00:00-07:00","description":"(last updated: Oct 2025)","headline":"Reflections on Richard Sutton’s Interview: Part I — World Model and Understanding","mainEntityOfPage":{"@type":"WebPage","@id":"http://localhost:4000/2025/10/06/reflection-sutton-part1.html"},"url":"http://localhost:4000/2025/10/06/reflection-sutton-part1.html"}</script>
+<!-- End Jekyll SEO tag -->
+<link rel="stylesheet" href="/assets/main.css"><link type="application/atom+xml" rel="alternate" href="http://localhost:4000/feed.xml" title="Yuan (Emily) Xue" /></head>
+</head>
+  <body><header class="site-header" role="banner">
+
+  <div class="wrapper"><a class="site-title" rel="author" href="/">Yuan (Emily) Xue</a><nav class="site-nav">
+        <input type="checkbox" id="nav-trigger" class="nav-trigger" />
+        <label for="nav-trigger">
+          <span class="menu-icon">
+            <svg viewBox="0 0 18 15" width="18px" height="15px">
+              <path d="M18,1.484c0,0.82-0.665,1.484-1.484,1.484H1.484C0.665,2.969,0,2.304,0,1.484l0,0C0,0.665,0.665,0,1.484,0 h15.032C17.335,0,18,0.665,18,1.484L18,1.484z M18,7.516C18,8.335,17.335,9,16.516,9H1.484C0.665,9,0,8.335,0,7.516l0,0 c0-0.82,0.665-1.484,1.484-1.484h15.032C17.335,6.031,18,6.696,18,7.516L18,7.516z M18,13.516C18,14.335,17.335,15,16.516,15H1.484 C0.665,15,0,14.335,0,13.516l0,0c0-0.82,0.665-1.483,1.484-1.483h15.032C17.335,12.031,18,12.695,18,13.516L18,13.516z"/>
+            </svg>
+          </span>
+        </label>
+
+        <div class="trigger"><a class="page-link" href="/blog/">Blog</a><a class="page-link" href="/">Home</a></div>
+      </nav></div>
+</header>
+<main class="page-content" aria-label="Content">
+      <div class="wrapper">
+        <article class="post h-entry" itemscope itemtype="http://schema.org/BlogPosting">
+
+  <header class="post-header">
+    <h1 class="post-title p-name" itemprop="name headline">Reflections on Richard Sutton&#39;s Interview: Part I — World Model and Understanding</h1>
+    <p class="post-meta">
+      <time class="dt-published" datetime="2025-10-06T00:00:00-07:00" itemprop="datePublished">Oct 6, 2025
+      </time></p>
+      <script>
+      window.MathJax = {
+        tex: {
+          inlineMath: [['$', '$'], ['\\(', '\\)']],
+          displayMath: [['$$', '$$'], ['\\[', '\\]']]
+        },
+        svg: {
+          fontCache: 'global'
+        }
+      };
+    </script>
+    <script src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-svg.js"></script>
+  </header>
+
+    <nav class="post-toc" aria-label="Table of Contents">
+    <ul id="toc" class="section-nav">
+<li class="toc-entry toc-h3"><a href="#suttons-view-lack-of-world-model-in-llms">Sutton’s View: Lack of World Model in LLMs</a></li>
+<li class="toc-entry toc-h3"><a href="#what-is-a-world-model">What Is a World Model?</a></li>
+<li class="toc-entry toc-h3"><a href="#how-a-world-model-should-be-built">How a World Model Should Be Built</a></li>
+<li class="toc-entry toc-h3"><a href="#how-a-world-model-is-built-in-llms">How a World Model Is Built in LLMs</a></li>
+<li class="toc-entry toc-h3"><a href="#the-limitations-and-possible-paths-forward">The Limitations and Possible Paths Forward</a></li>
+</ul>
+  </nav>
+
+  <div class="post-content e-content" itemprop="articleBody">
+    
+<h3 id="suttons-view-lack-of-world-model-in-llms">Sutton’s View: Lack of World Model in LLMs</h3>
+
+<p>Sutton begins with a simple observation: <strong>LLMs never experience the world.</strong> He argues that these systems <strong>lack a world model</strong> — a sense of cause and effect, surprise, and correction.<br />
+Without it, they cannot truly understand.</p>
+
+<blockquote>
+  <p>“They learn what people would say, not what would happen,” Sutton notes.</p>
+</blockquote>
+
+<p>Put in another way, an LLM is a <strong>statistical mirror</strong> of human linguistic behavior. It reflects how people describe reality, not how reality unfolds.</p>
+
+<p>But this raises a question: if LLMs truly lack a model that connects actions to consequences — the essence of understanding — then how do they still appear to know? When we ask LLM with a promot, “If I touch a boiling pot, what will happen?” the model will respond, “you’ll likely burn your skin immediately.” How should we reconcile this ability to state consequences with Sutton’s claim that LLMs don’t possess a world model? Or put more simply — is the ability to describe a consequence through language good enough, or even equivalent, to understanding the consequence itself?</p>
+
+<h3 id="what-is-a-world-model">What Is a World Model?</h3>
+
+<p>To unpack Sutton’s view, we must first understand what a <em>world model</em> is, why it is central to intelligence, and how it can be built.</p>
+
+<p>Let’s begin with its simplest and most fundamental form: the dynamics model in reinforcement learning — a predictive model that describes how states evolve in response to actions.</p>
+
+<p>A dynamics model is a function, often written as $\hat{f}$, that predicts the next state $s_{t+1}$ and reward $r_t$ given the current state $s_t$ and action $a_t$:</p>
+
+\[s_{t+1},\ r_t \approx \hat{f}(s_t, a_t)\]
+
+<p>With such a model, an <strong>agent</strong> can predict possible outcomes before acting — an ability fundamental to planning and reasoning.
+In reality, we rarely have direct access to the true state of the world. Instead, we rely on observations from various senses — vision, hearing, touch — to infer an internal representation of the hidden state. State transition is also stochastic, reflecting ambiguity in how actions affect future states. A conceptual <strong>world model</strong> can therefore be represented as:</p>
+
+\[\begin{aligned}
+s_t &amp;= g(o_t) &amp;&amp; \text{(state inference)} \\
+s_{t+1} &amp;\sim P(s_{t+1} \mid s_t, a_t) &amp;&amp; \text{(stochastic transition)} \\
+r_t &amp;= r(s_t, a_t) &amp;&amp; \text{(reward model)} \\
+o_t &amp;\sim P(o_t \mid s_t) &amp;&amp; \text{(observation generation)}
+\end{aligned}\]
+
+<h3 id="how-a-world-model-should-be-built">How a World Model Should Be Built</h3>
+
+<p>Building a world model involves three intertwined processes:</p>
+
+<ol>
+  <li>
+    <p><strong>Exploration</strong> — Gathering Experience</p>
+
+    <p>To learn the dynamics of an environment, an agent must act within it. It explores different states and actions, collecting trajectories of experience:</p>
+
+\[(s_t, a_t, r_t, s_{t+1})\]
+
+    <p>These trajectories encode causal relationships — how actions lead to consequences — forming the empirical foundation of the model.</p>
+  </li>
+  <li>
+    <p><strong>Perception</strong> — Interpreting Observations</p>
+
+    <p>In most real-world settings, the true state $s_t$ is often hidden. Instead, the agent observes sensory inputs $o_t$ (images, sounds, text) and infer latent states:</p>
+
+\[s_t \approx g(o_t)\]
+
+    <p>Here, $g$ is a perceptual encoder that extracts task-relevant information from raw sensory data, transforming perception into internal understanding.</p>
+  </li>
+  <li>
+    <p><strong>Learning</strong> - Modeling the Dynamics</p>
+
+    <p>Finally, learning integrates exploration and perception into a coherent predictive framework. Given collected trajectories and inferred latent states, the agent learns a stochastic transition function that approximates how the world evolves:</p>
+
+\[\hat{f}(s_t, a_t) \rightarrow (s_{t+1}, r_t)\]
+
+    <p>This process typically involves representation learning (to encode  latent states), sequence modeling (to capture temporal dependencies), and probabilistic estimation (to handle ambiguity).</p>
+
+    <p>With deep learning becoming the de facto approach for representation due to its expressive power, large neural networks now serve as the core mechanism for modeling dynamics. They are trained on sequences of state transitions as ground truth, where each step in the trajectory supervises the model to minimize prediction error between predicted and observed outcomes. Through this iterative process, the learned model captures both environmental regularities and stochastic variability — forming the foundation of world model learning.</p>
+  </li>
+</ol>
+
+<h3 id="how-a-world-model-is-built-in-llms">How a World Model Is Built in LLMs</h3>
+
+<p>Now, let’s turn to large language models (LLMs).
+LLMs do not interact with the physical world directly. Instead, they learn from humans — observers and actors who have already explored the world and recorded their experiences as language. As shown in the diagram below, LLMs are trained on traces of human experience: vast text corpus that reflects how people perceive, reason about, and describe the world around them. Language serves as a powerful medium — distilling complex sensory, emotional, and causal interactions into symbols and sequences. Next-token prediction, the objective of pretraining, provides the concrete mechanism through which this learning occurs.</p>
+
+<div class="mermaid">
+graph TD
+A[Human Interaction with the World] --&gt;|Trajectory| B[Experience Expressed in Language]
+B --&gt;|Text Corpus| C[LLM Pretraining]
+C --&gt;|Next-Token Prediction| D[LLM as Learned Model]
+</div>
+
+<h3 id="the-limitations-and-possible-paths-forward">The Limitations and Possible Paths Forward</h3>
+
+<p>This process clearly introduces several fundamental limitations:</p>
+
+<ul>
+  <li>
+    <p>Limited Exploration:
+The exploration originates from human experience, producing a narrow trajectory that reflects only a fraction of the world. The model cannot act or gather new evidence beyond what humans have already recorded.</p>
+  </li>
+  <li>
+    <p>Limited Perception and Representation:
+LLMs perceive only text — a symbolic medium through which humans express sensory, visual, spatial, and auditory experiences. Inevitably, some information is lost or distorted in translation. This representational gap leads to incomplete or inaccurate estimates of the underlying state of the world.</p>
+  </li>
+</ul>
+
+<p>Acknowledging these limitations, it is worth examining what learning truly means in this context — and whether next-token prediction provides a sufficient form of self-supervision and deep neural networks, serve as powerful function approximators, capable of capturing complex dependencies and representations at scale.</p>
+
+<p>On this point, Ilya Sutskever — in his conversation with Dwarkesh Patel (same Youtube Podcast) <em><a href="https://www.youtube.com/watch?v=Yf1o0TQzry8">Why Next-Token Prediction Could Surpass Human Intelligence</a></em> — offered a particularly insightful perspective - Sutskever views next-token prediction as a profoundly deep task that extends far beyond surface-level statistics:</p>
+
+<blockquote>
+  <p>“Predicting the next token well means that you understand the underlying reality that led to the creation of that token.” While the process is statistical, Sutskever notes that the compression required to perform it effectively forces the model to internalize what it is about the world that produces those statistics.</p>
+</blockquote>
+
+<p>If this interpretation holds, then approaches such as increasing the diversity of pretraining data through large-scale simulation environments or expanding perception through multimodal models become practical and valuable directions for advancing LLMs.</p>
+
+<p>Still, exploration remains the hardest frontier — models continue to rely on fixed set of human-collected trajectories. True world modeling requires interactive systems that can act, observe, and revise their own understanding through experience.</p>
+
+<p><strong>Continuous learning</strong> represents a promising direction — adapting models within real-world environments through domain-specific fine-tuning. Such post-training adaptation could mark a step toward bridging static knowledge and experiential learning.
+This also raises a compelling question: if we place an LLM in a new environment after pretraining, how well could it explore within that domain and generate new representations grounded in its evolving experience?</p>
+
+<p>Viewed from another angle, we might ask whether a complete world model is even necessary.
+Humans themselves operate under incomplete world models — constrained by limited perception and biased exploration — yet still act intelligently. Thus, the question shifts from “Can LLMs learn the whole world?” to “Can they reason, act, and gather enough information to accomplish the task at hand?”</p>
+
+<p>That brings us to the next part: Goal and Policy — where understanding meets action.</p>
+
+  </div><a class="u-url" href="/2025/10/06/reflection-sutton-part1.html" hidden></a>
+</article>
+
+      </div>
+    </main><footer class="site-footer h-card">
+  <data class="u-url" href="/"></data>
+
+  <div class="wrapper">
+
+    <h2 class="footer-heading">Yuan (Emily) Xue</h2>
+
+    <div class="footer-col-wrapper">
+      <div class="footer-col footer-col-1">
+        <ul class="contact-list">
+          <li class="p-name">Yuan (Emily) Xue</li><li><a class="u-email" href="mailto:yuanxue00@gmail.com">yuanxue00@gmail.com</a></li></ul>
+      </div>
+
+      <div class="footer-col footer-col-2"><ul class="social-media-list"><li><a href="https://www.linkedin.com/in/yuan-emily-xue-3483012"><svg class="svg-icon"><use xlink:href="/assets/minima-social-icons.svg#linkedin"></use></svg> <span class="username">yuan-emily-xue-3483012</span></a></li><li><a href="https://www.x.com/yuanxue00"><svg class="svg-icon"><use xlink:href="/assets/minima-social-icons.svg#twitter"></use></svg> <span class="username">yuanxue00</span></a></li></ul>
+</div>
+
+      <div class="footer-col footer-col-3">
+        <p>(last updated: Oct 2025)</p>
+      </div>
+    </div>
+
+  </div>
+
+</footer>
+
+      <script src="https://cdn.jsdelivr.net/npm/mermaid@10/dist/mermaid.min.js"></script>
+      <script>
+        document.addEventListener('DOMContentLoaded', function () {
+          mermaid.initialize({
+            startOnLoad: true,
+            securityLevel: 'loose' // allows <br/> in labels
+          });
+        });
+      </script>
+    
+  </body>
+</html>
