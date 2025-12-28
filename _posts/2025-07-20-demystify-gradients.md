@@ -6,7 +6,7 @@ tags: [Gradients, Normalization, Residuals, Clipping]
 categories: [AI, LLM, Deep Learning]
 mermaid: true
 ---
-
+* TOC
 {:toc}
 
 Gradients are at the core of training LLMs—or any neural network—powering each learning step. You've likely heard terms like *loss*, *backpropagation*, and *optimizers* in ML 101, and maybe even *vanishing* or *exploding* gradients. But what do these really mean—and how do you handle them in practice?
