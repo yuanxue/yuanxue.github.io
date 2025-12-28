@@ -1,4 +1,4 @@
-<?xml version="1.0" encoding="utf-8"?><feed xmlns="http://www.w3.org/2005/Atom" ><generator uri="https://jekyllrb.com/" version="4.4.1">Jekyll</generator><link href="https://yuanxue.github.io/feed.xml" rel="self" type="application/atom+xml" /><link href="https://yuanxue.github.io/" rel="alternate" type="text/html" /><updated>2025-12-27T21:20:09-08:00</updated><id>https://yuanxue.github.io/feed.xml</id><title type="html">Yuan (Emily) Xue</title><subtitle>(last updated: Oct 2025)</subtitle><entry><title type="html">Demystifying Gradients</title><link href="https://yuanxue.github.io/2025/12/26/demystify-gradients.html" rel="alternate" type="text/html" title="Demystifying Gradients" /><published>2025-12-26T23:17:56-08:00</published><updated>2025-12-26T23:17:56-08:00</updated><id>https://yuanxue.github.io/2025/12/26/demystify-gradients</id><content type="html" xml:base="https://yuanxue.github.io/2025/12/26/demystify-gradients.html"><![CDATA[<ul id="markdown-toc">
+<?xml version="1.0" encoding="utf-8"?><feed xmlns="http://www.w3.org/2005/Atom" ><generator uri="https://jekyllrb.com/" version="4.4.1">Jekyll</generator><link href="http://localhost:4000/feed.xml" rel="self" type="application/atom+xml" /><link href="http://localhost:4000/" rel="alternate" type="text/html" /><updated>2025-12-27T22:02:02-08:00</updated><id>http://localhost:4000/feed.xml</id><title type="html">Yuan (Emily) Xue</title><subtitle>(last updated: Oct 2025)</subtitle><entry><title type="html">Demystifying Gradients</title><link href="http://localhost:4000/2025/12/26/demystify-gradients.html" rel="alternate" type="text/html" title="Demystifying Gradients" /><published>2025-12-26T23:17:56-08:00</published><updated>2025-12-26T23:17:56-08:00</updated><id>http://localhost:4000/2025/12/26/demystify-gradients</id><content type="html" xml:base="http://localhost:4000/2025/12/26/demystify-gradients.html"><![CDATA[<ul id="markdown-toc">
   <li><a href="#mathematical-definition-and-concepts" id="markdown-toc-mathematical-definition-and-concepts">Mathematical Definition and Concepts</a>    <ul>
       <li><a href="#gradient" id="markdown-toc-gradient">Gradient</a></li>
       <li><a href="#compute-gradients-in-neural-network" id="markdown-toc-compute-gradients-in-neural-network">Compute Gradients in Neural Network</a>        <ul>
@@ -49,9 +49,10 @@
   <li><a href="#forward-pass-1" id="markdown-toc-forward-pass-1">Forward pass</a></li>
   <li><a href="#backward-pass-to-compute-gradients" id="markdown-toc-backward-pass-to-compute-gradients">Backward pass to compute gradients</a></li>
   <li><a href="#access-gradients" id="markdown-toc-access-gradients">Access gradients</a>    <ul>
-      <li><a href="#monitor-gradients-during-training" id="markdown-toc-monitor-gradients-during-training">Monitor Gradients During Training</a></li>
+      <li><a href="#leveraging-modern-llm-training-frameworks" id="markdown-toc-leveraging-modern-llm-training-frameworks">Leveraging Modern LLM training frameworks</a></li>
     </ul>
   </li>
+  <li><a href="#summary" id="markdown-toc-summary">Summary</a></li>
 </ul>
 
 <p>Gradients are at the core of training LLMs—or any neural network—powering each learning step. You’ve likely heard terms like <em>loss</em>, <em>backpropagation</em>, and <em>optimizers</em> in ML 101, and maybe even <em>vanishing</em> or <em>exploding</em> gradients. But what do these really mean—and how do you handle them in practice?</p>
@@ -584,42 +585,59 @@ loss = loss_fn(y_pred, y_true)</p>
     if torch.isnan(param.grad).any():
         print(f"⚠️ Exploded! NaN detected in {name}")
     
-    print(f"Layer: {name} | Norm: {grad_norm:.4f} | Max: {grad_max:.4f}") ``` You can get the following output ``` Layer: weight | Norm: 8.5318 | Max: 4.9751 Layer: bias | Norm: 2.6719 | Max: -2.6719 ```
+    print(f"Layer: {name} | Norm: {grad_norm:.4f} | Max: {grad_max:.4f}") ``` You can get the following output ``` Layer: weight | Norm: 8.5318 | Max: 4.9751 Layer: bias | Norm: 2.6719 | Max: -2.6719 ``` ## Monitor Gradients During Training
 </code></pre></div></div>
 
-<h2 id="monitor-gradients-during-training">Monitor Gradients During Training</h2>
-
-<p>What to monitor:</p>
+<p>Most professional teams use tools like Weights &amp; Biases (W&amp;B) to visualize gradient health. While the loss curve and gradient curves both provide information about stability, they represent different perspectives of the training process:</p>
 
 <ul>
   <li>
-    <p><strong>Gradient Norm:</strong> The which can indicate vanishing or exploding issues.
-The global gradient norm, a single scalar, overall magnitude of gradients,  is often the most useful stability signal. Large spikes frequently precede training collapse.</p>
+    <p>The Loss Curve (The Symptoms): The loss curve tells you if the model is converging. It also acts as a primary indicator of stability. A “jagged” loss curve with frequent spikes suggests the model is struggling with its learning rate or data quality. A sudden vertical jump in loss (a “loss spike”) is the most common symptom of a numerical explosion.</p>
   </li>
-  <li><strong>Per-Layer Gradient Norms:</strong> Observing if certain layers are experiencing more severe vanishing/exploding issues.</li>
   <li>
-    <p><strong>Histograms of Gradients:</strong> Visualizing the distribution of gradient values over time to identify problematic patterns.</p>
+    <p>The Gradient Curves (The Root Cause): Gradients provide the “prognosis.” By monitoring gradient norms, you can often see instability building up before the loss spikes. If the gradient norm starts to trend upward exponentially, a loss spike is likely imminent. What to Watch For:</p>
+
+    <ul>
+      <li>
+        <p><strong>Global Gradient Norm</strong>: The global gradient norm, a single scalar which indictes the overall magnitude of gradients, is often the most useful stability signal. A healthy run shows a stable or slowly decaying norm. Large spikes frequently precede training collapse.</p>
+      </li>
+      <li>
+        <p><strong>Layer-wise Norms</strong>: This is the best tool for diagnosing architectural bottlenecks. If gradients are significantly smaller in the early layers compared to the final layers, you are likely facing Vanishing Gradients.</p>
+      </li>
+      <li>
+        <p><strong>Histograms of Gradients:</strong> Visualizing the distribution of gradient values over time to identify problematic patterns.</p>
+      </li>
+      <li>
+        <table>
+          <tbody>
+            <tr>
+              <td><strong>Weight-to-Update Ratio</strong>: A good rule of thumb is that the update should be roughly $10^{-3}$ times the magnitude of the weights ($</td>
+              <td> </td>
+              <td>\Delta W</td>
+              <td> </td>
+              <td>/</td>
+              <td> </td>
+              <td>W</td>
+              <td> </td>
+              <td>$).</td>
+            </tr>
+          </tbody>
+        </table>
+      </li>
+    </ul>
+
+    <p>C. Weight Norm vs. Gradient Norm
+Suggest monitoring the ratio of the weight update to the weight magnitude ($||\Delta W|| / ||W||$).If the ratio is too high (e.g., &gt; 1e-3), the learning rate is likely too high.If it’s too low, the model is barely learning.</p>
   </li>
-  <li>**Global Gradient Norm.</li>
 </ul>
-
-<p>Modern LLM training frameworks (e.g., Accelerate, DeepSpeed, FSDP, Megatron-LM) all expose hooks for gradient monitoring. While implementations differ, the underlying principles remain the same:</p>
-
-<p>Gradients are accumulated (possibly across micro-batches)</p>
-
-<p>Norms are computed at step boundaries</p>
-
-<p>Clipping and logging occur before parameter updates</p>
-
-<p>Understanding these mechanics makes it easier to interpret training logs and debug failures at scale.</p>
 
 <p>Common warning signs during training include:</p>
 
-<p>Sudden spikes in global gradient norm</p>
-
-<p>Gradients becoming NaN or Inf</p>
-
-<p>Entire layers showing near-zero gradients</p>
+<ul>
+  <li>Sudden spikes in global gradient norm</li>
+  <li>Gradients becoming NaN or Inf</li>
+  <li>Entire layers showing near-zero gradients</li>
+</ul>
 
 <p>Instability correlated with long sequences or specific data shards</p>
 
@@ -633,20 +651,13 @@ The global gradient norm, a single scalar, overall magnitude of gradients,  is o
 
 <p>Switching precision mode (e.g., FP16 → BF16)</p>
 
-<p>==
-Most professional LLM teams use W&amp;B (or TensorBoard) to visualize these values. Logging just the “Loss” is not enough—you should log the Gradient Norm. A healthy training run shows a relatively stable gradient norm; a massive spike usually precedes a crash.</p>
+<h2 id="leveraging-modern-llm-training-frameworks">Leveraging Modern LLM training frameworks</h2>
 
-<p>Takeaway.
-Architectural choices like residual connections and normalization lay the foundation for stable gradient flow—but monitoring and controlling gradients during training is what keeps large models on track. Effective trainers treat gradient inspection as a first-class diagnostic tool, not an afterthought.</p>
+<p>Modern LLM training frameworks (e.g., Accelerate, DeepSpeed, FSDP, Megatron-LM) all expose hooks for gradient monitoring. For example, Megatron-LM logs the <code class="language-plaintext highlighter-rouge">grad_norm</code> by default in its training loops. While implementations vary, they follow a unified operational logic: gradients are accumulated across micro-batches, norms are calculated at global step boundaries, and Gradient Clipping and logging are executed immediately before parameter updates. Understanding these mechanics is essential for interpreting training logs. By mastering these tools, developers can move from simply observing training failures to proactively debugging them at scale. The specific implementation details of large-scale LLM training framework deserve a deep dive of their own. Stay tuned for a future post on that topic.</p>
 
-<p>==
-* The “Gradient Norm per Layer” Plot</p>
+<h1 id="summary">Summary</h1>
 
-<p>B. Gradient Clipping: The Safety Valve
-C. Weight Norm vs. Gradient Norm
-Suggest monitoring the ratio of the weight update to the weight magnitude ($||\Delta W|| / ||W||$).If the ratio is too high (e.g., &gt; 1e-3), the learning rate is likely too high.If it’s too low, the model is barely learning.</p>
-
-<p>Just like life is a continuous hill-climbing journey towards your goals, gradients represent each strategic step. Happy <strong>gradient ascending!</strong></p>]]></content><author><name></name></author><category term="AI" /><category term="LLM" /><category term="Deep Learning" /><category term="Gradients" /><category term="Normalization" /><category term="Residuals" /><category term="Clipping" /></entry><entry><title type="html">Reflections on Richard Sutton’s Interview: Part II — Goal and Acting</title><link href="https://yuanxue.github.io/2025/10/26/reflection-sutton-part2.html" rel="alternate" type="text/html" title="Reflections on Richard Sutton’s Interview: Part II — Goal and Acting" /><published>2025-10-26T00:00:00-07:00</published><updated>2025-10-26T00:00:00-07:00</updated><id>https://yuanxue.github.io/2025/10/26/reflection-sutton-part2</id><content type="html" xml:base="https://yuanxue.github.io/2025/10/26/reflection-sutton-part2.html"><![CDATA[<ul id="markdown-toc">
+<p>Architectural choices like residual connections and normalization lay the foundation for stable gradient flow, but monitoring and controlling gradients during training is what keeps large models on track. Effective trainers treat gradient inspection as a first-class diagnostic tool. Just like life is a continuous hill-climbing journey towards your goals, gradients represent each strategic step. Happy <strong>gradient ascending in 2026!</strong></p>]]></content><author><name></name></author><category term="AI" /><category term="LLM" /><category term="Deep Learning" /><category term="Gradients" /><category term="Normalization" /><category term="Residuals" /><category term="Clipping" /></entry><entry><title type="html">Reflections on Richard Sutton’s Interview: Part II — Goal and Acting</title><link href="http://localhost:4000/2025/10/26/reflection-sutton-part2.html" rel="alternate" type="text/html" title="Reflections on Richard Sutton’s Interview: Part II — Goal and Acting" /><published>2025-10-26T00:00:00-07:00</published><updated>2025-10-26T00:00:00-07:00</updated><id>http://localhost:4000/2025/10/26/reflection-sutton-part2</id><content type="html" xml:base="http://localhost:4000/2025/10/26/reflection-sutton-part2.html"><![CDATA[<ul id="markdown-toc">
   <li><a href="#suttons-view-intelligence-requires-a-goal" id="markdown-toc-suttons-view-intelligence-requires-a-goal">Sutton’s View: Intelligence Requires a Goal</a></li>
   <li><a href="#two-approaches-to-rl" id="markdown-toc-two-approaches-to-rl">Two Approaches to RL</a></li>
   <li><a href="#llms-as-policies" id="markdown-toc-llms-as-policies">LLMs as Policies</a></li>
@@ -864,7 +875,7 @@ Through this process, the model learns to imitate expert behavior — optimizing
 
 <p>Sutton’s view reminds us that intelligence is the capacity to act toward a goal. RL formalizes this pursuit through policies that maximize the reward. When extended to LLMs, this framework reveals both promise and constraints: <em>pretraining and SFT teach imitation, while RLHF and RLVR introduce goal-directed correction but confines exploration within entropy and KL budgets</em>. Test-time compute expands the picture by <em>moving exploration from training to inference</em>. Yet this new dimension of exploration exposes another issue: intelligence can search more deeply, but without feedback, it cannot learn from its own thought.</p>
 
-<p>Recent reasoning-RL models (e.g., OpenAI o1, DeepSeek-R1, Gemini 2.5) couple RL with reasoning. Empirical evidence demonstrates initial success, e.g. Gemini “Deep Think” system recently reached a gold-medal standard at the International Mathematical Olympiad. Yet whether this paradigam can break the constraints from pretrained linguistic and semantic priors, discover genuinely new reasoning strategies rather than performing a fuzzy form of deduction, or induce the kind of creative abstraction that defines general intelligence.</p>]]></content><author><name></name></author><category term="LLM" /><category term="AI" /><category term="Deep Learning" /><category term="Reinforcement Learning" /><category term="LLM" /><category term="AGI" /><category term="Sutton" /></entry><entry><title type="html">Reflections on Richard Sutton’s Interview: Part I — World Model and Understanding</title><link href="https://yuanxue.github.io/2025/10/06/reflection-sutton-part1.html" rel="alternate" type="text/html" title="Reflections on Richard Sutton’s Interview: Part I — World Model and Understanding" /><published>2025-10-06T00:00:00-07:00</published><updated>2025-10-06T00:00:00-07:00</updated><id>https://yuanxue.github.io/2025/10/06/reflection-sutton-part1</id><content type="html" xml:base="https://yuanxue.github.io/2025/10/06/reflection-sutton-part1.html"><![CDATA[<ul id="markdown-toc">
+<p>Recent reasoning-RL models (e.g., OpenAI o1, DeepSeek-R1, Gemini 2.5) couple RL with reasoning. Empirical evidence demonstrates initial success, e.g. Gemini “Deep Think” system recently reached a gold-medal standard at the International Mathematical Olympiad. Yet whether this paradigam can break the constraints from pretrained linguistic and semantic priors, discover genuinely new reasoning strategies rather than performing a fuzzy form of deduction, or induce the kind of creative abstraction that defines general intelligence.</p>]]></content><author><name></name></author><category term="LLM" /><category term="AI" /><category term="Deep Learning" /><category term="Reinforcement Learning" /><category term="LLM" /><category term="AGI" /><category term="Sutton" /></entry><entry><title type="html">Reflections on Richard Sutton’s Interview: Part I — World Model and Understanding</title><link href="http://localhost:4000/2025/10/06/reflection-sutton-part1.html" rel="alternate" type="text/html" title="Reflections on Richard Sutton’s Interview: Part I — World Model and Understanding" /><published>2025-10-06T00:00:00-07:00</published><updated>2025-10-06T00:00:00-07:00</updated><id>http://localhost:4000/2025/10/06/reflection-sutton-part1</id><content type="html" xml:base="http://localhost:4000/2025/10/06/reflection-sutton-part1.html"><![CDATA[<ul id="markdown-toc">
   <li><a href="#suttons-view-lack-of-world-model-in-llms" id="markdown-toc-suttons-view-lack-of-world-model-in-llms">Sutton’s View: Lack of World Model in LLMs</a></li>
   <li><a href="#what-is-a-world-model" id="markdown-toc-what-is-a-world-model">What Is a World Model?</a></li>
   <li><a href="#how-a-world-model-should-be-built" id="markdown-toc-how-a-world-model-should-be-built">How a World Model Should Be Built</a></li>
@@ -986,7 +997,7 @@ This also raises a compelling question: if we place an LLM in a new environment 
 <p>Viewed from another angle, we might ask whether a complete world model is even necessary.
 Humans themselves operate under incomplete world models — constrained by limited perception and biased exploration — yet still act intelligently. Thus, the question shifts from “Can LLMs learn the whole world?” to “Can they reason, act, and gather enough information to accomplish the task at hand?”</p>
 
-<p>That brings us to the next part: Goal and Policy — where understanding meets action.</p>]]></content><author><name></name></author><category term="LLM" /><category term="AI" /><category term="Deep Learning" /><category term="Reinforcement Learning" /><category term="LLM" /><category term="World Model" /><category term="Sutton" /></entry><entry><title type="html">Reflections on Richard Sutton’s Interview: Intro</title><link href="https://yuanxue.github.io/2025/10/05/reflection-sutton-intro.html" rel="alternate" type="text/html" title="Reflections on Richard Sutton’s Interview: Intro" /><published>2025-10-05T00:17:56-07:00</published><updated>2025-10-05T00:17:56-07:00</updated><id>https://yuanxue.github.io/2025/10/05/reflection-sutton-intro</id><content type="html" xml:base="https://yuanxue.github.io/2025/10/05/reflection-sutton-intro.html"><![CDATA[<p>I recently listened to <a href="https://www.youtube.com/watch?v=BF1aXbY0hS8">Richard Sutton’s interview on the <em>Dwarkesh Podcast</em></a>. Often called the father of reinforcement learning, Sutton spoke candidly about the limitations of large language models (LLMs), the importance of continual learning, and his lifelong conviction that true intelligence arises from experience—not imitation.</p>
+<p>That brings us to the next part: Goal and Policy — where understanding meets action.</p>]]></content><author><name></name></author><category term="LLM" /><category term="AI" /><category term="Deep Learning" /><category term="Reinforcement Learning" /><category term="LLM" /><category term="World Model" /><category term="Sutton" /></entry><entry><title type="html">Reflections on Richard Sutton’s Interview: Intro</title><link href="http://localhost:4000/2025/10/05/reflection-sutton-intro.html" rel="alternate" type="text/html" title="Reflections on Richard Sutton’s Interview: Intro" /><published>2025-10-05T00:17:56-07:00</published><updated>2025-10-05T00:17:56-07:00</updated><id>http://localhost:4000/2025/10/05/reflection-sutton-intro</id><content type="html" xml:base="http://localhost:4000/2025/10/05/reflection-sutton-intro.html"><![CDATA[<p>I recently listened to <a href="https://www.youtube.com/watch?v=BF1aXbY0hS8">Richard Sutton’s interview on the <em>Dwarkesh Podcast</em></a>. Often called the father of reinforcement learning, Sutton spoke candidly about the limitations of large language models (LLMs), the importance of continual learning, and his lifelong conviction that true intelligence arises from experience—not imitation.</p>
 
 <p>For me, the conversation was both intellectually dense and personally inspiring. I approach it from two perspectives:</p>
 

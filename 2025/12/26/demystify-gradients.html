@@ -10,17 +10,17 @@
 <meta property="og:locale" content="en_US" />
 <meta name="description" content="(last updated: Oct 2025)" />
 <meta property="og:description" content="(last updated: Oct 2025)" />
-<link rel="canonical" href="https://yuanxue.github.io/2025/12/26/demystify-gradients.html" />
-<meta property="og:url" content="https://yuanxue.github.io/2025/12/26/demystify-gradients.html" />
+<link rel="canonical" href="http://localhost:4000/2025/12/26/demystify-gradients.html" />
+<meta property="og:url" content="http://localhost:4000/2025/12/26/demystify-gradients.html" />
 <meta property="og:site_name" content="Yuan (Emily) Xue" />
 <meta property="og:type" content="article" />
 <meta property="article:published_time" content="2025-12-26T23:17:56-08:00" />
 <meta name="twitter:card" content="summary" />
 <meta property="twitter:title" content="Demystifying Gradients" />
 <script type="application/ld+json">
-{"@context":"https://schema.org","@type":"BlogPosting","dateModified":"2025-12-26T23:17:56-08:00","datePublished":"2025-12-26T23:17:56-08:00","description":"(last updated: Oct 2025)","headline":"Demystifying Gradients","mainEntityOfPage":{"@type":"WebPage","@id":"https://yuanxue.github.io/2025/12/26/demystify-gradients.html"},"url":"https://yuanxue.github.io/2025/12/26/demystify-gradients.html"}</script>
+{"@context":"https://schema.org","@type":"BlogPosting","dateModified":"2025-12-26T23:17:56-08:00","datePublished":"2025-12-26T23:17:56-08:00","description":"(last updated: Oct 2025)","headline":"Demystifying Gradients","mainEntityOfPage":{"@type":"WebPage","@id":"http://localhost:4000/2025/12/26/demystify-gradients.html"},"url":"http://localhost:4000/2025/12/26/demystify-gradients.html"}</script>
 <!-- End Jekyll SEO tag -->
-<link rel="stylesheet" href="/assets/main.css"><link type="application/atom+xml" rel="alternate" href="https://yuanxue.github.io/feed.xml" title="Yuan (Emily) Xue" /></head>
+<link rel="stylesheet" href="/assets/main.css"><link type="application/atom+xml" rel="alternate" href="http://localhost:4000/feed.xml" title="Yuan (Emily) Xue" /></head>
 </head>
   <body><header class="site-header" role="banner">
 
@@ -126,9 +126,10 @@
 <li class="toc-entry toc-h1"><a href="#backward-pass-to-compute-gradients">Backward pass to compute gradients</a></li>
 <li class="toc-entry toc-h1"><a href="#access-gradients">Access gradients</a>
 <ul>
-<li class="toc-entry toc-h2"><a href="#monitor-gradients-during-training">Monitor Gradients During Training</a></li>
+<li class="toc-entry toc-h2"><a href="#leveraging-modern-llm-training-frameworks">Leveraging Modern LLM training frameworks</a></li>
 </ul>
 </li>
+<li class="toc-entry toc-h1"><a href="#summary">Summary</a></li>
 </ul>
   </nav>
 
@@ -184,9 +185,10 @@
   <li><a href="#forward-pass-1" id="markdown-toc-forward-pass-1">Forward pass</a></li>
   <li><a href="#backward-pass-to-compute-gradients" id="markdown-toc-backward-pass-to-compute-gradients">Backward pass to compute gradients</a></li>
   <li><a href="#access-gradients" id="markdown-toc-access-gradients">Access gradients</a>    <ul>
-      <li><a href="#monitor-gradients-during-training" id="markdown-toc-monitor-gradients-during-training">Monitor Gradients During Training</a></li>
+      <li><a href="#leveraging-modern-llm-training-frameworks" id="markdown-toc-leveraging-modern-llm-training-frameworks">Leveraging Modern LLM training frameworks</a></li>
     </ul>
   </li>
+  <li><a href="#summary" id="markdown-toc-summary">Summary</a></li>
 </ul>
 
 <p>Gradients are at the core of training LLMs—or any neural network—powering each learning step. You’ve likely heard terms like <em>loss</em>, <em>backpropagation</em>, and <em>optimizers</em> in ML 101, and maybe even <em>vanishing</em> or <em>exploding</em> gradients. But what do these really mean—and how do you handle them in practice?</p>
@@ -719,42 +721,59 @@ loss = loss_fn(y_pred, y_true)</p>
     if torch.isnan(param.grad).any():
         print(f"⚠️ Exploded! NaN detected in {name}")
     
-    print(f"Layer: {name} | Norm: {grad_norm:.4f} | Max: {grad_max:.4f}") ``` You can get the following output ``` Layer: weight | Norm: 8.5318 | Max: 4.9751 Layer: bias | Norm: 2.6719 | Max: -2.6719 ```
+    print(f"Layer: {name} | Norm: {grad_norm:.4f} | Max: {grad_max:.4f}") ``` You can get the following output ``` Layer: weight | Norm: 8.5318 | Max: 4.9751 Layer: bias | Norm: 2.6719 | Max: -2.6719 ``` ## Monitor Gradients During Training
 </code></pre></div></div>
 
-<h2 id="monitor-gradients-during-training">Monitor Gradients During Training</h2>
-
-<p>What to monitor:</p>
+<p>Most professional teams use tools like Weights &amp; Biases (W&amp;B) to visualize gradient health. While the loss curve and gradient curves both provide information about stability, they represent different perspectives of the training process:</p>
 
 <ul>
   <li>
-    <p><strong>Gradient Norm:</strong> The which can indicate vanishing or exploding issues.
-The global gradient norm, a single scalar, overall magnitude of gradients,  is often the most useful stability signal. Large spikes frequently precede training collapse.</p>
+    <p>The Loss Curve (The Symptoms): The loss curve tells you if the model is converging. It also acts as a primary indicator of stability. A “jagged” loss curve with frequent spikes suggests the model is struggling with its learning rate or data quality. A sudden vertical jump in loss (a “loss spike”) is the most common symptom of a numerical explosion.</p>
   </li>
-  <li><strong>Per-Layer Gradient Norms:</strong> Observing if certain layers are experiencing more severe vanishing/exploding issues.</li>
   <li>
-    <p><strong>Histograms of Gradients:</strong> Visualizing the distribution of gradient values over time to identify problematic patterns.</p>
+    <p>The Gradient Curves (The Root Cause): Gradients provide the “prognosis.” By monitoring gradient norms, you can often see instability building up before the loss spikes. If the gradient norm starts to trend upward exponentially, a loss spike is likely imminent. What to Watch For:</p>
+
+    <ul>
+      <li>
+        <p><strong>Global Gradient Norm</strong>: The global gradient norm, a single scalar which indictes the overall magnitude of gradients, is often the most useful stability signal. A healthy run shows a stable or slowly decaying norm. Large spikes frequently precede training collapse.</p>
+      </li>
+      <li>
+        <p><strong>Layer-wise Norms</strong>: This is the best tool for diagnosing architectural bottlenecks. If gradients are significantly smaller in the early layers compared to the final layers, you are likely facing Vanishing Gradients.</p>
+      </li>
+      <li>
+        <p><strong>Histograms of Gradients:</strong> Visualizing the distribution of gradient values over time to identify problematic patterns.</p>
+      </li>
+      <li>
+        <table>
+          <tbody>
+            <tr>
+              <td><strong>Weight-to-Update Ratio</strong>: A good rule of thumb is that the update should be roughly $10^{-3}$ times the magnitude of the weights ($</td>
+              <td> </td>
+              <td>\Delta W</td>
+              <td> </td>
+              <td>/</td>
+              <td> </td>
+              <td>W</td>
+              <td> </td>
+              <td>$).</td>
+            </tr>
+          </tbody>
+        </table>
+      </li>
+    </ul>
+
+    <p>C. Weight Norm vs. Gradient Norm
+Suggest monitoring the ratio of the weight update to the weight magnitude ($||\Delta W|| / ||W||$).If the ratio is too high (e.g., &gt; 1e-3), the learning rate is likely too high.If it’s too low, the model is barely learning.</p>
   </li>
-  <li>**Global Gradient Norm.</li>
 </ul>
-
-<p>Modern LLM training frameworks (e.g., Accelerate, DeepSpeed, FSDP, Megatron-LM) all expose hooks for gradient monitoring. While implementations differ, the underlying principles remain the same:</p>
-
-<p>Gradients are accumulated (possibly across micro-batches)</p>
-
-<p>Norms are computed at step boundaries</p>
-
-<p>Clipping and logging occur before parameter updates</p>
-
-<p>Understanding these mechanics makes it easier to interpret training logs and debug failures at scale.</p>
 
 <p>Common warning signs during training include:</p>
 
-<p>Sudden spikes in global gradient norm</p>
-
-<p>Gradients becoming NaN or Inf</p>
-
-<p>Entire layers showing near-zero gradients</p>
+<ul>
+  <li>Sudden spikes in global gradient norm</li>
+  <li>Gradients becoming NaN or Inf</li>
+  <li>Entire layers showing near-zero gradients</li>
+</ul>
 
 <p>Instability correlated with long sequences or specific data shards</p>
 
@@ -768,20 +787,14 @@ The global gradient norm, a single scalar, overall magnitude of gradients,  is o
 
 <p>Switching precision mode (e.g., FP16 → BF16)</p>
 
-<p>==
-Most professional LLM teams use W&amp;B (or TensorBoard) to visualize these values. Logging just the “Loss” is not enough—you should log the Gradient Norm. A healthy training run shows a relatively stable gradient norm; a massive spike usually precedes a crash.</p>
+<h2 id="leveraging-modern-llm-training-frameworks">Leveraging Modern LLM training frameworks</h2>
 
-<p>Takeaway.
-Architectural choices like residual connections and normalization lay the foundation for stable gradient flow—but monitoring and controlling gradients during training is what keeps large models on track. Effective trainers treat gradient inspection as a first-class diagnostic tool, not an afterthought.</p>
+<p>Modern LLM training frameworks (e.g., Accelerate, DeepSpeed, FSDP, Megatron-LM) all expose hooks for gradient monitoring. For example, Megatron-LM logs the <code class="language-plaintext highlighter-rouge">grad_norm</code> by default in its training loops. While implementations vary, they follow a unified operational logic: gradients are accumulated across micro-batches, norms are calculated at global step boundaries, and Gradient Clipping and logging are executed immediately before parameter updates. Understanding these mechanics is essential for interpreting training logs. By mastering these tools, developers can move from simply observing training failures to proactively debugging them at scale. The specific implementation details of large-scale LLM training framework deserve a deep dive of their own. Stay tuned for a future post on that topic.</p>
 
-<p>==
-* The “Gradient Norm per Layer” Plot</p>
+<h1 id="summary">Summary</h1>
 
-<p>B. Gradient Clipping: The Safety Valve
-C. Weight Norm vs. Gradient Norm
-Suggest monitoring the ratio of the weight update to the weight magnitude ($||\Delta W|| / ||W||$).If the ratio is too high (e.g., &gt; 1e-3), the learning rate is likely too high.If it’s too low, the model is barely learning.</p>
+<p>Architectural choices like residual connections and normalization lay the foundation for stable gradient flow, but monitoring and controlling gradients during training is what keeps large models on track. Effective trainers treat gradient inspection as a first-class diagnostic tool. Just like life is a continuous hill-climbing journey towards your goals, gradients represent each strategic step. Happy <strong>gradient ascending in 2026!</strong></p>
 
-<p>Just like life is a continuous hill-climbing journey towards your goals, gradients represent each strategic step. Happy <strong>gradient ascending!</strong></p>
 
   </div><a class="u-url" href="/2025/12/26/demystify-gradients.html" hidden></a>
 </article>
