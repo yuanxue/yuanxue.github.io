@@ -118,6 +118,7 @@
 <li class="toc-entry toc-h1"><a href="#best-practice-for-model-trainers">Best Practice for Model Trainers</a>
 <ul>
 <li class="toc-entry toc-h2"><a href="#accessing-gradients-in-pytorch">Accessing Gradients in PyTorch</a></li>
+<li class="toc-entry toc-h2"><a href="#monitor-gradients-during-training">Monitor Gradients During Training</a></li>
 <li class="toc-entry toc-h2"><a href="#leveraging-modern-llm-training-frameworks">Leveraging Modern LLM training frameworks</a></li>
 </ul>
 </li>
@@ -126,56 +127,7 @@
   </nav>
 
   <div class="post-content e-content" itemprop="articleBody">
-    <ul id="markdown-toc">
-  <li><a href="#mathematical-definition-and-concepts" id="markdown-toc-mathematical-definition-and-concepts">Mathematical Definition and Concepts</a>    <ul>
-      <li><a href="#gradient" id="markdown-toc-gradient">Gradient</a></li>
-      <li><a href="#compute-gradients-in-neural-network" id="markdown-toc-compute-gradients-in-neural-network">Compute Gradients in Neural Network</a>        <ul>
-          <li><a href="#example-setup-a-simple-2-layer-mlp" id="markdown-toc-example-setup-a-simple-2-layer-mlp">Example Setup: A Simple 2-Layer MLP</a></li>
-          <li><a href="#forward-pass" id="markdown-toc-forward-pass">Forward Pass</a></li>
-          <li><a href="#backward-pass--the-chain-rule" id="markdown-toc-backward-pass--the-chain-rule">Backward Pass: ⛓️ The Chain Rule</a></li>
-        </ul>
-      </li>
-    </ul>
-  </li>
-  <li><a href="#vanishing-and-exploding-gradients" id="markdown-toc-vanishing-and-exploding-gradients">Vanishing and Exploding Gradients</a>    <ul>
-      <li><a href="#the-core-problem-products-of-weights-and-derivatives" id="markdown-toc-the-core-problem-products-of-weights-and-derivatives">The Core Problem: Products of Weights and Derivatives.</a></li>
-      <li><a href="#vanishing-gradients" id="markdown-toc-vanishing-gradients">Vanishing Gradients</a></li>
-      <li><a href="#exploding-gradients" id="markdown-toc-exploding-gradients">Exploding Gradients</a></li>
-      <li><a href="#contributing-factors" id="markdown-toc-contributing-factors">Contributing Factors</a>        <ul>
-          <li><a href="#visualization" id="markdown-toc-visualization">Visualization</a></li>
-        </ul>
-      </li>
-    </ul>
-  </li>
-  <li><a href="#mitigations-and-solutions" id="markdown-toc-mitigations-and-solutions">Mitigations and Solutions</a>    <ul>
-      <li><a href="#activation-functions" id="markdown-toc-activation-functions">Activation Functions</a></li>
-      <li><a href="#weight-initialization" id="markdown-toc-weight-initialization">Weight initialization</a></li>
-      <li><a href="#gradient-clipping" id="markdown-toc-gradient-clipping">Gradient clipping</a></li>
-      <li><a href="#residual-connections" id="markdown-toc-residual-connections">Residual connections</a></li>
-      <li><a href="#normalization-layers" id="markdown-toc-normalization-layers">Normalization layers</a>        <ul>
-          <li><a href="#batch-normalization" id="markdown-toc-batch-normalization">Batch Normalization</a></li>
-          <li><a href="#layer-normalization" id="markdown-toc-layer-normalization">Layer Normalization</a></li>
-          <li><a href="#rmsnorm" id="markdown-toc-rmsnorm">RMSNorm</a></li>
-        </ul>
-      </li>
-      <li><a href="#interaction-of-normalization-with-residuals" id="markdown-toc-interaction-of-normalization-with-residuals">Interaction of Normalization with Residuals</a>        <ul>
-          <li><a href="#post-normalization" id="markdown-toc-post-normalization">Post-Normalization</a></li>
-          <li><a href="#pre-normalization" id="markdown-toc-pre-normalization">Pre-Normalization</a></li>
-          <li><a href="#beyond-pre-ln-double-normalization" id="markdown-toc-beyond-pre-ln-double-normalization">Beyond Pre-LN: Double Normalization</a></li>
-          <li><a href="#further-reading" id="markdown-toc-further-reading">Further Reading</a></li>
-        </ul>
-      </li>
-      <li><a href="#data-cleaning" id="markdown-toc-data-cleaning">Data Cleaning</a></li>
-    </ul>
-  </li>
-  <li><a href="#best-practice-for-model-trainers" id="markdown-toc-best-practice-for-model-trainers">Best Practice for Model Trainers</a>    <ul>
-      <li><a href="#accessing-gradients-in-pytorch" id="markdown-toc-accessing-gradients-in-pytorch">Accessing Gradients in PyTorch</a></li>
-      <li><a href="#leveraging-modern-llm-training-frameworks" id="markdown-toc-leveraging-modern-llm-training-frameworks">Leveraging Modern LLM training frameworks</a></li>
-    </ul>
-  </li>
-  <li><a href="#summary" id="markdown-toc-summary">Summary</a></li>
-</ul>
-
+    
 <p>Gradients are at the core of training LLMs—or any neural network—powering each learning step. You’ve likely heard terms like <em>loss</em>, <em>backpropagation</em>, and <em>optimizers</em> in ML 101, and maybe even <em>vanishing</em> or <em>exploding</em> gradients. But what do these really mean—and how do you handle them in practice?</p>
 
 <p>Whether you’re fine-tuning pre-trained models or training your own from scratch, understanding how gradients behave is essential—it can make or break your training.</p>
@@ -496,17 +448,15 @@ Gradient clipping limits the magnitude of gradients <em>after</em> they are comp
   <li><strong>Clipping by value</strong>. Each individual gradient element is independently clamped to lie within a fixed range. For example, the following code clamps every gradient component to the interval $[−1.0, 1.0]$. This approach directly limits extreme gradient components but may distort the overall gradient direction.</li>
 </ul>
 
-<p><code class="language-plaintext highlighter-rouge">python
-torch.nn.utils.clip_grad_value_(model.parameters(), clip_value=1.0)
-</code></p>
+<div class="language-python highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="n">torch</span><span class="p">.</span><span class="n">nn</span><span class="p">.</span><span class="n">utils</span><span class="p">.</span><span class="nf">clip_grad_value_</span><span class="p">(</span><span class="n">model</span><span class="p">.</span><span class="nf">parameters</span><span class="p">(),</span> <span class="n">clip_value</span><span class="o">=</span><span class="mf">1.0</span><span class="p">)</span>
+</code></pre></div></div>
 
 <ul>
   <li><strong>Clipping by global norm</strong>. Clipping by global norm rescales all parameter gradients by the same factor whenever their combined norm exceeds a specified threshold. In the following code, if the total gradient norm exceeds <code class="language-plaintext highlighter-rouge">max_norm</code> ($1.0$), all gradients are scaled down proportionally so that the global norm equals <code class="language-plaintext highlighter-rouge">max_norm</code>. <code class="language-plaintext highlighter-rouge">total_norm</code> returns the total norm <strong>before clipping</strong>.</li>
 </ul>
 
-<p><code class="language-plaintext highlighter-rouge">python
-total_norm = torch.nn.utils.clip_grad_norm_(model.parameters(), max_norm=1.0)
-</code></p>
+<div class="language-python highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="n">total_norm</span> <span class="o">=</span> <span class="n">torch</span><span class="p">.</span><span class="n">nn</span><span class="p">.</span><span class="n">utils</span><span class="p">.</span><span class="nf">clip_grad_norm_</span><span class="p">(</span><span class="n">model</span><span class="p">.</span><span class="nf">parameters</span><span class="p">(),</span> <span class="n">max_norm</span><span class="o">=</span><span class="mf">1.0</span><span class="p">)</span>
+</code></pre></div></div>
 
 <p>In comparison with <strong>Clipping by value</strong>, <strong>Clipping by global norm</strong> preserves the direction of the gradient vector while only reducing its magnitude, since the relative proportions between gradient elements remain unchanged. As a result, it does not alter the descent direction chosen by the optimizer, but only shortens the step taken in that direction, as shown in Figure 6. From an optimization perspective, this acts as a temporary reduction in the effective learning rate during unstable steps.</p>
 
@@ -520,15 +470,14 @@ total_norm = torch.nn.utils.clip_grad_norm_(model.parameters(), max_norm=1.0)
 
 <p>In pytorch, you can apply gradient clipping immediately after <code class="language-plaintext highlighter-rouge">loss.backward()</code> and before <code class="language-plaintext highlighter-rouge">optimizer.step()</code>. In practice, you can log <code class="language-plaintext highlighter-rouge">total_norm</code>. By capturing the norm before it is clipped, we can monitor the stability of the training process.</p>
 
-<p><code class="language-plaintext highlighter-rouge">python
-loss.backward()
-total_norm = torch.nn.utils.clip_grad_norm_(
-    model.parameters(),
-    max_norm=1.0
-)
-print("Grad norm before clipping:", total_norm.item())
-optimizer.step()
-</code></p>
+<div class="language-python highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="n">loss</span><span class="p">.</span><span class="nf">backward</span><span class="p">()</span>
+<span class="n">total_norm</span> <span class="o">=</span> <span class="n">torch</span><span class="p">.</span><span class="n">nn</span><span class="p">.</span><span class="n">utils</span><span class="p">.</span><span class="nf">clip_grad_norm_</span><span class="p">(</span>
+    <span class="n">model</span><span class="p">.</span><span class="nf">parameters</span><span class="p">(),</span>
+    <span class="n">max_norm</span><span class="o">=</span><span class="mf">1.0</span>
+<span class="p">)</span>
+<span class="nf">print</span><span class="p">(</span><span class="sh">"</span><span class="s">Grad norm before clipping:</span><span class="sh">"</span><span class="p">,</span> <span class="n">total_norm</span><span class="p">.</span><span class="nf">item</span><span class="p">())</span>
+<span class="n">optimizer</span><span class="p">.</span><span class="nf">step</span><span class="p">()</span>
+</code></pre></div></div>
 
 <h2 id="residual-connections">Residual connections</h2>
 
@@ -673,7 +622,7 @@ flowchart LR
 
 <h2 id="accessing-gradients-in-pytorch">Accessing Gradients in PyTorch</h2>
 
-<p>In PyTorch, every parameter that has requires_grad=True will store its gradient in the .grad attribute after loss.backward() is called.</p>
+<p>In PyTorch, every parameter that has <code class="language-plaintext highlighter-rouge">requires_grad=True</code> will store its gradient in the <code class="language-plaintext highlighter-rouge">.grad</code> attribute after <code class="language-plaintext highlighter-rouge">loss.backward()</code> is called.</p>
 
 <div class="language-python highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="c1"># Example in PyTorch (conceptual)
 </span><span class="kn">import</span> <span class="n">torch</span>
@@ -707,12 +656,14 @@ flowchart LR
         
         <span class="nf">print</span><span class="p">(</span><span class="sa">f</span><span class="sh">"</span><span class="s">Layer: </span><span class="si">{</span><span class="n">name</span><span class="si">}</span><span class="s"> | Norm: </span><span class="si">{</span><span class="n">grad_norm</span><span class="si">:</span><span class="p">.</span><span class="mi">4</span><span class="n">f</span><span class="si">}</span><span class="s"> | Max: </span><span class="si">{</span><span class="n">grad_max</span><span class="si">:</span><span class="p">.</span><span class="mi">4</span><span class="n">f</span><span class="si">}</span><span class="sh">"</span><span class="p">)</span>
 </code></pre></div></div>
-<p>You can get the following output
-<code class="language-plaintext highlighter-rouge">
-Layer: weight | Norm: 8.5318 | Max: 4.9751
+
+<p>You can get the following output</p>
+
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>Layer: weight | Norm: 8.5318 | Max: 4.9751
 Layer: bias | Norm: 2.6719 | Max: -2.6719
-</code>
-## Monitor Gradients During Training</p>
+</code></pre></div></div>
+
+<h2 id="monitor-gradients-during-training">Monitor Gradients During Training</h2>
 
 <p>Most professional teams use tools like Weights &amp; Biases (W&amp;B) to visualize gradient health. While the loss curve and gradient curves both provide information about stability, they represent different perspectives of the training process:</p>
 
