@@ -6,7 +6,6 @@ tags: [Gradients, Normalization, Residuals, Clipping]
 categories: [AI, LLM, Deep Learning]
 mermaid: true
 ---
-* TOC
 {:toc}
 
 Gradients are at the core of training LLMs—or any neural network—powering each learning step. You've likely heard terms like *loss*, *backpropagation*, and *optimizers* in ML 101, and maybe even *vanishing* or *exploding* gradients. But what do these really mean—and how do you handle them in practice?
@@ -294,15 +293,15 @@ Gradient clipping limits the magnitude of gradients *after* they are computed vi
 
 - **Clipping by value**. Each individual gradient element is independently clamped to lie within a fixed range. For example, the following code clamps every gradient component to the interval $[−1.0, 1.0]$. This approach directly limits extreme gradient components but may distort the overall gradient direction.
 
-```python
+~~~python
 torch.nn.utils.clip_grad_value_(model.parameters(), clip_value=1.0)
-```
+~~~
 
 - **Clipping by global norm**. Clipping by global norm rescales all parameter gradients by the same factor whenever their combined norm exceeds a specified threshold. In the following code, if the total gradient norm exceeds `max_norm` ($1.0$), all gradients are scaled down proportionally so that the global norm equals `max_norm`. `total_norm` returns the total norm **before clipping**.
 
-```python
+~~~python
 total_norm = torch.nn.utils.clip_grad_norm_(model.parameters(), max_norm=1.0)
-```
+~~~
 
 In comparison with **Clipping by value**, **Clipping by global norm** preserves the direction of the gradient vector while only reducing its magnitude, since the relative proportions between gradient elements remain unchanged. As a result, it does not alter the descent direction chosen by the optimizer, but only shortens the step taken in that direction, as shown in Figure 6. From an optimization perspective, this acts as a temporary reduction in the effective learning rate during unstable steps. 
 
@@ -316,7 +315,7 @@ In comparison with **Clipping by value**, **Clipping by global norm** preserves 
 
 In pytorch, you can apply gradient clipping immediately after `loss.backward()` and before `optimizer.step()`. In practice, you can log `total_norm`. By capturing the norm before it is clipped, we can monitor the stability of the training process.
 
-```python
+~~~python
 loss.backward()
 total_norm = torch.nn.utils.clip_grad_norm_(
     model.parameters(),
@@ -324,7 +323,7 @@ total_norm = torch.nn.utils.clip_grad_norm_(
 )
 print("Grad norm before clipping:", total_norm.item())
 optimizer.step()
-```
+~~~
 
 ## Residual connections
 
@@ -468,7 +467,7 @@ Understanding why gradients vanish or explode is only half the story. In practic
 
 ## Accessing Gradients in PyTorch
 
-In PyTorch, every parameter that has requires_grad=True will store its gradient in the .grad attribute after loss.backward() is called. 
+In PyTorch, every parameter that has `requires_grad=True` will store its gradient in the `.grad` attribute after `loss.backward()` is called. 
 
 ~~~python
 # Example in PyTorch (conceptual)
@@ -503,11 +502,14 @@ for name, param in model.named_parameters():
         
         print(f"Layer: {name} | Norm: {grad_norm:.4f} | Max: {grad_max:.4f}")
 ~~~
+
 You can get the following output
-```
+
+~~~
 Layer: weight | Norm: 8.5318 | Max: 4.9751
 Layer: bias | Norm: 2.6719 | Max: -2.6719
-```
+~~~
+
 ## Monitor Gradients During Training
 
 Most professional teams use tools like Weights & Biases (W&B) to visualize gradient health. While the loss curve and gradient curves both provide information about stability, they represent different perspectives of the training process: 
