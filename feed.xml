@@ -1,4 +1,4 @@
-<?xml version="1.0" encoding="utf-8"?><feed xmlns="http://www.w3.org/2005/Atom" ><generator uri="https://jekyllrb.com/" version="4.4.1">Jekyll</generator><link href="http://localhost:4000/feed.xml" rel="self" type="application/atom+xml" /><link href="http://localhost:4000/" rel="alternate" type="text/html" /><updated>2025-12-27T22:02:02-08:00</updated><id>http://localhost:4000/feed.xml</id><title type="html">Yuan (Emily) Xue</title><subtitle>(last updated: Oct 2025)</subtitle><entry><title type="html">Demystifying Gradients</title><link href="http://localhost:4000/2025/12/26/demystify-gradients.html" rel="alternate" type="text/html" title="Demystifying Gradients" /><published>2025-12-26T23:17:56-08:00</published><updated>2025-12-26T23:17:56-08:00</updated><id>http://localhost:4000/2025/12/26/demystify-gradients</id><content type="html" xml:base="http://localhost:4000/2025/12/26/demystify-gradients.html"><![CDATA[<ul id="markdown-toc">
+<?xml version="1.0" encoding="utf-8"?><feed xmlns="http://www.w3.org/2005/Atom" ><generator uri="https://jekyllrb.com/" version="4.4.1">Jekyll</generator><link href="https://yuanxue.github.io/feed.xml" rel="self" type="application/atom+xml" /><link href="https://yuanxue.github.io/" rel="alternate" type="text/html" /><updated>2025-12-27T22:11:17-08:00</updated><id>https://yuanxue.github.io/feed.xml</id><title type="html">Yuan (Emily) Xue</title><subtitle>(last updated: Oct 2025)</subtitle><entry><title type="html">Demystifying Gradients</title><link href="https://yuanxue.github.io/2025/12/26/demystify-gradients.html" rel="alternate" type="text/html" title="Demystifying Gradients" /><published>2025-12-26T23:17:56-08:00</published><updated>2025-12-26T23:17:56-08:00</updated><id>https://yuanxue.github.io/2025/12/26/demystify-gradients</id><content type="html" xml:base="https://yuanxue.github.io/2025/12/26/demystify-gradients.html"><![CDATA[<ul id="markdown-toc">
   <li><a href="#mathematical-definition-and-concepts" id="markdown-toc-mathematical-definition-and-concepts">Mathematical Definition and Concepts</a>    <ul>
       <li><a href="#gradient" id="markdown-toc-gradient">Gradient</a></li>
       <li><a href="#compute-gradients-in-neural-network" id="markdown-toc-compute-gradients-in-neural-network">Compute Gradients in Neural Network</a>        <ul>
@@ -42,13 +42,6 @@
   </li>
   <li><a href="#best-practice-for-model-trainers" id="markdown-toc-best-practice-for-model-trainers">Best Practice for Model Trainers</a>    <ul>
       <li><a href="#accessing-gradients-in-pytorch" id="markdown-toc-accessing-gradients-in-pytorch">Accessing Gradients in PyTorch</a></li>
-    </ul>
-  </li>
-  <li><a href="#define-a-simple-model" id="markdown-toc-define-a-simple-model">Define a simple model</a></li>
-  <li><a href="#dummy-data" id="markdown-toc-dummy-data">Dummy data</a></li>
-  <li><a href="#forward-pass-1" id="markdown-toc-forward-pass-1">Forward pass</a></li>
-  <li><a href="#backward-pass-to-compute-gradients" id="markdown-toc-backward-pass-to-compute-gradients">Backward pass to compute gradients</a></li>
-  <li><a href="#access-gradients" id="markdown-toc-access-gradients">Access gradients</a>    <ul>
       <li><a href="#leveraging-modern-llm-training-frameworks" id="markdown-toc-leveraging-modern-llm-training-frameworks">Leveraging Modern LLM training frameworks</a></li>
     </ul>
   </li>
@@ -552,41 +545,46 @@ flowchart LR
 
 <h2 id="accessing-gradients-in-pytorch">Accessing Gradients in PyTorch</h2>
 
-<p>In PyTorch, every parameter that has requires_grad=True will store its gradient in the .grad attribute after loss.backward() is called.r.</p>
+<p>In PyTorch, every parameter that has requires_grad=True will store its gradient in the .grad attribute after loss.backward() is called.</p>
 
-<p>```python
-# Example in PyTorch (conceptual)
-import torch
-import torch.nn as nn</p>
+<div class="language-python highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="c1"># Example in PyTorch (conceptual)
+</span><span class="kn">import</span> <span class="n">torch</span>
+<span class="kn">import</span> <span class="n">torch.nn</span> <span class="k">as</span> <span class="n">nn</span>
 
-<h1 id="define-a-simple-model">Define a simple model</h1>
-<p>model = nn.Linear(10, 1)
-loss_fn = nn.MSELoss()
-optimizer = torch.optim.SGD(model.parameters(), lr=0.01)</p>
+<span class="c1"># Define a simple model
+</span><span class="n">model</span> <span class="o">=</span> <span class="n">nn</span><span class="p">.</span><span class="nc">Linear</span><span class="p">(</span><span class="mi">10</span><span class="p">,</span> <span class="mi">1</span><span class="p">)</span>
+<span class="n">loss_fn</span> <span class="o">=</span> <span class="n">nn</span><span class="p">.</span><span class="nc">MSELoss</span><span class="p">()</span>
+<span class="n">optimizer</span> <span class="o">=</span> <span class="n">torch</span><span class="p">.</span><span class="n">optim</span><span class="p">.</span><span class="nc">SGD</span><span class="p">(</span><span class="n">model</span><span class="p">.</span><span class="nf">parameters</span><span class="p">(),</span> <span class="n">lr</span><span class="o">=</span><span class="mf">0.01</span><span class="p">)</span>
 
-<h1 id="dummy-data">Dummy data</h1>
-<p>x = torch.randn(1, 10)
-y_true = torch.randn(1, 1)</p>
+<span class="c1"># Dummy data
+</span><span class="n">x</span> <span class="o">=</span> <span class="n">torch</span><span class="p">.</span><span class="nf">randn</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span> <span class="mi">10</span><span class="p">)</span>
+<span class="n">y_true</span> <span class="o">=</span> <span class="n">torch</span><span class="p">.</span><span class="nf">randn</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span> <span class="mi">1</span><span class="p">)</span>
 
-<h1 id="forward-pass-1">Forward pass</h1>
-<p>y_pred = model(x)
-loss = loss_fn(y_pred, y_true)</p>
+<span class="c1"># Forward pass
+</span><span class="n">y_pred</span> <span class="o">=</span> <span class="nf">model</span><span class="p">(</span><span class="n">x</span><span class="p">)</span>
+<span class="n">loss</span> <span class="o">=</span> <span class="nf">loss_fn</span><span class="p">(</span><span class="n">y_pred</span><span class="p">,</span> <span class="n">y_true</span><span class="p">)</span>
 
-<h1 id="backward-pass-to-compute-gradients">Backward pass to compute gradients</h1>
-<p>loss.backward()</p>
+<span class="c1"># Backward pass to compute gradients
+</span><span class="n">loss</span><span class="p">.</span><span class="nf">backward</span><span class="p">()</span>
 
-<h1 id="access-gradients">Access gradients</h1>
-<p>for name, param in model.named_parameters():
-    if param.grad is not None:
-        grad_norm = param.grad.norm().item()
-        grad_max = param.grad.max().item()</p>
-
-<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>    # Check for the dreaded NaN
-    if torch.isnan(param.grad).any():
-        print(f"⚠️ Exploded! NaN detected in {name}")
-    
-    print(f"Layer: {name} | Norm: {grad_norm:.4f} | Max: {grad_max:.4f}") ``` You can get the following output ``` Layer: weight | Norm: 8.5318 | Max: 4.9751 Layer: bias | Norm: 2.6719 | Max: -2.6719 ``` ## Monitor Gradients During Training
+<span class="c1"># Access gradients
+</span><span class="k">for</span> <span class="n">name</span><span class="p">,</span> <span class="n">param</span> <span class="ow">in</span> <span class="n">model</span><span class="p">.</span><span class="nf">named_parameters</span><span class="p">():</span>
+    <span class="k">if</span> <span class="n">param</span><span class="p">.</span><span class="n">grad</span> <span class="ow">is</span> <span class="ow">not</span> <span class="bp">None</span><span class="p">:</span>
+        <span class="n">grad_norm</span> <span class="o">=</span> <span class="n">param</span><span class="p">.</span><span class="n">grad</span><span class="p">.</span><span class="nf">norm</span><span class="p">().</span><span class="nf">item</span><span class="p">()</span>
+        <span class="n">grad_max</span> <span class="o">=</span> <span class="n">param</span><span class="p">.</span><span class="n">grad</span><span class="p">.</span><span class="nf">max</span><span class="p">().</span><span class="nf">item</span><span class="p">()</span>
+        
+        <span class="c1"># Check for the dreaded NaN
+</span>        <span class="k">if</span> <span class="n">torch</span><span class="p">.</span><span class="nf">isnan</span><span class="p">(</span><span class="n">param</span><span class="p">.</span><span class="n">grad</span><span class="p">).</span><span class="nf">any</span><span class="p">():</span>
+            <span class="nf">print</span><span class="p">(</span><span class="sa">f</span><span class="sh">"</span><span class="s">⚠️ Exploded! NaN detected in </span><span class="si">{</span><span class="n">name</span><span class="si">}</span><span class="sh">"</span><span class="p">)</span>
+        
+        <span class="nf">print</span><span class="p">(</span><span class="sa">f</span><span class="sh">"</span><span class="s">Layer: </span><span class="si">{</span><span class="n">name</span><span class="si">}</span><span class="s"> | Norm: </span><span class="si">{</span><span class="n">grad_norm</span><span class="si">:</span><span class="p">.</span><span class="mi">4</span><span class="n">f</span><span class="si">}</span><span class="s"> | Max: </span><span class="si">{</span><span class="n">grad_max</span><span class="si">:</span><span class="p">.</span><span class="mi">4</span><span class="n">f</span><span class="si">}</span><span class="sh">"</span><span class="p">)</span>
 </code></pre></div></div>
+<p>You can get the following output
+<code class="language-plaintext highlighter-rouge">
+Layer: weight | Norm: 8.5318 | Max: 4.9751
+Layer: bias | Norm: 2.6719 | Max: -2.6719
+</code>
+## Monitor Gradients During Training</p>
 
 <p>Most professional teams use tools like Weights &amp; Biases (W&amp;B) to visualize gradient health. While the loss curve and gradient curves both provide information about stability, they represent different perspectives of the training process:</p>
 
@@ -657,7 +655,7 @@ Suggest monitoring the ratio of the weight update to the weight magnitude ($||\D
 
 <h1 id="summary">Summary</h1>
 
-<p>Architectural choices like residual connections and normalization lay the foundation for stable gradient flow, but monitoring and controlling gradients during training is what keeps large models on track. Effective trainers treat gradient inspection as a first-class diagnostic tool. Just like life is a continuous hill-climbing journey towards your goals, gradients represent each strategic step. Happy <strong>gradient ascending in 2026!</strong></p>]]></content><author><name></name></author><category term="AI" /><category term="LLM" /><category term="Deep Learning" /><category term="Gradients" /><category term="Normalization" /><category term="Residuals" /><category term="Clipping" /></entry><entry><title type="html">Reflections on Richard Sutton’s Interview: Part II — Goal and Acting</title><link href="http://localhost:4000/2025/10/26/reflection-sutton-part2.html" rel="alternate" type="text/html" title="Reflections on Richard Sutton’s Interview: Part II — Goal and Acting" /><published>2025-10-26T00:00:00-07:00</published><updated>2025-10-26T00:00:00-07:00</updated><id>http://localhost:4000/2025/10/26/reflection-sutton-part2</id><content type="html" xml:base="http://localhost:4000/2025/10/26/reflection-sutton-part2.html"><![CDATA[<ul id="markdown-toc">
+<p>Architectural choices like residual connections and normalization lay the foundation for stable gradient flow, but monitoring and controlling gradients during training is what keeps large models on track. Effective trainers treat gradient inspection as a first-class diagnostic tool. Just like life is a continuous hill-climbing journey towards your goals, gradients represent each strategic step. Happy <strong>gradient ascending in 2026!</strong></p>]]></content><author><name></name></author><category term="AI" /><category term="LLM" /><category term="Deep Learning" /><category term="Gradients" /><category term="Normalization" /><category term="Residuals" /><category term="Clipping" /></entry><entry><title type="html">Reflections on Richard Sutton’s Interview: Part II — Goal and Acting</title><link href="https://yuanxue.github.io/2025/10/26/reflection-sutton-part2.html" rel="alternate" type="text/html" title="Reflections on Richard Sutton’s Interview: Part II — Goal and Acting" /><published>2025-10-26T00:00:00-07:00</published><updated>2025-10-26T00:00:00-07:00</updated><id>https://yuanxue.github.io/2025/10/26/reflection-sutton-part2</id><content type="html" xml:base="https://yuanxue.github.io/2025/10/26/reflection-sutton-part2.html"><![CDATA[<ul id="markdown-toc">
   <li><a href="#suttons-view-intelligence-requires-a-goal" id="markdown-toc-suttons-view-intelligence-requires-a-goal">Sutton’s View: Intelligence Requires a Goal</a></li>
   <li><a href="#two-approaches-to-rl" id="markdown-toc-two-approaches-to-rl">Two Approaches to RL</a></li>
   <li><a href="#llms-as-policies" id="markdown-toc-llms-as-policies">LLMs as Policies</a></li>
@@ -875,7 +873,7 @@ Through this process, the model learns to imitate expert behavior — optimizing
 
 <p>Sutton’s view reminds us that intelligence is the capacity to act toward a goal. RL formalizes this pursuit through policies that maximize the reward. When extended to LLMs, this framework reveals both promise and constraints: <em>pretraining and SFT teach imitation, while RLHF and RLVR introduce goal-directed correction but confines exploration within entropy and KL budgets</em>. Test-time compute expands the picture by <em>moving exploration from training to inference</em>. Yet this new dimension of exploration exposes another issue: intelligence can search more deeply, but without feedback, it cannot learn from its own thought.</p>
 
-<p>Recent reasoning-RL models (e.g., OpenAI o1, DeepSeek-R1, Gemini 2.5) couple RL with reasoning. Empirical evidence demonstrates initial success, e.g. Gemini “Deep Think” system recently reached a gold-medal standard at the International Mathematical Olympiad. Yet whether this paradigam can break the constraints from pretrained linguistic and semantic priors, discover genuinely new reasoning strategies rather than performing a fuzzy form of deduction, or induce the kind of creative abstraction that defines general intelligence.</p>]]></content><author><name></name></author><category term="LLM" /><category term="AI" /><category term="Deep Learning" /><category term="Reinforcement Learning" /><category term="LLM" /><category term="AGI" /><category term="Sutton" /></entry><entry><title type="html">Reflections on Richard Sutton’s Interview: Part I — World Model and Understanding</title><link href="http://localhost:4000/2025/10/06/reflection-sutton-part1.html" rel="alternate" type="text/html" title="Reflections on Richard Sutton’s Interview: Part I — World Model and Understanding" /><published>2025-10-06T00:00:00-07:00</published><updated>2025-10-06T00:00:00-07:00</updated><id>http://localhost:4000/2025/10/06/reflection-sutton-part1</id><content type="html" xml:base="http://localhost:4000/2025/10/06/reflection-sutton-part1.html"><![CDATA[<ul id="markdown-toc">
+<p>Recent reasoning-RL models (e.g., OpenAI o1, DeepSeek-R1, Gemini 2.5) couple RL with reasoning. Empirical evidence demonstrates initial success, e.g. Gemini “Deep Think” system recently reached a gold-medal standard at the International Mathematical Olympiad. Yet whether this paradigam can break the constraints from pretrained linguistic and semantic priors, discover genuinely new reasoning strategies rather than performing a fuzzy form of deduction, or induce the kind of creative abstraction that defines general intelligence.</p>]]></content><author><name></name></author><category term="LLM" /><category term="AI" /><category term="Deep Learning" /><category term="Reinforcement Learning" /><category term="LLM" /><category term="AGI" /><category term="Sutton" /></entry><entry><title type="html">Reflections on Richard Sutton’s Interview: Part I — World Model and Understanding</title><link href="https://yuanxue.github.io/2025/10/06/reflection-sutton-part1.html" rel="alternate" type="text/html" title="Reflections on Richard Sutton’s Interview: Part I — World Model and Understanding" /><published>2025-10-06T00:00:00-07:00</published><updated>2025-10-06T00:00:00-07:00</updated><id>https://yuanxue.github.io/2025/10/06/reflection-sutton-part1</id><content type="html" xml:base="https://yuanxue.github.io/2025/10/06/reflection-sutton-part1.html"><![CDATA[<ul id="markdown-toc">
   <li><a href="#suttons-view-lack-of-world-model-in-llms" id="markdown-toc-suttons-view-lack-of-world-model-in-llms">Sutton’s View: Lack of World Model in LLMs</a></li>
   <li><a href="#what-is-a-world-model" id="markdown-toc-what-is-a-world-model">What Is a World Model?</a></li>
   <li><a href="#how-a-world-model-should-be-built" id="markdown-toc-how-a-world-model-should-be-built">How a World Model Should Be Built</a></li>
@@ -997,7 +995,7 @@ This also raises a compelling question: if we place an LLM in a new environment 
 <p>Viewed from another angle, we might ask whether a complete world model is even necessary.
 Humans themselves operate under incomplete world models — constrained by limited perception and biased exploration — yet still act intelligently. Thus, the question shifts from “Can LLMs learn the whole world?” to “Can they reason, act, and gather enough information to accomplish the task at hand?”</p>
 
-<p>That brings us to the next part: Goal and Policy — where understanding meets action.</p>]]></content><author><name></name></author><category term="LLM" /><category term="AI" /><category term="Deep Learning" /><category term="Reinforcement Learning" /><category term="LLM" /><category term="World Model" /><category term="Sutton" /></entry><entry><title type="html">Reflections on Richard Sutton’s Interview: Intro</title><link href="http://localhost:4000/2025/10/05/reflection-sutton-intro.html" rel="alternate" type="text/html" title="Reflections on Richard Sutton’s Interview: Intro" /><published>2025-10-05T00:17:56-07:00</published><updated>2025-10-05T00:17:56-07:00</updated><id>http://localhost:4000/2025/10/05/reflection-sutton-intro</id><content type="html" xml:base="http://localhost:4000/2025/10/05/reflection-sutton-intro.html"><![CDATA[<p>I recently listened to <a href="https://www.youtube.com/watch?v=BF1aXbY0hS8">Richard Sutton’s interview on the <em>Dwarkesh Podcast</em></a>. Often called the father of reinforcement learning, Sutton spoke candidly about the limitations of large language models (LLMs), the importance of continual learning, and his lifelong conviction that true intelligence arises from experience—not imitation.</p>
+<p>That brings us to the next part: Goal and Policy — where understanding meets action.</p>]]></content><author><name></name></author><category term="LLM" /><category term="AI" /><category term="Deep Learning" /><category term="Reinforcement Learning" /><category term="LLM" /><category term="World Model" /><category term="Sutton" /></entry><entry><title type="html">Reflections on Richard Sutton’s Interview: Intro</title><link href="https://yuanxue.github.io/2025/10/05/reflection-sutton-intro.html" rel="alternate" type="text/html" title="Reflections on Richard Sutton’s Interview: Intro" /><published>2025-10-05T00:17:56-07:00</published><updated>2025-10-05T00:17:56-07:00</updated><id>https://yuanxue.github.io/2025/10/05/reflection-sutton-intro</id><content type="html" xml:base="https://yuanxue.github.io/2025/10/05/reflection-sutton-intro.html"><![CDATA[<p>I recently listened to <a href="https://www.youtube.com/watch?v=BF1aXbY0hS8">Richard Sutton’s interview on the <em>Dwarkesh Podcast</em></a>. Often called the father of reinforcement learning, Sutton spoke candidly about the limitations of large language models (LLMs), the importance of continual learning, and his lifelong conviction that true intelligence arises from experience—not imitation.</p>
 
 <p>For me, the conversation was both intellectually dense and personally inspiring. I approach it from two perspectives:</p>
 
