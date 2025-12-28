@@ -513,39 +513,30 @@ Layer: bias | Norm: 2.6719 | Max: -2.6719
 
 ## Monitor Gradients During Training
 
-Most professional teams use tools like Weights & Biases (W&B) to visualize gradient health. While the loss curve and gradient curves both provide information about stability, they represent different perspectives of the training process: 
+Most professional teams use tools like Weights & Biases (W&B) to visualize gradient health. While the **loss curve** and **gradient curves** both provide information about stability, they represent different perspectives of the training process: 
 
-* The Loss Curve (The Symptoms): The loss curve tells you if the model is converging. It also acts as a primary indicator of stability. A "jagged" loss curve with frequent spikes suggests the model is struggling with its learning rate or data quality. A sudden vertical jump in loss (a "loss spike") is the most common symptom of a numerical explosion.
+* The Loss Curve (Symptoms): The loss curve tells you if the model is converging and acts as a high-level indicator of stability. A "jagged" loss curve with frequent spikes suggests training is struggling with learning rate or data quality. A sudden vertical jump in loss (a "loss spike") is the most common visible symptom of training instability.
 
-* The Gradient Curves (The Root Cause): Gradients provide the "prognosis." By monitoring gradient norms, you can often see instability building up before the loss spikes. If the gradient norm starts to trend upward exponentially, a loss spike is likely imminent. What to Watch For:
+* The Gradient Curves (Root Cause): Gradients provide a more direct prognostic signal. By monitoring gradient norms, it is often possible to detect instability before it manifests in the loss. If gradient norms begin to grow rapidly or trend upward exponentially, a loss spike or divergence is often imminent. 
 
-  * **Global Gradient Norm**: The global gradient norm, a single scalar which indictes the overall magnitude of gradients, is often the most useful stability signal. A healthy run shows a stable or slowly decaying norm. Large spikes frequently precede training collapse.
-  * **Layer-wise Norms**: This is the best tool for diagnosing architectural bottlenecks. If gradients are significantly smaller in the early layers compared to the final layers, you are likely facing Vanishing Gradients.
-  * **Gradient Distributions (Histograms)**:  Visualizing the distribution of gradient values over time to identify problematic patterns.
-  
-  * **Weight-to-Update Ratio**: A good rule of thumb is that the update should be roughly $10^{-3}$ times the magnitude of the weights ($\Vert\Delta W\Vert / \Vert W\Vert$). 
-  
-  C. Weight Norm vs. Gradient Norm
-Suggest monitoring the ratio of the weight update to the weight magnitude ($||\Delta W|| / ||W||$).If the ratio is too high (e.g., > 1e-3), the learning rate is likely too high.If it’s too low, the model is barely learning.
+### Key Gradient Signals to Watch
 
+* **Global Gradient Norm**: A single scalar summarizing the overall magnitude of gradients across all parameters. This is often the most useful first-line stability signal. A healthy run shows a stable or slowly decaying norm, while sudden spikes frequently precede training collapse.
+* **Layer-wise Norms**: Inspecting gradients per layer is one of the most effective ways to diagnose architectural issues. If gradients in early layers are consistently much smaller than those in later layers, this strongly suggests vanishing gradients.
+* **Gradient Distributions (Histograms)**: Visualizing the distribution of gradient values over time can reveal subtle pathologies such as heavy tails, extreme outliers, or mass accumulation near zero—patterns that scalar metrics may miss.
+* **Weight-to-Update Ratio**: A practical diagnostic is the ratio between the parameter update magnitude and the parameter magnitude: $\Vert\Delta W\Vert / \Vert W\Vert$. Values on the order of $10^{-3}$ are typically reasonable. Consistently larger values indicate an overly aggressive learning rate; much smaller values suggest the model is barely learning.
 
-Common warning signs during training include:
+Summarized in the table below, these gradient-level diagnostics provide a more direct and actionable view of training health than the loss curve alone, enabling earlier intervention and more targeted mitigation strategies.
 
-* Sudden spikes in global gradient norm
-* Gradients becoming NaN or Inf
-* Entire layers showing near-zero gradients
+### Common Warning Signs and Mitigations
 
-Instability correlated with long sequences or specific data shards
+| Warning Sign | Likely Issue | Typical Mitigation |
+|-------------|-------------|--------------------|
+| Sudden spikes in global gradient norm | Impending numerical instability | Lower learning rate; tighten gradient clipping |
+| Gradients become NaN or Inf | Overflow or unstable updates | Enable clipping; Checking training precision change; reduce learning rate |
+| Near-zero gradients in early layers | Vanishing gradients | Check residual connections; verify normalization placement |
+| Instability tied to specific data batch| Pathological batches or data issues | Improve data filtering; adjust batching strategy |
 
-Typical mitigations include:
-
-Lowering learning rate or extending warm-up
-
-Tightening gradient clipping thresholds
-
-Improving data filtering and batch construction
-
-Switching precision mode (e.g., FP16 → BF16)
 
 ## Leveraging Modern LLM training frameworks
 
@@ -553,6 +544,6 @@ Modern LLM training frameworks (e.g., Accelerate, DeepSpeed, FSDP, Megatron-LM) 
 
 # Summary
 
-Architectural choices like residual connections and normalization lay the foundation for stable gradient flow, but monitoring and controlling gradients during training is what keeps large models on track. Effective trainers treat gradient inspection as a first-class diagnostic tool. Just like life is a continuous hill-climbing journey towards your goals, gradients represent each strategic step. Happy **gradient ascending in 2026!**
+Architectural choices like residual connections and normalization lay the foundation for stable gradient flow, but monitoring and controlling gradients is what keeps large model training on track. Effective trainers treat gradient inspection as a first-class diagnostic tool. Just like life is a continuous hill-climbing journey towards your goals, gradients represent each strategic step. Happy **gradient ascending in 2026!**
 
 
