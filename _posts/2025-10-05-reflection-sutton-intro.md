@@ -6,8 +6,6 @@ tags: [AGI, Reinforcement Learning, LLM]
 categories: [LLM, AI, Deep Learning]
 ---
 
-{:toc}
-
 I recently listened to [Richard Sutton’s interview on the *Dwarkesh Podcast*](https://www.youtube.com/watch?v=BF1aXbY0hS8). Often called the father of reinforcement learning, Sutton spoke candidly about the limitations of large language models (LLMs), the importance of continual learning, and his lifelong conviction that true intelligence arises from experience—not imitation.
 
 For me, the conversation was both intellectually dense and personally inspiring. I approach it from two perspectives:

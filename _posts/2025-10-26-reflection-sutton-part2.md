@@ -5,7 +5,7 @@ date: 2025-10-26 00:00:00 -0700
 tags: [Reinforcement Learning, LLM, AGI, Sutton]
 categories: [LLM, AI, Deep Learning]
 ---
-
+* TOC
 {:toc}
 
 *Understanding describes the world; goals decide what to do in it.*
