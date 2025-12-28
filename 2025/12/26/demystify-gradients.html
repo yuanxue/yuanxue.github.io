@@ -10,15 +10,15 @@
 <meta property="og:locale" content="en_US" />
 <meta name="description" content="(last updated: Oct 2025)" />
 <meta property="og:description" content="(last updated: Oct 2025)" />
-<link rel="canonical" href="https://yuanxue.github.io/2025/12/19/demystify-gradients.html" />
-<meta property="og:url" content="https://yuanxue.github.io/2025/12/19/demystify-gradients.html" />
+<link rel="canonical" href="https://yuanxue.github.io/2025/12/26/demystify-gradients.html" />
+<meta property="og:url" content="https://yuanxue.github.io/2025/12/26/demystify-gradients.html" />
 <meta property="og:site_name" content="Yuan (Emily) Xue" />
 <meta property="og:type" content="article" />
-<meta property="article:published_time" content="2025-12-19T23:17:56-08:00" />
+<meta property="article:published_time" content="2025-12-26T23:17:56-08:00" />
 <meta name="twitter:card" content="summary" />
 <meta property="twitter:title" content="Demystifying Gradients" />
 <script type="application/ld+json">
-{"@context":"https://schema.org","@type":"BlogPosting","dateModified":"2025-12-19T23:17:56-08:00","datePublished":"2025-12-19T23:17:56-08:00","description":"(last updated: Oct 2025)","headline":"Demystifying Gradients","mainEntityOfPage":{"@type":"WebPage","@id":"https://yuanxue.github.io/2025/12/19/demystify-gradients.html"},"url":"https://yuanxue.github.io/2025/12/19/demystify-gradients.html"}</script>
+{"@context":"https://schema.org","@type":"BlogPosting","dateModified":"2025-12-26T23:17:56-08:00","datePublished":"2025-12-26T23:17:56-08:00","description":"(last updated: Oct 2025)","headline":"Demystifying Gradients","mainEntityOfPage":{"@type":"WebPage","@id":"https://yuanxue.github.io/2025/12/26/demystify-gradients.html"},"url":"https://yuanxue.github.io/2025/12/26/demystify-gradients.html"}</script>
 <!-- End Jekyll SEO tag -->
 <link rel="stylesheet" href="/assets/main.css"><link type="application/atom+xml" rel="alternate" href="https://yuanxue.github.io/feed.xml" title="Yuan (Emily) Xue" /></head>
 </head>
@@ -44,7 +44,7 @@
   <header class="post-header">
     <h1 class="post-title p-name" itemprop="name headline">Demystifying Gradients</h1>
     <p class="post-meta">
-      <time class="dt-published" datetime="2025-12-19T23:17:56-08:00" itemprop="datePublished">Dec 19, 2025
+      <time class="dt-published" datetime="2025-12-26T23:17:56-08:00" itemprop="datePublished">Dec 26, 2025
       </time></p>
       <script>
       window.MathJax = {
@@ -667,6 +667,20 @@ Layer: bias | Norm: 2.6719 | Max: -2.6719
 
 <h2 id="monitor-gradients-during-training">Monitor Gradients During Training</h2>
 
+<p>What to monitor:</p>
+
+<ul>
+  <li>
+    <p><strong>Gradient Norm:</strong> The which can indicate vanishing or exploding issues.
+The global gradient norm, a single scalar, overall magnitude of gradients,  is often the most useful stability signal. Large spikes frequently precede training collapse.</p>
+  </li>
+  <li><strong>Per-Layer Gradient Norms:</strong> Observing if certain layers are experiencing more severe vanishing/exploding issues.</li>
+  <li>
+    <p><strong>Histograms of Gradients:</strong> Visualizing the distribution of gradient values over time to identify problematic patterns.</p>
+  </li>
+  <li>**Global Gradient Norm.</li>
+</ul>
+
 <p>Modern LLM training frameworks (e.g., Accelerate, DeepSpeed, FSDP, Megatron-LM) all expose hooks for gradient monitoring. While implementations differ, the underlying principles remain the same:</p>
 
 <p>Gradients are accumulated (possibly across micro-batches)</p>
@@ -703,18 +717,18 @@ Most professional LLM teams use W&amp;B (or TensorBoard) to visualize these valu
 <p>Takeaway.
 Architectural choices like residual connections and normalization lay the foundation for stable gradient flow—but monitoring and controlling gradients during training is what keeps large models on track. Effective trainers treat gradient inspection as a first-class diagnostic tool, not an afterthought.</p>
 
-<p>==
-Modern LLM training frameworks often provide built-in mechanisms to monitor gradients. We’ll explore how to leverage these tools to observe gradient behavior during training. This includes looking at:</p>
-
+<p>==</p>
 <ul>
-  <li><strong>Gradient Norm:</strong> The overall magnitude of gradients, which can indicate vanishing or exploding issues.</li>
-  <li><strong>Per-Layer Gradient Norms:</strong> Observing if certain layers are experiencing more severe vanishing/exploding issues.</li>
-  <li><strong>Histograms of Gradients:</strong> Visualizing the distribution of gradient values over time to identify problematic patterns.</li>
+  <li>The “Gradient Norm per Layer” Plot</li>
 </ul>
+
+<p>B. Gradient Clipping: The Safety Valve
+C. Weight Norm vs. Gradient Norm
+Suggest monitoring the ratio of the weight update to the weight magnitude ($||\Delta W|| / ||W||$).If the ratio is too high (e.g., &gt; 1e-3), the learning rate is likely too high.If it’s too low, the model is barely learning.</p>
 
 <p>Just like life is a continuous hill-climbing journey towards your goals, gradients represent each strategic step. Happy <strong>gradient ascending!</strong></p>
 
-  </div><a class="u-url" href="/2025/12/19/demystify-gradients.html" hidden></a>
+  </div><a class="u-url" href="/2025/12/26/demystify-gradients.html" hidden></a>
 </article>
 
       </div>

@@ -1,4 +1,4 @@
-<?xml version="1.0" encoding="utf-8"?><feed xmlns="http://www.w3.org/2005/Atom" ><generator uri="https://jekyllrb.com/" version="4.4.1">Jekyll</generator><link href="https://yuanxue.github.io/feed.xml" rel="self" type="application/atom+xml" /><link href="https://yuanxue.github.io/" rel="alternate" type="text/html" /><updated>2025-12-27T20:19:41-08:00</updated><id>https://yuanxue.github.io/feed.xml</id><title type="html">Yuan (Emily) Xue</title><subtitle>(last updated: Oct 2025)</subtitle><entry><title type="html">Demystifying Gradients</title><link href="https://yuanxue.github.io/2025/12/19/demystify-gradients.html" rel="alternate" type="text/html" title="Demystifying Gradients" /><published>2025-12-19T23:17:56-08:00</published><updated>2025-12-19T23:17:56-08:00</updated><id>https://yuanxue.github.io/2025/12/19/demystify-gradients</id><content type="html" xml:base="https://yuanxue.github.io/2025/12/19/demystify-gradients.html"><![CDATA[<p>Gradients are at the core of training LLMs—or any neural network—powering each learning step. You’ve likely heard terms like <em>loss</em>, <em>backpropagation</em>, and <em>optimizers</em> in ML 101, and maybe even <em>vanishing</em> or <em>exploding</em> gradients. But what do these really mean—and how do you handle them in practice?</p>
+<?xml version="1.0" encoding="utf-8"?><feed xmlns="http://www.w3.org/2005/Atom" ><generator uri="https://jekyllrb.com/" version="4.4.1">Jekyll</generator><link href="https://yuanxue.github.io/feed.xml" rel="self" type="application/atom+xml" /><link href="https://yuanxue.github.io/" rel="alternate" type="text/html" /><updated>2025-12-27T20:30:06-08:00</updated><id>https://yuanxue.github.io/feed.xml</id><title type="html">Yuan (Emily) Xue</title><subtitle>(last updated: Oct 2025)</subtitle><entry><title type="html">Demystifying Gradients</title><link href="https://yuanxue.github.io/2025/12/26/demystify-gradients.html" rel="alternate" type="text/html" title="Demystifying Gradients" /><published>2025-12-26T23:17:56-08:00</published><updated>2025-12-26T23:17:56-08:00</updated><id>https://yuanxue.github.io/2025/12/26/demystify-gradients</id><content type="html" xml:base="https://yuanxue.github.io/2025/12/26/demystify-gradients.html"><![CDATA[<p>Gradients are at the core of training LLMs—or any neural network—powering each learning step. You’ve likely heard terms like <em>loss</em>, <em>backpropagation</em>, and <em>optimizers</em> in ML 101, and maybe even <em>vanishing</em> or <em>exploding</em> gradients. But what do these really mean—and how do you handle them in practice?</p>
 
 <p>Whether you’re fine-tuning pre-trained models or training your own from scratch, understanding how gradients behave is essential—it can make or break your training.</p>
 
@@ -539,6 +539,20 @@ Layer: bias | Norm: 2.6719 | Max: -2.6719
 
 <h2 id="monitor-gradients-during-training">Monitor Gradients During Training</h2>
 
+<p>What to monitor:</p>
+
+<ul>
+  <li>
+    <p><strong>Gradient Norm:</strong> The which can indicate vanishing or exploding issues.
+The global gradient norm, a single scalar, overall magnitude of gradients,  is often the most useful stability signal. Large spikes frequently precede training collapse.</p>
+  </li>
+  <li><strong>Per-Layer Gradient Norms:</strong> Observing if certain layers are experiencing more severe vanishing/exploding issues.</li>
+  <li>
+    <p><strong>Histograms of Gradients:</strong> Visualizing the distribution of gradient values over time to identify problematic patterns.</p>
+  </li>
+  <li>**Global Gradient Norm.</li>
+</ul>
+
 <p>Modern LLM training frameworks (e.g., Accelerate, DeepSpeed, FSDP, Megatron-LM) all expose hooks for gradient monitoring. While implementations differ, the underlying principles remain the same:</p>
 
 <p>Gradients are accumulated (possibly across micro-batches)</p>
@@ -575,14 +589,14 @@ Most professional LLM teams use W&amp;B (or TensorBoard) to visualize these valu
 <p>Takeaway.
 Architectural choices like residual connections and normalization lay the foundation for stable gradient flow—but monitoring and controlling gradients during training is what keeps large models on track. Effective trainers treat gradient inspection as a first-class diagnostic tool, not an afterthought.</p>
 
-<p>==
-Modern LLM training frameworks often provide built-in mechanisms to monitor gradients. We’ll explore how to leverage these tools to observe gradient behavior during training. This includes looking at:</p>
-
+<p>==</p>
 <ul>
-  <li><strong>Gradient Norm:</strong> The overall magnitude of gradients, which can indicate vanishing or exploding issues.</li>
-  <li><strong>Per-Layer Gradient Norms:</strong> Observing if certain layers are experiencing more severe vanishing/exploding issues.</li>
-  <li><strong>Histograms of Gradients:</strong> Visualizing the distribution of gradient values over time to identify problematic patterns.</li>
+  <li>The “Gradient Norm per Layer” Plot</li>
 </ul>
+
+<p>B. Gradient Clipping: The Safety Valve
+C. Weight Norm vs. Gradient Norm
+Suggest monitoring the ratio of the weight update to the weight magnitude ($||\Delta W|| / ||W||$).If the ratio is too high (e.g., &gt; 1e-3), the learning rate is likely too high.If it’s too low, the model is barely learning.</p>
 
 <p>Just like life is a continuous hill-climbing journey towards your goals, gradients represent each strategic step. Happy <strong>gradient ascending!</strong></p>]]></content><author><name></name></author><category term="AI" /><category term="LLM" /><category term="Deep Learning" /><category term="Gradients" /><category term="Normalization" /><category term="Residuals" /><category term="Clipping" /></entry><entry><title type="html">Reflections on Richard Sutton’s Interview: Part II — Goal and Acting</title><link href="https://yuanxue.github.io/2025/10/26/reflection-sutton-part2.html" rel="alternate" type="text/html" title="Reflections on Richard Sutton’s Interview: Part II — Goal and Acting" /><published>2025-10-26T00:00:00-07:00</published><updated>2025-10-26T00:00:00-07:00</updated><id>https://yuanxue.github.io/2025/10/26/reflection-sutton-part2</id><content type="html" xml:base="https://yuanxue.github.io/2025/10/26/reflection-sutton-part2.html"><![CDATA[<p><em>Understanding describes the world; goals decide what to do in it.</em></p>
 
