@@ -10,17 +10,17 @@
 <meta property="og:locale" content="en_US" />
 <meta name="description" content="(last updated: Oct 2025)" />
 <meta property="og:description" content="(last updated: Oct 2025)" />
-<link rel="canonical" href="https://yuanxue.github.io/2025/12/26/demystify-gradients.html" />
-<meta property="og:url" content="https://yuanxue.github.io/2025/12/26/demystify-gradients.html" />
+<link rel="canonical" href="http://localhost:4000/2025/12/26/demystify-gradients.html" />
+<meta property="og:url" content="http://localhost:4000/2025/12/26/demystify-gradients.html" />
 <meta property="og:site_name" content="Yuan (Emily) Xue" />
 <meta property="og:type" content="article" />
 <meta property="article:published_time" content="2025-12-26T23:17:56-08:00" />
 <meta name="twitter:card" content="summary" />
 <meta property="twitter:title" content="Demystifying Gradients" />
 <script type="application/ld+json">
-{"@context":"https://schema.org","@type":"BlogPosting","dateModified":"2025-12-26T23:17:56-08:00","datePublished":"2025-12-26T23:17:56-08:00","description":"(last updated: Oct 2025)","headline":"Demystifying Gradients","mainEntityOfPage":{"@type":"WebPage","@id":"https://yuanxue.github.io/2025/12/26/demystify-gradients.html"},"url":"https://yuanxue.github.io/2025/12/26/demystify-gradients.html"}</script>
+{"@context":"https://schema.org","@type":"BlogPosting","dateModified":"2025-12-26T23:17:56-08:00","datePublished":"2025-12-26T23:17:56-08:00","description":"(last updated: Oct 2025)","headline":"Demystifying Gradients","mainEntityOfPage":{"@type":"WebPage","@id":"http://localhost:4000/2025/12/26/demystify-gradients.html"},"url":"http://localhost:4000/2025/12/26/demystify-gradients.html"}</script>
 <!-- End Jekyll SEO tag -->
-<link rel="stylesheet" href="/assets/main.css"><link type="application/atom+xml" rel="alternate" href="https://yuanxue.github.io/feed.xml" title="Yuan (Emily) Xue" /></head>
+<link rel="stylesheet" href="/assets/main.css"><link type="application/atom+xml" rel="alternate" href="http://localhost:4000/feed.xml" title="Yuan (Emily) Xue" /></head>
 </head>
   <body><header class="site-header" role="banner">
 
@@ -127,7 +127,57 @@
   </nav>
 
   <div class="post-content e-content" itemprop="articleBody">
-    
+    <ul id="markdown-toc">
+  <li><a href="#mathematical-definition-and-concepts" id="markdown-toc-mathematical-definition-and-concepts">Mathematical Definition and Concepts</a>    <ul>
+      <li><a href="#gradient" id="markdown-toc-gradient">Gradient</a></li>
+      <li><a href="#compute-gradients-in-neural-network" id="markdown-toc-compute-gradients-in-neural-network">Compute Gradients in Neural Network</a>        <ul>
+          <li><a href="#example-setup-a-simple-2-layer-mlp" id="markdown-toc-example-setup-a-simple-2-layer-mlp">Example Setup: A Simple 2-Layer MLP</a></li>
+          <li><a href="#forward-pass" id="markdown-toc-forward-pass">Forward Pass</a></li>
+          <li><a href="#backward-pass--the-chain-rule" id="markdown-toc-backward-pass--the-chain-rule">Backward Pass: ⛓️ The Chain Rule</a></li>
+        </ul>
+      </li>
+    </ul>
+  </li>
+  <li><a href="#vanishing-and-exploding-gradients" id="markdown-toc-vanishing-and-exploding-gradients">Vanishing and Exploding Gradients</a>    <ul>
+      <li><a href="#the-core-problem-products-of-weights-and-derivatives" id="markdown-toc-the-core-problem-products-of-weights-and-derivatives">The Core Problem: Products of Weights and Derivatives.</a></li>
+      <li><a href="#vanishing-gradients" id="markdown-toc-vanishing-gradients">Vanishing Gradients</a></li>
+      <li><a href="#exploding-gradients" id="markdown-toc-exploding-gradients">Exploding Gradients</a></li>
+      <li><a href="#contributing-factors" id="markdown-toc-contributing-factors">Contributing Factors</a>        <ul>
+          <li><a href="#visualization" id="markdown-toc-visualization">Visualization</a></li>
+        </ul>
+      </li>
+    </ul>
+  </li>
+  <li><a href="#mitigations-and-solutions" id="markdown-toc-mitigations-and-solutions">Mitigations and Solutions</a>    <ul>
+      <li><a href="#activation-functions" id="markdown-toc-activation-functions">Activation Functions</a></li>
+      <li><a href="#weight-initialization" id="markdown-toc-weight-initialization">Weight initialization</a></li>
+      <li><a href="#gradient-clipping" id="markdown-toc-gradient-clipping">Gradient clipping</a></li>
+      <li><a href="#residual-connections" id="markdown-toc-residual-connections">Residual connections</a></li>
+      <li><a href="#normalization-layers" id="markdown-toc-normalization-layers">Normalization layers</a>        <ul>
+          <li><a href="#batch-normalization" id="markdown-toc-batch-normalization">Batch Normalization</a></li>
+          <li><a href="#layer-normalization" id="markdown-toc-layer-normalization">Layer Normalization</a></li>
+          <li><a href="#rmsnorm" id="markdown-toc-rmsnorm">RMSNorm</a></li>
+        </ul>
+      </li>
+      <li><a href="#interaction-of-normalization-with-residuals" id="markdown-toc-interaction-of-normalization-with-residuals">Interaction of Normalization with Residuals</a>        <ul>
+          <li><a href="#post-normalization" id="markdown-toc-post-normalization">Post-Normalization</a></li>
+          <li><a href="#pre-normalization" id="markdown-toc-pre-normalization">Pre-Normalization</a></li>
+          <li><a href="#beyond-pre-ln-double-normalization" id="markdown-toc-beyond-pre-ln-double-normalization">Beyond Pre-LN: Double Normalization</a></li>
+          <li><a href="#further-reading" id="markdown-toc-further-reading">Further Reading</a></li>
+        </ul>
+      </li>
+      <li><a href="#data-cleaning" id="markdown-toc-data-cleaning">Data Cleaning</a></li>
+    </ul>
+  </li>
+  <li><a href="#best-practice-for-model-trainers" id="markdown-toc-best-practice-for-model-trainers">Best Practice for Model Trainers</a>    <ul>
+      <li><a href="#accessing-gradients-in-pytorch" id="markdown-toc-accessing-gradients-in-pytorch">Accessing Gradients in PyTorch</a></li>
+      <li><a href="#monitor-gradients-during-training" id="markdown-toc-monitor-gradients-during-training">Monitor Gradients During Training</a></li>
+      <li><a href="#leveraging-modern-llm-training-frameworks" id="markdown-toc-leveraging-modern-llm-training-frameworks">Leveraging Modern LLM training frameworks</a></li>
+    </ul>
+  </li>
+  <li><a href="#summary" id="markdown-toc-summary">Summary</a></li>
+</ul>
+
 <p>Gradients are at the core of training LLMs—or any neural network—powering each learning step. You’ve likely heard terms like <em>loss</em>, <em>backpropagation</em>, and <em>optimizers</em> in ML 101, and maybe even <em>vanishing</em> or <em>exploding</em> gradients. But what do these really mean—and how do you handle them in practice?</p>
 
 <p>Whether you’re fine-tuning pre-trained models or training your own from scratch, understanding how gradients behave is essential—it can make or break your training.</p>
@@ -675,32 +725,12 @@ Layer: bias | Norm: 2.6719 | Max: -2.6719
     <p>The Gradient Curves (The Root Cause): Gradients provide the “prognosis.” By monitoring gradient norms, you can often see instability building up before the loss spikes. If the gradient norm starts to trend upward exponentially, a loss spike is likely imminent. What to Watch For:</p>
 
     <ul>
+      <li><strong>Global Gradient Norm</strong>: The global gradient norm, a single scalar which indictes the overall magnitude of gradients, is often the most useful stability signal. A healthy run shows a stable or slowly decaying norm. Large spikes frequently precede training collapse.</li>
+      <li><strong>Layer-wise Norms</strong>: This is the best tool for diagnosing architectural bottlenecks. If gradients are significantly smaller in the early layers compared to the final layers, you are likely facing Vanishing Gradients.</li>
       <li>
-        <p><strong>Global Gradient Norm</strong>: The global gradient norm, a single scalar which indictes the overall magnitude of gradients, is often the most useful stability signal. A healthy run shows a stable or slowly decaying norm. Large spikes frequently precede training collapse.</p>
+        <p><strong>Gradient Distributions (Histograms)</strong>:  Visualizing the distribution of gradient values over time to identify problematic patterns.</p>
       </li>
-      <li>
-        <p><strong>Layer-wise Norms</strong>: This is the best tool for diagnosing architectural bottlenecks. If gradients are significantly smaller in the early layers compared to the final layers, you are likely facing Vanishing Gradients.</p>
-      </li>
-      <li>
-        <p><strong>Histograms of Gradients:</strong> Visualizing the distribution of gradient values over time to identify problematic patterns.</p>
-      </li>
-      <li>
-        <table>
-          <tbody>
-            <tr>
-              <td><strong>Weight-to-Update Ratio</strong>: A good rule of thumb is that the update should be roughly $10^{-3}$ times the magnitude of the weights ($</td>
-              <td> </td>
-              <td>\Delta W</td>
-              <td> </td>
-              <td>/</td>
-              <td> </td>
-              <td>W</td>
-              <td> </td>
-              <td>$).</td>
-            </tr>
-          </tbody>
-        </table>
-      </li>
+      <li><strong>Weight-to-Update Ratio</strong>: A good rule of thumb is that the update should be roughly $10^{-3}$ times the magnitude of the weights ($\Vert\Delta W\Vert / \Vert W\Vert$).</li>
     </ul>
 
     <p>C. Weight Norm vs. Gradient Norm
