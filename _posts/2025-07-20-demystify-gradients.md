@@ -6,6 +6,7 @@ tags: [Gradients, Normalization, Residuals, Clipping]
 categories: [AI, LLM, Deep Learning]
 mermaid: true
 ---
+* TOC
 {:toc}
 
 Gradients are at the core of training LLMs—or any neural network—powering each learning step. You've likely heard terms like *loss*, *backpropagation*, and *optimizers* in ML 101, and maybe even *vanishing* or *exploding* gradients. But what do these really mean—and how do you handle them in practice?
@@ -519,12 +520,10 @@ Most professional teams use tools like Weights & Biases (W&B) to visualize gradi
 * The Gradient Curves (The Root Cause): Gradients provide the "prognosis." By monitoring gradient norms, you can often see instability building up before the loss spikes. If the gradient norm starts to trend upward exponentially, a loss spike is likely imminent. What to Watch For:
 
   * **Global Gradient Norm**: The global gradient norm, a single scalar which indictes the overall magnitude of gradients, is often the most useful stability signal. A healthy run shows a stable or slowly decaying norm. Large spikes frequently precede training collapse.
-  
   * **Layer-wise Norms**: This is the best tool for diagnosing architectural bottlenecks. If gradients are significantly smaller in the early layers compared to the final layers, you are likely facing Vanishing Gradients.
-
-  * **Histograms of Gradients:** Visualizing the distribution of gradient values over time to identify problematic patterns.
+  * **Gradient Distributions (Histograms)**:  Visualizing the distribution of gradient values over time to identify problematic patterns.
   
-  * **Weight-to-Update Ratio**: A good rule of thumb is that the update should be roughly $10^{-3}$ times the magnitude of the weights ($||\Delta W|| / ||W||$). 
+  * **Weight-to-Update Ratio**: A good rule of thumb is that the update should be roughly $10^{-3}$ times the magnitude of the weights ($\Vert\Delta W\Vert / \Vert W\Vert$). 
   
   C. Weight Norm vs. Gradient Norm
 Suggest monitoring the ratio of the weight update to the weight magnitude ($||\Delta W|| / ||W||$).If the ratio is too high (e.g., > 1e-3), the learning rate is likely too high.If it’s too low, the model is barely learning.
