@@ -468,10 +468,9 @@ Understanding why gradients vanish or explode is only half the story. In practic
 
 ## Accessing Gradients in PyTorch
 
-In PyTorch, every parameter that has requires_grad=True will store its gradient in the .grad attribute after loss.backward() is called.r. 
+In PyTorch, every parameter that has requires_grad=True will store its gradient in the .grad attribute after loss.backward() is called. 
 
-
-```python
+~~~python
 # Example in PyTorch (conceptual)
 import torch
 import torch.nn as nn
@@ -503,7 +502,7 @@ for name, param in model.named_parameters():
             print(f"⚠️ Exploded! NaN detected in {name}")
         
         print(f"Layer: {name} | Norm: {grad_norm:.4f} | Max: {grad_max:.4f}")
-```
+~~~
 You can get the following output
 ```
 Layer: weight | Norm: 8.5318 | Max: 4.9751

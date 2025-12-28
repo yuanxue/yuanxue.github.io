@@ -24,6 +24,7 @@ linkedin_username: yuan-emily-xue-3483012
 
 # Build settings
 markdown: kramdown
+
 kramdown:
   math_engine: mathjax
   parse_block_html: true
