@@ -1,7 +1,7 @@
 ---
 layout: post
 title: "Demystifying Gradients"
-date:   2025-12-20 00:17:56 -0700
+date:   2025-12-27 00:17:56 -0700
 tags: [Gradients, Normalization, Residuals, Clipping]
 categories: [AI, LLM, Deep Learning]
 mermaid: true
@@ -512,6 +512,18 @@ Layer: bias | Norm: 2.6719 | Max: -2.6719
 
 ## Monitor Gradients During Training
 
+What to monitor:
+
+* **Gradient Norm:** The which can indicate vanishing or exploding issues.
+The global gradient norm, a single scalar, overall magnitude of gradients,  is often the most useful stability signal. Large spikes frequently precede training collapse.
+
+* **Per-Layer Gradient Norms:** Observing if certain layers are experiencing more severe vanishing/exploding issues.
+* **Histograms of Gradients:** Visualizing the distribution of gradient values over time to identify problematic patterns.
+
+* **Global Gradient Norm. 
+
+
+
 Modern LLM training frameworks (e.g., Accelerate, DeepSpeed, FSDP, Megatron-LM) all expose hooks for gradient monitoring. While implementations differ, the underlying principles remain the same:
 
 Gradients are accumulated (possibly across micro-batches)
@@ -552,11 +564,11 @@ Takeaway.
 Architectural choices like residual connections and normalization lay the foundation for stable gradient flow—but monitoring and controlling gradients during training is what keeps large models on track. Effective trainers treat gradient inspection as a first-class diagnostic tool, not an afterthought.
 
 ==
-Modern LLM training frameworks often provide built-in mechanisms to monitor gradients. We'll explore how to leverage these tools to observe gradient behavior during training. This includes looking at:
+* The "Gradient Norm per Layer" Plot
 
-* **Gradient Norm:** The overall magnitude of gradients, which can indicate vanishing or exploding issues.
-* **Per-Layer Gradient Norms:** Observing if certain layers are experiencing more severe vanishing/exploding issues.
-* **Histograms of Gradients:** Visualizing the distribution of gradient values over time to identify problematic patterns.
 
+B. Gradient Clipping: The Safety Valve
+C. Weight Norm vs. Gradient Norm
+Suggest monitoring the ratio of the weight update to the weight magnitude ($||\Delta W|| / ||W||$).If the ratio is too high (e.g., > 1e-3), the learning rate is likely too high.If it’s too low, the model is barely learning.
 
 Just like life is a continuous hill-climbing journey towards your goals, gradients represent each strategic step. Happy **gradient ascending!**
