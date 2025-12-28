@@ -1,4 +1,60 @@
-<?xml version="1.0" encoding="utf-8"?><feed xmlns="http://www.w3.org/2005/Atom" ><generator uri="https://jekyllrb.com/" version="4.4.1">Jekyll</generator><link href="http://localhost:4000/feed.xml" rel="self" type="application/atom+xml" /><link href="http://localhost:4000/" rel="alternate" type="text/html" /><updated>2025-12-27T20:45:59-08:00</updated><id>http://localhost:4000/feed.xml</id><title type="html">Yuan (Emily) Xue</title><subtitle>(last updated: Oct 2025)</subtitle><entry><title type="html">Demystifying Gradients</title><link href="http://localhost:4000/2025/12/26/demystify-gradients.html" rel="alternate" type="text/html" title="Demystifying Gradients" /><published>2025-12-26T23:17:56-08:00</published><updated>2025-12-26T23:17:56-08:00</updated><id>http://localhost:4000/2025/12/26/demystify-gradients</id><content type="html" xml:base="http://localhost:4000/2025/12/26/demystify-gradients.html"><![CDATA[<p>Gradients are at the core of training LLMs—or any neural network—powering each learning step. You’ve likely heard terms like <em>loss</em>, <em>backpropagation</em>, and <em>optimizers</em> in ML 101, and maybe even <em>vanishing</em> or <em>exploding</em> gradients. But what do these really mean—and how do you handle them in practice?</p>
+<?xml version="1.0" encoding="utf-8"?><feed xmlns="http://www.w3.org/2005/Atom" ><generator uri="https://jekyllrb.com/" version="4.4.1">Jekyll</generator><link href="http://localhost:4000/feed.xml" rel="self" type="application/atom+xml" /><link href="http://localhost:4000/" rel="alternate" type="text/html" /><updated>2025-12-27T21:15:16-08:00</updated><id>http://localhost:4000/feed.xml</id><title type="html">Yuan (Emily) Xue</title><subtitle>(last updated: Oct 2025)</subtitle><entry><title type="html">Demystifying Gradients</title><link href="http://localhost:4000/2025/12/26/demystify-gradients.html" rel="alternate" type="text/html" title="Demystifying Gradients" /><published>2025-12-26T23:17:56-08:00</published><updated>2025-12-26T23:17:56-08:00</updated><id>http://localhost:4000/2025/12/26/demystify-gradients</id><content type="html" xml:base="http://localhost:4000/2025/12/26/demystify-gradients.html"><![CDATA[<ul id="markdown-toc">
+  <li><a href="#mathematical-definition-and-concepts" id="markdown-toc-mathematical-definition-and-concepts">Mathematical Definition and Concepts</a>    <ul>
+      <li><a href="#gradient" id="markdown-toc-gradient">Gradient</a></li>
+      <li><a href="#compute-gradients-in-neural-network" id="markdown-toc-compute-gradients-in-neural-network">Compute Gradients in Neural Network</a>        <ul>
+          <li><a href="#example-setup-a-simple-2-layer-mlp" id="markdown-toc-example-setup-a-simple-2-layer-mlp">Example Setup: A Simple 2-Layer MLP</a></li>
+          <li><a href="#forward-pass" id="markdown-toc-forward-pass">Forward Pass</a></li>
+          <li><a href="#backward-pass--the-chain-rule" id="markdown-toc-backward-pass--the-chain-rule">Backward Pass: ⛓️ The Chain Rule</a></li>
+        </ul>
+      </li>
+    </ul>
+  </li>
+  <li><a href="#vanishing-and-exploding-gradients" id="markdown-toc-vanishing-and-exploding-gradients">Vanishing and Exploding Gradients</a>    <ul>
+      <li><a href="#the-core-problem-products-of-weights-and-derivatives" id="markdown-toc-the-core-problem-products-of-weights-and-derivatives">The Core Problem: Products of Weights and Derivatives.</a></li>
+      <li><a href="#vanishing-gradients" id="markdown-toc-vanishing-gradients">Vanishing Gradients</a></li>
+      <li><a href="#exploding-gradients" id="markdown-toc-exploding-gradients">Exploding Gradients</a></li>
+      <li><a href="#contributing-factors" id="markdown-toc-contributing-factors">Contributing Factors</a>        <ul>
+          <li><a href="#visualization" id="markdown-toc-visualization">Visualization</a></li>
+        </ul>
+      </li>
+    </ul>
+  </li>
+  <li><a href="#mitigations-and-solutions" id="markdown-toc-mitigations-and-solutions">Mitigations and Solutions</a>    <ul>
+      <li><a href="#activation-functions" id="markdown-toc-activation-functions">Activation Functions</a></li>
+      <li><a href="#weight-initialization" id="markdown-toc-weight-initialization">Weight initialization</a></li>
+      <li><a href="#gradient-clipping" id="markdown-toc-gradient-clipping">Gradient clipping</a></li>
+      <li><a href="#residual-connections" id="markdown-toc-residual-connections">Residual connections</a></li>
+      <li><a href="#normalization-layers" id="markdown-toc-normalization-layers">Normalization layers</a>        <ul>
+          <li><a href="#batch-normalization" id="markdown-toc-batch-normalization">Batch Normalization</a></li>
+          <li><a href="#layer-normalization" id="markdown-toc-layer-normalization">Layer Normalization</a></li>
+          <li><a href="#rmsnorm" id="markdown-toc-rmsnorm">RMSNorm</a></li>
+        </ul>
+      </li>
+      <li><a href="#interaction-of-normalization-with-residuals" id="markdown-toc-interaction-of-normalization-with-residuals">Interaction of Normalization with Residuals</a>        <ul>
+          <li><a href="#post-normalization" id="markdown-toc-post-normalization">Post-Normalization</a></li>
+          <li><a href="#pre-normalization" id="markdown-toc-pre-normalization">Pre-Normalization</a></li>
+          <li><a href="#beyond-pre-ln-double-normalization" id="markdown-toc-beyond-pre-ln-double-normalization">Beyond Pre-LN: Double Normalization</a></li>
+          <li><a href="#further-reading" id="markdown-toc-further-reading">Further Reading</a></li>
+        </ul>
+      </li>
+      <li><a href="#data-cleaning" id="markdown-toc-data-cleaning">Data Cleaning</a></li>
+    </ul>
+  </li>
+  <li><a href="#best-practice-for-model-trainers" id="markdown-toc-best-practice-for-model-trainers">Best Practice for Model Trainers</a>    <ul>
+      <li><a href="#accessing-gradients-in-pytorch" id="markdown-toc-accessing-gradients-in-pytorch">Accessing Gradients in PyTorch</a></li>
+    </ul>
+  </li>
+  <li><a href="#define-a-simple-model" id="markdown-toc-define-a-simple-model">Define a simple model</a></li>
+  <li><a href="#dummy-data" id="markdown-toc-dummy-data">Dummy data</a></li>
+  <li><a href="#forward-pass-1" id="markdown-toc-forward-pass-1">Forward pass</a></li>
+  <li><a href="#backward-pass-to-compute-gradients" id="markdown-toc-backward-pass-to-compute-gradients">Backward pass to compute gradients</a></li>
+  <li><a href="#access-gradients" id="markdown-toc-access-gradients">Access gradients</a>    <ul>
+      <li><a href="#monitor-gradients-during-training" id="markdown-toc-monitor-gradients-during-training">Monitor Gradients During Training</a></li>
+    </ul>
+  </li>
+</ul>
+
+<p>Gradients are at the core of training LLMs—or any neural network—powering each learning step. You’ve likely heard terms like <em>loss</em>, <em>backpropagation</em>, and <em>optimizers</em> in ML 101, and maybe even <em>vanishing</em> or <em>exploding</em> gradients. But what do these really mean—and how do you handle them in practice?</p>
 
 <p>Whether you’re fine-tuning pre-trained models or training your own from scratch, understanding how gradients behave is essential—it can make or break your training.</p>
 
@@ -77,7 +133,7 @@
   </li>
 </ol>
 
-<h3 id="backward-pass-️-the-chain-rule">Backward Pass: ⛓️ The Chain Rule</h3>
+<h3 id="backward-pass--the-chain-rule">Backward Pass: ⛓️ The Chain Rule</h3>
 
 <p>The loss depends on the first-layer weights through a chain of intermediate computations:</p>
 
@@ -166,15 +222,11 @@ $\frac{\partial \mathbf{a}^{(1)}}{\partial \mathbf{z}^{(1)}} = \sigma’(\mathbf
 
 \[\delta^{(1)} \propto \delta^{(N)} \cdot (\mathbf{W}^{(N)}) \cdot \sigma'(\mathbf{z}^{(N-1)}) \cdot (\mathbf{W}^{(N-1)}) \cdot \sigma'(\mathbf{z}^{(N-2)}) \cdots (\mathbf{W}^{(2)}) \cdot \sigma'(\mathbf{z}^{(1)})\]
 
-<p>This expression highlights a critical point</p>
-<blockquote>
-  <p>the error signal for earlier layers is a <strong>product of many terms</strong>, specifically the weights ($\mathbf{W}$) and the derivatives of the activation functions ($\sigma’(\mathbf{z})$) from all subsequent layers.</p>
-</blockquote>
+<p>This expression highlights a critical point
+&gt; the error signal for earlier layers is a <strong>product of many terms</strong>, specifically the weights ($\mathbf{W}$) and the derivatives of the activation functions ($\sigma’(\mathbf{z})$) from all subsequent layers.</p>
 
-<p>In addition,</p>
-<blockquote>
-  <p>the gradient of the loss function with respect to the hidden weights $W^{(l)}$ is the product of the error term and the activation from the previous layer (or input):</p>
-</blockquote>
+<p>In addition, 
+&gt; the gradient of the loss function with respect to the hidden weights $W^{(l)}$ is the product of the error term and the activation from the previous layer (or input):</p>
 
 \[\frac{\partial \mathcal{L}}{\partial \mathbf{W}^{(l)}} = \delta^{(l)} (a^{(l-1)})^T,  \text{where } a^{(0)} = \mathbf{x}\]
 
@@ -322,15 +374,17 @@ Gradient clipping limits the magnitude of gradients <em>after</em> they are comp
   <li><strong>Clipping by value</strong>. Each individual gradient element is independently clamped to lie within a fixed range. For example, the following code clamps every gradient component to the interval $[−1.0, 1.0]$. This approach directly limits extreme gradient components but may distort the overall gradient direction.</li>
 </ul>
 
-<div class="language-python highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="n">torch</span><span class="p">.</span><span class="n">nn</span><span class="p">.</span><span class="n">utils</span><span class="p">.</span><span class="nf">clip_grad_value_</span><span class="p">(</span><span class="n">model</span><span class="p">.</span><span class="nf">parameters</span><span class="p">(),</span> <span class="n">clip_value</span><span class="o">=</span><span class="mf">1.0</span><span class="p">)</span>
-</code></pre></div></div>
+<p><code class="language-plaintext highlighter-rouge">python
+torch.nn.utils.clip_grad_value_(model.parameters(), clip_value=1.0)
+</code></p>
 
 <ul>
   <li><strong>Clipping by global norm</strong>. Clipping by global norm rescales all parameter gradients by the same factor whenever their combined norm exceeds a specified threshold. In the following code, if the total gradient norm exceeds <code class="language-plaintext highlighter-rouge">max_norm</code> ($1.0$), all gradients are scaled down proportionally so that the global norm equals <code class="language-plaintext highlighter-rouge">max_norm</code>. <code class="language-plaintext highlighter-rouge">total_norm</code> returns the total norm <strong>before clipping</strong>.</li>
 </ul>
 
-<div class="language-python highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="n">total_norm</span> <span class="o">=</span> <span class="n">torch</span><span class="p">.</span><span class="n">nn</span><span class="p">.</span><span class="n">utils</span><span class="p">.</span><span class="nf">clip_grad_norm_</span><span class="p">(</span><span class="n">model</span><span class="p">.</span><span class="nf">parameters</span><span class="p">(),</span> <span class="n">max_norm</span><span class="o">=</span><span class="mf">1.0</span><span class="p">)</span>
-</code></pre></div></div>
+<p><code class="language-plaintext highlighter-rouge">python
+total_norm = torch.nn.utils.clip_grad_norm_(model.parameters(), max_norm=1.0)
+</code></p>
 
 <p>In comparison with <strong>Clipping by value</strong>, <strong>Clipping by global norm</strong> preserves the direction of the gradient vector while only reducing its magnitude, since the relative proportions between gradient elements remain unchanged. As a result, it does not alter the descent direction chosen by the optimizer, but only shortens the step taken in that direction, as shown in Figure 6. From an optimization perspective, this acts as a temporary reduction in the effective learning rate during unstable steps.</p>
 
@@ -344,14 +398,15 @@ Gradient clipping limits the magnitude of gradients <em>after</em> they are comp
 
 <p>In pytorch, you can apply gradient clipping immediately after <code class="language-plaintext highlighter-rouge">loss.backward()</code> and before <code class="language-plaintext highlighter-rouge">optimizer.step()</code>. In practice, you can log <code class="language-plaintext highlighter-rouge">total_norm</code>. By capturing the norm before it is clipped, we can monitor the stability of the training process.</p>
 
-<div class="language-python highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="n">loss</span><span class="p">.</span><span class="nf">backward</span><span class="p">()</span>
-<span class="n">total_norm</span> <span class="o">=</span> <span class="n">torch</span><span class="p">.</span><span class="n">nn</span><span class="p">.</span><span class="n">utils</span><span class="p">.</span><span class="nf">clip_grad_norm_</span><span class="p">(</span>
-    <span class="n">model</span><span class="p">.</span><span class="nf">parameters</span><span class="p">(),</span>
-    <span class="n">max_norm</span><span class="o">=</span><span class="mf">1.0</span>
-<span class="p">)</span>
-<span class="nf">print</span><span class="p">(</span><span class="sh">"</span><span class="s">Grad norm before clipping:</span><span class="sh">"</span><span class="p">,</span> <span class="n">total_norm</span><span class="p">.</span><span class="nf">item</span><span class="p">())</span>
-<span class="n">optimizer</span><span class="p">.</span><span class="nf">step</span><span class="p">()</span>
-</code></pre></div></div>
+<p><code class="language-plaintext highlighter-rouge">python
+loss.backward()
+total_norm = torch.nn.utils.clip_grad_norm_(
+    model.parameters(),
+    max_norm=1.0
+)
+print("Grad norm before clipping:", total_norm.item())
+optimizer.step()
+</code></p>
 
 <h2 id="residual-connections">Residual connections</h2>
 
@@ -392,11 +447,9 @@ flowchart LR
 
 <p>Batch Normalization (BatchNorm) normalizes activations across the batch dimension for each feature. It uses batch-level statistics – the mean and standard deviation computed from the current mini-batch. BatchNorm is highly effective in convolutional and feed-forward networks and has been a key enabler of very deep CNNs.</p>
 
-<p>Batch Normalization has two important limitations:</p>
-<ul>
-  <li>When the batch size is small, the sample mean and sample standard deviation are not representative enough of the actual distribution, leading to unstable or degraded learning.</li>
-  <li>Batch normalization is less suited for sequence models, which may have sequences of potentially different lengths.</li>
-</ul>
+<p>Batch Normalization has two important limitations:
+* When the batch size is small, the sample mean and sample standard deviation are not representative enough of the actual distribution, leading to unstable or degraded learning.
+* Batch normalization is less suited for sequence models, which may have sequences of potentially different lengths.</p>
 
 <h3 id="layer-normalization">Layer Normalization</h3>
 
@@ -500,41 +553,38 @@ flowchart LR
 
 <p>In PyTorch, every parameter that has requires_grad=True will store its gradient in the .grad attribute after loss.backward() is called.r.</p>
 
-<div class="language-python highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="c1"># Example in PyTorch (conceptual)
-</span><span class="kn">import</span> <span class="n">torch</span>
-<span class="kn">import</span> <span class="n">torch.nn</span> <span class="k">as</span> <span class="n">nn</span>
+<p>```python
+# Example in PyTorch (conceptual)
+import torch
+import torch.nn as nn</p>
 
-<span class="c1"># Define a simple model
-</span><span class="n">model</span> <span class="o">=</span> <span class="n">nn</span><span class="p">.</span><span class="nc">Linear</span><span class="p">(</span><span class="mi">10</span><span class="p">,</span> <span class="mi">1</span><span class="p">)</span>
-<span class="n">loss_fn</span> <span class="o">=</span> <span class="n">nn</span><span class="p">.</span><span class="nc">MSELoss</span><span class="p">()</span>
-<span class="n">optimizer</span> <span class="o">=</span> <span class="n">torch</span><span class="p">.</span><span class="n">optim</span><span class="p">.</span><span class="nc">SGD</span><span class="p">(</span><span class="n">model</span><span class="p">.</span><span class="nf">parameters</span><span class="p">(),</span> <span class="n">lr</span><span class="o">=</span><span class="mf">0.01</span><span class="p">)</span>
+<h1 id="define-a-simple-model">Define a simple model</h1>
+<p>model = nn.Linear(10, 1)
+loss_fn = nn.MSELoss()
+optimizer = torch.optim.SGD(model.parameters(), lr=0.01)</p>
 
-<span class="c1"># Dummy data
-</span><span class="n">x</span> <span class="o">=</span> <span class="n">torch</span><span class="p">.</span><span class="nf">randn</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span> <span class="mi">10</span><span class="p">)</span>
-<span class="n">y_true</span> <span class="o">=</span> <span class="n">torch</span><span class="p">.</span><span class="nf">randn</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span> <span class="mi">1</span><span class="p">)</span>
+<h1 id="dummy-data">Dummy data</h1>
+<p>x = torch.randn(1, 10)
+y_true = torch.randn(1, 1)</p>
 
-<span class="c1"># Forward pass
-</span><span class="n">y_pred</span> <span class="o">=</span> <span class="nf">model</span><span class="p">(</span><span class="n">x</span><span class="p">)</span>
-<span class="n">loss</span> <span class="o">=</span> <span class="nf">loss_fn</span><span class="p">(</span><span class="n">y_pred</span><span class="p">,</span> <span class="n">y_true</span><span class="p">)</span>
+<h1 id="forward-pass-1">Forward pass</h1>
+<p>y_pred = model(x)
+loss = loss_fn(y_pred, y_true)</p>
 
-<span class="c1"># Backward pass to compute gradients
-</span><span class="n">loss</span><span class="p">.</span><span class="nf">backward</span><span class="p">()</span>
+<h1 id="backward-pass-to-compute-gradients">Backward pass to compute gradients</h1>
+<p>loss.backward()</p>
 
-<span class="c1"># Access gradients
-</span><span class="k">for</span> <span class="n">name</span><span class="p">,</span> <span class="n">param</span> <span class="ow">in</span> <span class="n">model</span><span class="p">.</span><span class="nf">named_parameters</span><span class="p">():</span>
-    <span class="k">if</span> <span class="n">param</span><span class="p">.</span><span class="n">grad</span> <span class="ow">is</span> <span class="ow">not</span> <span class="bp">None</span><span class="p">:</span>
-        <span class="n">grad_norm</span> <span class="o">=</span> <span class="n">param</span><span class="p">.</span><span class="n">grad</span><span class="p">.</span><span class="nf">norm</span><span class="p">().</span><span class="nf">item</span><span class="p">()</span>
-        <span class="n">grad_max</span> <span class="o">=</span> <span class="n">param</span><span class="p">.</span><span class="n">grad</span><span class="p">.</span><span class="nf">max</span><span class="p">().</span><span class="nf">item</span><span class="p">()</span>
-        
-        <span class="c1"># Check for the dreaded NaN
-</span>        <span class="k">if</span> <span class="n">torch</span><span class="p">.</span><span class="nf">isnan</span><span class="p">(</span><span class="n">param</span><span class="p">.</span><span class="n">grad</span><span class="p">).</span><span class="nf">any</span><span class="p">():</span>
-            <span class="nf">print</span><span class="p">(</span><span class="sa">f</span><span class="sh">"</span><span class="s">⚠️ Exploded! NaN detected in </span><span class="si">{</span><span class="n">name</span><span class="si">}</span><span class="sh">"</span><span class="p">)</span>
-        
-        <span class="nf">print</span><span class="p">(</span><span class="sa">f</span><span class="sh">"</span><span class="s">Layer: </span><span class="si">{</span><span class="n">name</span><span class="si">}</span><span class="s"> | Norm: </span><span class="si">{</span><span class="n">grad_norm</span><span class="si">:</span><span class="p">.</span><span class="mi">4</span><span class="n">f</span><span class="si">}</span><span class="s"> | Max: </span><span class="si">{</span><span class="n">grad_max</span><span class="si">:</span><span class="p">.</span><span class="mi">4</span><span class="n">f</span><span class="si">}</span><span class="sh">"</span><span class="p">)</span>
-</code></pre></div></div>
-<p>You can get the following output</p>
-<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>Layer: weight | Norm: 8.5318 | Max: 4.9751
-Layer: bias | Norm: 2.6719 | Max: -2.6719
+<h1 id="access-gradients">Access gradients</h1>
+<p>for name, param in model.named_parameters():
+    if param.grad is not None:
+        grad_norm = param.grad.norm().item()
+        grad_max = param.grad.max().item()</p>
+
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>    # Check for the dreaded NaN
+    if torch.isnan(param.grad).any():
+        print(f"⚠️ Exploded! NaN detected in {name}")
+    
+    print(f"Layer: {name} | Norm: {grad_norm:.4f} | Max: {grad_max:.4f}") ``` You can get the following output ``` Layer: weight | Norm: 8.5318 | Max: 4.9751 Layer: bias | Norm: 2.6719 | Max: -2.6719 ```
 </code></pre></div></div>
 
 <h2 id="monitor-gradients-during-training">Monitor Gradients During Training</h2>
@@ -589,10 +639,8 @@ Most professional LLM teams use W&amp;B (or TensorBoard) to visualize these valu
 <p>Takeaway.
 Architectural choices like residual connections and normalization lay the foundation for stable gradient flow—but monitoring and controlling gradients during training is what keeps large models on track. Effective trainers treat gradient inspection as a first-class diagnostic tool, not an afterthought.</p>
 
-<p>==</p>
-<ul>
-  <li>The “Gradient Norm per Layer” Plot</li>
-</ul>
+<p>==
+* The “Gradient Norm per Layer” Plot</p>
 
 <p>B. Gradient Clipping: The Safety Valve
 C. Weight Norm vs. Gradient Norm
@@ -759,12 +807,10 @@ Through this process, the model learns to imitate expert behavior — optimizing
 
 <h4 id="reinforcement-learning-in-post-training-policy-with-a-goal"><em>Reinforcement Learning in Post-Training: Policy with a Goal</em></h4>
 
-<p>Post-training introduces <strong>explicit goals</strong> through reinforcement learning.</p>
-<ul>
-  <li>In <strong>RLHF (Reinforcement Learning from Human Feedback)</strong>, reward model is a learned neural network reflecting human preference.</li>
-  <li>In <strong>RLVR</strong> (Verifiable Reward), rewards are derived from objective task success signals — such as solving a math problem or producing functionally correct code.</li>
-  <li>In <strong>RLAIF</strong> (AI Feedback), the reward model is trained from preferences generated by a stronger or more aligned AI system rather than human annotators.</li>
-</ul>
+<p>Post-training introduces <strong>explicit goals</strong> through reinforcement learning.<br />
+- In <strong>RLHF (Reinforcement Learning from Human Feedback)</strong>, reward model is a learned neural network reflecting human preference.<br />
+- In <strong>RLVR</strong> (Verifiable Reward), rewards are derived from objective task success signals — such as solving a math problem or producing functionally correct code.
+- In <strong>RLAIF</strong> (AI Feedback), the reward model is trained from preferences generated by a stronger or more aligned AI system rather than human annotators.</p>
 
 <p>These techniques transform LLMs from passive imitators into systems that optimize for defined reward/outcomes.</p>
 
@@ -932,10 +978,8 @@ Humans themselves operate under incomplete world models — constrained by limit
     <p>As a <strong>curious researcher</strong>, I’m drawn to questions at the core of AGI: What does it mean to understand and to act with purpose?</p>
   </li>
   <li>
-    <p>As a <strong>practitioner</strong>, I would ask a more practical question:</p>
-    <blockquote>
-      <p><em>If our goal is not AGI, but AI systems that function as capable knowledge workers—delivering real-world, economically valuable tasks—is the current path of LLM scaling still a feasible one? And what boundaries or blindspots should we be mindful of?</em></p>
-    </blockquote>
+    <p>As a <strong>practitioner</strong>, I would ask a more practical question:<br />
+&gt; <em>If our goal is not AGI, but AI systems that function as capable knowledge workers—delivering real-world, economically valuable tasks—is the current path of LLM scaling still a feasible one? And what boundaries or blindspots should we be mindful of?</em></p>
   </li>
 </ul>
 
