@@ -10,17 +10,17 @@
 <meta property="og:locale" content="en_US" />
 <meta name="description" content="(last updated: Dec 2025)" />
 <meta property="og:description" content="(last updated: Dec 2025)" />
-<link rel="canonical" href="http://localhost:4000/2025/12/26/demystify-gradients.html" />
-<meta property="og:url" content="http://localhost:4000/2025/12/26/demystify-gradients.html" />
+<link rel="canonical" href="https://yuanxue.github.io/2025/12/26/demystify-gradients.html" />
+<meta property="og:url" content="https://yuanxue.github.io/2025/12/26/demystify-gradients.html" />
 <meta property="og:site_name" content="Yuan (Emily) Xue" />
 <meta property="og:type" content="article" />
 <meta property="article:published_time" content="2025-12-26T23:17:56-08:00" />
 <meta name="twitter:card" content="summary" />
 <meta property="twitter:title" content="Demystifying Gradients" />
 <script type="application/ld+json">
-{"@context":"https://schema.org","@type":"BlogPosting","dateModified":"2025-12-26T23:17:56-08:00","datePublished":"2025-12-26T23:17:56-08:00","description":"(last updated: Dec 2025)","headline":"Demystifying Gradients","mainEntityOfPage":{"@type":"WebPage","@id":"http://localhost:4000/2025/12/26/demystify-gradients.html"},"url":"http://localhost:4000/2025/12/26/demystify-gradients.html"}</script>
+{"@context":"https://schema.org","@type":"BlogPosting","dateModified":"2025-12-26T23:17:56-08:00","datePublished":"2025-12-26T23:17:56-08:00","description":"(last updated: Dec 2025)","headline":"Demystifying Gradients","mainEntityOfPage":{"@type":"WebPage","@id":"https://yuanxue.github.io/2025/12/26/demystify-gradients.html"},"url":"https://yuanxue.github.io/2025/12/26/demystify-gradients.html"}</script>
 <!-- End Jekyll SEO tag -->
-<link rel="stylesheet" href="/assets/main.css"><link type="application/atom+xml" rel="alternate" href="http://localhost:4000/feed.xml" title="Yuan (Emily) Xue" /></head>
+<link rel="stylesheet" href="/assets/main.css"><link type="application/atom+xml" rel="alternate" href="https://yuanxue.github.io/feed.xml" title="Yuan (Emily) Xue" /></head>
 </head>
   <body><header class="site-header" role="banner">
 
@@ -61,69 +61,7 @@
   </header>
 
     <nav class="post-toc" aria-label="Table of Contents">
-    <ul id="toc" class="section-nav">
-<li class="toc-entry toc-h1"><a href="#mathematical-definition-and-concepts">Mathematical Definition and Concepts</a>
-<ul>
-<li class="toc-entry toc-h2"><a href="#gradient">Gradient</a></li>
-<li class="toc-entry toc-h2"><a href="#compute-gradients-in-neural-network">Compute Gradients in Neural Network</a>
-<ul>
-<li class="toc-entry toc-h3"><a href="#example-setup-a-simple-2-layer-mlp">Example Setup: A Simple 2-Layer MLP</a></li>
-<li class="toc-entry toc-h3"><a href="#forward-pass">Forward Pass</a></li>
-<li class="toc-entry toc-h3"><a href="#backward-pass--the-chain-rule">Backward Pass: ⛓️ The Chain Rule</a>
-<ul>
-<li class="toc-entry toc-h4"><a href="#output-layer-layer-2">Output Layer (Layer 2)</a></li>
-<li class="toc-entry toc-h4"><a href="#hidden-layer-layer-1">Hidden Layer (Layer 1)</a></li>
-</ul>
-</li>
-</ul>
-</li>
-</ul>
-</li>
-<li class="toc-entry toc-h1"><a href="#vanishing-and-exploding-gradients">Vanishing and Exploding Gradients</a>
-<ul>
-<li class="toc-entry toc-h2"><a href="#the-core-problem-products-of-weights-and-derivatives">The Core Problem: Products of Weights and Derivatives.</a></li>
-<li class="toc-entry toc-h2"><a href="#vanishing-gradients">Vanishing Gradients</a></li>
-<li class="toc-entry toc-h2"><a href="#exploding-gradients">Exploding Gradients</a></li>
-<li class="toc-entry toc-h2"><a href="#contributing-factors">Contributing Factors</a>
-<ul>
-<li class="toc-entry toc-h3"><a href="#visualization">Visualization</a></li>
-</ul>
-</li>
-</ul>
-</li>
-<li class="toc-entry toc-h1"><a href="#mitigations-and-solutions">Mitigations and Solutions</a>
-<ul>
-<li class="toc-entry toc-h2"><a href="#activation-functions">Activation Functions</a></li>
-<li class="toc-entry toc-h2"><a href="#weight-initialization">Weight initialization</a></li>
-<li class="toc-entry toc-h2"><a href="#gradient-clipping">Gradient clipping</a></li>
-<li class="toc-entry toc-h2"><a href="#residual-connections">Residual connections</a></li>
-<li class="toc-entry toc-h2"><a href="#normalization-layers">Normalization layers</a>
-<ul>
-<li class="toc-entry toc-h3"><a href="#batch-normalization">Batch Normalization</a></li>
-<li class="toc-entry toc-h3"><a href="#layer-normalization">Layer Normalization</a></li>
-<li class="toc-entry toc-h3"><a href="#rmsnorm">RMSNorm</a></li>
-</ul>
-</li>
-<li class="toc-entry toc-h2"><a href="#interaction-of-normalization-with-residuals">Interaction of Normalization with Residuals</a>
-<ul>
-<li class="toc-entry toc-h3"><a href="#post-normalization">Post-Normalization</a></li>
-<li class="toc-entry toc-h3"><a href="#pre-normalization">Pre-Normalization</a></li>
-<li class="toc-entry toc-h3"><a href="#beyond-pre-ln-double-normalization">Beyond Pre-LN: Double Normalization</a></li>
-<li class="toc-entry toc-h3"><a href="#further-reading">Further Reading</a></li>
-</ul>
-</li>
-<li class="toc-entry toc-h2"><a href="#data-cleaning">Data Cleaning</a></li>
-</ul>
-</li>
-<li class="toc-entry toc-h1"><a href="#best-practice-for-model-trainers">Best Practice for Model Trainers</a>
-<ul>
-<li class="toc-entry toc-h2"><a href="#accessing-gradients-in-pytorch">Accessing Gradients in PyTorch</a></li>
-<li class="toc-entry toc-h2"><a href="#monitor-gradients-during-training">Monitor Gradients During Training</a></li>
-<li class="toc-entry toc-h2"><a href="#leveraging-modern-llm-training-frameworks">Leveraging Modern LLM training frameworks</a></li>
-</ul>
-</li>
-<li class="toc-entry toc-h1"><a href="#summary">Summary</a></li>
-</ul>
+    
   </nav>
 
   <div class="post-content e-content" itemprop="articleBody">
