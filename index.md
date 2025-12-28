@@ -16,25 +16,25 @@ I currently serve as the Head of Enterprise AI at Scale AI. Previously I worked 
 
 # Recent Publications {#selected-papers}
 
--   [**Judging with Confidence: Calibrating Autoraters to Preference Distributions**](https://arxiv.org/abs/2510.00263)··
-    Zhuohang Li, Xiaowei Li, Chengyu Huang, Guowang Li, Katayoon Goshvadi, Bo Dai, Dale Schuurmans, Paul Zhou, Hamid Palangi, Yiwen Song, Palash Goyal, Murat Kantarcioglu, Bradley A. Malin, Yuan Xue
+-   [**Judging with Confidence: Calibrating Autoraters to Preference Distributions**](https://arxiv.org/abs/2510.00263) \\
+    Zhuohang Li, Xiaowei Li, Chengyu Huang, Guowang Li, Katayoon Goshvadi, Bo Dai, Dale Schuurmans, Paul Zhou, Hamid Palangi, Yiwen Song, Palash Goyal, Murat Kantarcioglu, Bradley A. Malin, Yuan Xue\\
     \[Under submission 2025\]
 
--   [**Deep Researcher with Test-Time Diffusion**](https://arxiv.org/abs/2507.16075)
-    Rujun Han, Yanfei Chen, Zoey CuiZhu, Lesly Miculicich, Guan Sun, Yuanjun Bi, Weiming Wen, Hui Wan, Chunfeng Wen, Solène Maître, George Lee, Vishy Tirumalashetty, Emily Xue, Zizhao Zhang, Salem Haykal, Burak Gokturk, Tomas Pfister, Chen-Yu Lee
+-   [**Deep Researcher with Test-Time Diffusion**](https://arxiv.org/abs/2507.16075)\\
+    Rujun Han, Yanfei Chen, Zoey CuiZhu, Lesly Miculicich, Guan Sun, Yuanjun Bi, Weiming Wen, Hui Wan, Chunfeng Wen, Solène Maître, George Lee, Vishy Tirumalashetty, Emily Xue, Zizhao Zhang, Salem Haykal, Burak Gokturk, Tomas Pfister, Chen-Yu Lee \\
     \[Under submission 2025\]
 
--   [**Large Language Models can Learn Rules**](https://arxiv.org/abs/2310.07064)
+-   [**Large Language Models can Learn Rules**](https://arxiv.org/abs/2310.07064)\\
     Zhaocheng Zhu, Yuan Xue, Xinyun Chen, Denny Zhou, Jian Tang, Dale
-    Schuurmans, Hanjun Dai 
+    Schuurmans, Hanjun Dai \\
     \[2024\]
 
--   [**Gemini 2.5: Pushing the Frontier with Advanced Reasoning, Multimodality, Long Context, and Next Generation Agentic Capabilities**](https://arxiv.org/abs/2507.06261)\
-   Listed as Emily Xue, one of the 3,410 authors\
+-   [**Gemini 2.5: Pushing the Frontier with Advanced Reasoning, Multimodality, Long Context, and Next Generation Agentic Capabilities**](https://arxiv.org/abs/2507.06261)\\
+   Listed as Emily Xue, one of the 3,410 authors\\
     \[2025\]
 
--   [**Gemini 1.5: Unlocking Multimodal Understanding Across Millions of Tokens of Context**](https://arxiv.org/abs/1906.04716)\
-    Listed as Emily Xue, one of the 1,037 authors\
+-   [**Gemini 1.5: Unlocking Multimodal Understanding Across Millions of Tokens of Context**](https://arxiv.org/abs/1906.04716)\\
+    Listed as Emily Xue, one of the 1,037 authors\\
     \[2024\]
 
 -   [**Gemini: A Family of Highly Capable Multimodal Models**](https://arxiv.org/abs/2312.11805)\
