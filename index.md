@@ -66,7 +66,7 @@ I currently serve as the Head of Enterprise AI at Scale AI. Previously I worked 
     Outcome Prediction**](https://arxiv.org/abs/2407.19359)\\
     Yuan Xue\*, Nan Du\*, Anne Mottram, Martin Seneviratne, Andrew M.
     Dai\\
-    \[NeurIPS 2020\] (\* equal contribution)\
+    \[NeurIPS 2020\] (\* equal contribution)
 
 -   [**Deep State-Space Generative Model For Correlated Time-to-Event
     Predictions**](https://arxiv.org/abs/2407.19371v1)\\
