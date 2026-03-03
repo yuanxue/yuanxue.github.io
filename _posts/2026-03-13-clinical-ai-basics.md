@@ -1,7 +1,7 @@
 ---
 layout: post
 title: "Clinical AI Basics for ML People"
-date:   2026-02-13 00:00:00 -0700
+date:   2026-03-13 00:00:00 -0700
 description: "An introduction to medical imaging and electronic health records for AI/ML practitioners entering clinical AI."
 tags: [Medical Imaging, Clinical Data, EHR, DICOM, Radiology]
 categories: [AI, Biomedical Science]

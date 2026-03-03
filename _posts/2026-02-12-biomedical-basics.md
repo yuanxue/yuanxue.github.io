@@ -1,10 +1,10 @@
 ---
 layout: post
-title: "Biomedical Basics for AI/ML People"
+title: "Biomedical Foundations: A Guide for the AI/ML Community"
 date:   2026-02-12 00:00:00 -0700
 description: "An introduction to biomedical science for AI/ML practitioners — covering molecular biology, genomics, proteins, and drug discovery."
 tags: [Biomedical, Genomics, Proteins, Drug Discovery]
-categories: [AI, Biomedical Science]
+categories: [AI, Biomedical Science, Bioinformatics]
 ---
 * TOC
 {:toc}
@@ -344,7 +344,7 @@ Not all variants cause disease. **Variant interpretation** -- distinguishing bet
 - **Robustness & redundancy** — Biological systems have backup mechanisms. Not all mutations cause disease. If Gene A is broken, it may have no phenotypic effect because Gene B, a paralog (a related gene from a duplication event) can kick in and compensate. This **genetic redundancy** is why predicting the impact of a variant is so difficult.
 
 
-# Measurement & Experimental Systems
+# 🔬 Measurement & Experimental Systems
 
 *How biology becomes data — the "sensors" of the biological world.*
 
@@ -571,7 +571,7 @@ An emerging frontier: AI agents for **biomedical hypothesis generation** — sys
 
 But useful agents must understand physical constraints. Before suggesting a hypothesis, they need to assess **synthesizability** (can the proposed molecule actually be made?), **assay feasibility** (does a suitable experimental readout exist?), and **cost/time budgets** (is this validation realistic for the lab?). Without this grounding, AI suggestions become "computationally plausible but experimentally useless."
 
-# Biomedical Data & Bioinformatics
+# 💾 Biomedical Data & Bioinformatics
 
 *How biology becomes machine-readable — the digital infrastructure.*
 
@@ -669,7 +669,7 @@ Data is useless without context. These curated repositories provide the ground t
 
 - **Drugs & Chemistry:** [ChEMBL](https://www.ebi.ac.uk/chembl/) (bioactivity data), [PubChem](https://pubchem.ncbi.nlm.nih.gov/) (compound properties), [ZINC](https://zinc.docking.org/) (~1B purchasable molecules for virtual screening), [DrugBank](https://go.drugbank.com/) (drug mechanisms & pharmacology).
 
-# Statistical Genetics, Modeling & AI
+# 🧠 Statistical Genetics, Modeling & AI
 
 *How we infer and predict — the "intelligence" layer.*
 
@@ -758,7 +758,7 @@ These resources below provide the standardized datasets and competitions that dr
 | **[TAPE](https://github.com/songlab-cal/tape)** | Embeddings | Benchmarks for evaluating how well a model "understands" protein sequences. |
 | **[DREAM Challenges](https://dreamchallenges.org/)** | Systems Bio | Crowdsourced challenges for solving complex translational medicine problems. |
 
-# Drug Discovery & Translation
+# 💊 Drug Discovery & Translation
 *From Digital Prediction to Clinical Reality.* 
 
 | Term | What It Is |
@@ -791,10 +791,10 @@ It will take ~10–15 years end-to-end with >$1 billion on average. Biology is n
 ## How a Typical Drug Discovery Workflow Looks
 
 <figure style="text-align: center;">
-  <img src="https://www.researchgate.net/publication/378872737/figure/fig2/AS:11431281253362827@1718849380083/A-schematic-diagram-illustrating-the-drug-discovery-pipeline-including-all-stages-from.png" width="70%"
+  <img src="/assets/images/drug-discovery-pipeline.png" width="70%"
        alt="Drug discovery pipeline from target identification to clinical trials"/>
   <figcaption>
-    A schematic diagram illustrating the drug discovery pipeline, including all stages from target identification to clinical approval. (Source: <a href="https://www.researchgate.net/publication/378872737">ResearchGate</a>)
+    A schematic diagram illustrating the drug discovery pipeline, including all stages from target identification to clinical approval.
   </figcaption>
 </figure>
 
@@ -816,7 +816,7 @@ Modern drug discovery is a closed-loop system between the Dry Lab and the Wet La
 - **Drug repurposing**: Predicting new uses for existing drugs using knowledge graphs and link prediction.
 - **Clinical trial optimization**: Patient stratification, endpoint prediction, trial design.
 
-# References
+# 📚 References
 
 - [DNA Basics: Nucleotides, Genes, and Genomes](https://www.fjc.gov/content/361230/DNA-basics-nucleotides-genes-genome) — Federal Judicial Center
 - [Central Dogma: Steps Guide](https://www.geeksforgeeks.org/biology/central-dogma-steps-guide/) — GeeksforGeeks
