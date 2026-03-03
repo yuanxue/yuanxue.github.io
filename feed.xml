@@ -1,4 +1,1637 @@
-<?xml version="1.0" encoding="utf-8"?><feed xmlns="http://www.w3.org/2005/Atom" ><generator uri="https://jekyllrb.com/" version="4.4.1">Jekyll</generator><link href="https://yuanxue.github.io/feed.xml" rel="self" type="application/atom+xml" /><link href="https://yuanxue.github.io/" rel="alternate" type="text/html" /><updated>2025-12-30T07:32:25-08:00</updated><id>https://yuanxue.github.io/feed.xml</id><title type="html">Yuan (Emily) Xue</title><subtitle>(last updated: Dec 2025)</subtitle><entry><title type="html">Demystifying Gradients</title><link href="https://yuanxue.github.io/2025/12/26/demystify-gradients.html" rel="alternate" type="text/html" title="Demystifying Gradients" /><published>2025-12-26T23:17:56-08:00</published><updated>2025-12-26T23:17:56-08:00</updated><id>https://yuanxue.github.io/2025/12/26/demystify-gradients</id><content type="html" xml:base="https://yuanxue.github.io/2025/12/26/demystify-gradients.html"><![CDATA[<ul id="markdown-toc">
+<?xml version="1.0" encoding="utf-8"?><feed xmlns="http://www.w3.org/2005/Atom" ><generator uri="https://jekyllrb.com/" version="4.4.1">Jekyll</generator><link href="https://yuanxue.github.io/feed.xml" rel="self" type="application/atom+xml" /><link href="https://yuanxue.github.io/" rel="alternate" type="text/html" /><updated>2026-03-02T18:38:31-08:00</updated><id>https://yuanxue.github.io/feed.xml</id><title type="html">Yuan (Emily) Xue</title><subtitle>(last updated: Dec 2025)</subtitle><entry><title type="html">Clinical AI Basics for ML People</title><link href="https://yuanxue.github.io/2026/02/12/clinical-ai-basics.html" rel="alternate" type="text/html" title="Clinical AI Basics for ML People" /><published>2026-02-12T23:00:00-08:00</published><updated>2026-02-12T23:00:00-08:00</updated><id>https://yuanxue.github.io/2026/02/12/clinical-ai-basics</id><content type="html" xml:base="https://yuanxue.github.io/2026/02/12/clinical-ai-basics.html"><![CDATA[<ul id="markdown-toc">
+  <li><a href="#medical-imaging" id="markdown-toc-medical-imaging">Medical Imaging</a>    <ul>
+      <li><a href="#imaging-modalities" id="markdown-toc-imaging-modalities">Imaging Modalities</a></li>
+      <li><a href="#key-terms" id="markdown-toc-key-terms">Key Terms</a></li>
+      <li><a href="#where-ai-fits-in" id="markdown-toc-where-ai-fits-in">Where AI Fits In</a></li>
+    </ul>
+  </li>
+  <li><a href="#clinical-data--electronic-health-records" id="markdown-toc-clinical-data--electronic-health-records">Clinical Data &amp; Electronic Health Records</a>    <ul>
+      <li><a href="#key-terms-1" id="markdown-toc-key-terms-1">Key Terms</a></li>
+      <li><a href="#key-challenges-for-ml" id="markdown-toc-key-challenges-for-ml">Key Challenges for ML</a></li>
+      <li><a href="#where-ai-fits-in-1" id="markdown-toc-where-ai-fits-in-1">Where AI Fits In</a></li>
+    </ul>
+  </li>
+  <li><a href="#clinical-databases--benchmarks" id="markdown-toc-clinical-databases--benchmarks">Clinical Databases &amp; Benchmarks</a></li>
+</ul>
+
+<p>This is the companion post to <a href="/2026/02/12/biomedical-basics/">Biomedical Basics for AI/ML People</a>, which covers molecular biology, genomics, proteins, and drug discovery. Here we focus on the <strong>clinical practice</strong> side — the data that comes from hospitals and patient care.</p>
+
+<p>We’ll cover two major areas where AI is making an impact: <strong>medical imaging</strong> and <strong>electronic health records (EHR)</strong>.</p>
+
+<h1 id="medical-imaging">Medical Imaging</h1>
+
+<h2 id="imaging-modalities">Imaging Modalities</h2>
+
+<table>
+  <thead>
+    <tr>
+      <th>Modality</th>
+      <th>What It Captures</th>
+      <th>Typical Data Format</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td><strong>X-ray</strong></td>
+      <td>2D projection of dense structures (bones, lungs).</td>
+      <td>2D grayscale image</td>
+    </tr>
+    <tr>
+      <td><strong>CT</strong> (Computed Tomography)</td>
+      <td>3D volume from multiple X-ray angles. Good for anatomy.</td>
+      <td>3D volume (stack of 2D slices)</td>
+    </tr>
+    <tr>
+      <td><strong>MRI</strong> (Magnetic Resonance Imaging)</td>
+      <td>3D soft tissue detail using magnetic fields. Multiple contrast types (T1, T2, FLAIR).</td>
+      <td>3D volume, often multi-channel</td>
+    </tr>
+    <tr>
+      <td><strong>Ultrasound</strong></td>
+      <td>Real-time imaging using sound waves. Common for obstetrics, cardiac.</td>
+      <td>2D or 3D, often video</td>
+    </tr>
+    <tr>
+      <td><strong>PET</strong> (Positron Emission Tomography)</td>
+      <td>Metabolic activity using radioactive tracers. Often combined with CT (PET/CT).</td>
+      <td>3D volume, low resolution</td>
+    </tr>
+    <tr>
+      <td><strong>Histopathology</strong></td>
+      <td>Microscopic images of tissue (biopsies). Stained and digitized as whole slide images.</td>
+      <td>Very large 2D images (gigapixel-scale)</td>
+    </tr>
+    <tr>
+      <td><strong>Fundoscopy / OCT</strong></td>
+      <td>Retinal imaging. Fundus photos (2D) or OCT scans (3D cross-sections).</td>
+      <td>2D or 3D</td>
+    </tr>
+  </tbody>
+</table>
+
+<h2 id="key-terms">Key Terms</h2>
+
+<table>
+  <thead>
+    <tr>
+      <th>Term</th>
+      <th>What It Is</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td><strong>DICOM</strong></td>
+      <td>The standard file format for medical images. Contains pixel data + rich metadata (patient info, acquisition parameters).</td>
+    </tr>
+    <tr>
+      <td><strong>Segmentation</strong></td>
+      <td>Delineating structures (organs, tumors) in an image.</td>
+    </tr>
+    <tr>
+      <td><strong>CAD</strong> (Computer-Aided Detection/Diagnosis)</td>
+      <td>Systems that flag suspicious regions for a radiologist to review.</td>
+    </tr>
+    <tr>
+      <td><strong>ROI</strong> (Region of Interest)</td>
+      <td>A marked area in an image for analysis.</td>
+    </tr>
+    <tr>
+      <td><strong>Whole Slide Image (WSI)</strong></td>
+      <td>A digitized pathology slide, often 100,000 × 100,000 pixels.</td>
+    </tr>
+    <tr>
+      <td><strong>Radiomics</strong></td>
+      <td>Extracting quantitative features from medical images.</td>
+    </tr>
+  </tbody>
+</table>
+
+<h2 id="where-ai-fits-in">Where AI Fits In</h2>
+
+<ul>
+  <li><strong>Classification</strong>: Disease detection from images (e.g., diabetic retinopathy from fundus photos, pneumonia from chest X-rays).</li>
+  <li><strong>Segmentation</strong>: Organ and tumor delineation in CT/MRI (U-Net and variants dominate).</li>
+  <li><strong>Detection</strong>: Localizing lesions, nodules, or fractures (object detection on medical images).</li>
+  <li><strong>Registration</strong>: Aligning images from different time points or modalities.</li>
+  <li><strong>Report generation</strong>: Generating radiology reports from images (vision-language models).</li>
+  <li><strong>Digital pathology</strong>: Classifying cancer subtypes and grading from whole slide images (multiple instance learning).</li>
+</ul>
+
+<h1 id="clinical-data--electronic-health-records">Clinical Data &amp; Electronic Health Records</h1>
+
+<h2 id="key-terms-1">Key Terms</h2>
+
+<table>
+  <thead>
+    <tr>
+      <th>Term</th>
+      <th>What It Is</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td><strong>EHR</strong> (Electronic Health Record)</td>
+      <td>A patient’s digital medical record: diagnoses, medications, labs, notes, imaging.</td>
+    </tr>
+    <tr>
+      <td><strong>ICD codes</strong></td>
+      <td>Standardized codes for diagnoses (e.g., ICD-10: E11.9 = Type 2 diabetes). ~70,000 codes.</td>
+    </tr>
+    <tr>
+      <td><strong>CPT codes</strong></td>
+      <td>Codes for medical procedures.</td>
+    </tr>
+    <tr>
+      <td><strong>Lab values</strong></td>
+      <td>Numeric test results (blood glucose, hemoglobin, etc.) with reference ranges.</td>
+    </tr>
+    <tr>
+      <td><strong>Clinical notes</strong></td>
+      <td>Free-text notes written by clinicians. Rich but unstructured.</td>
+    </tr>
+    <tr>
+      <td><strong>FHIR</strong></td>
+      <td>A modern standard for exchanging healthcare data via APIs.</td>
+    </tr>
+    <tr>
+      <td><strong>Cohort</strong></td>
+      <td>A group of patients defined by shared characteristics for a study.</td>
+    </tr>
+    <tr>
+      <td><strong>Phenotyping</strong></td>
+      <td>Identifying patients with a specific condition from EHR data (not always straightforward).</td>
+    </tr>
+    <tr>
+      <td><strong>De-identification</strong></td>
+      <td>Removing personally identifiable information from medical data. Required for research use.</td>
+    </tr>
+  </tbody>
+</table>
+
+<h2 id="key-challenges-for-ml">Key Challenges for ML</h2>
+
+<ul>
+  <li><strong>Data access</strong>: Medical data is heavily regulated (HIPAA in the US, GDPR in the EU). Getting access is hard and slow.</li>
+  <li><strong>Missing data</strong>: Clinical data is collected for care, not research. Missingness is the norm, not the exception — and it’s often informative (a missing test may mean the doctor didn’t think it was needed).</li>
+  <li><strong>Irregular time series</strong>: Vital signs and labs are recorded at irregular intervals, unlike the uniform grids ML models typically expect.</li>
+  <li><strong>Label noise</strong>: Diagnoses in EHRs are billing codes, not ground-truth labels. A code may be present for “rule-out” purposes.</li>
+  <li><strong>Class imbalance</strong>: Rare diseases are, by definition, rare. Most clinical prediction tasks are highly imbalanced.</li>
+  <li><strong>Distribution shift</strong>: Patient populations, clinical practices, and coding conventions vary across hospitals.</li>
+</ul>
+
+<h2 id="where-ai-fits-in-1">Where AI Fits In</h2>
+
+<ul>
+  <li><strong>Clinical prediction</strong>: Readmission, mortality, sepsis, and deterioration risk scoring from EHR time series.</li>
+  <li><strong>NLP on clinical notes</strong>: Named entity recognition, relation extraction, and summarization (Med-BERT, Clinical-T5).</li>
+  <li><strong>Medical coding</strong>: Auto-assigning ICD/CPT codes to clinical encounters.</li>
+  <li><strong>Federated learning</strong>: Training models across hospitals without sharing patient data.</li>
+  <li><strong>Foundation models</strong>: Large models pre-trained on broad clinical data, fine-tuned for specific tasks (Med-PaLM, BioGPT).</li>
+</ul>
+
+<h1 id="clinical-databases--benchmarks">Clinical Databases &amp; Benchmarks</h1>
+
+<table>
+  <thead>
+    <tr>
+      <th>Resource</th>
+      <th>What It Contains</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td><strong>MIMIC</strong></td>
+      <td>De-identified ICU patient records (EHR benchmark)</td>
+    </tr>
+    <tr>
+      <td><strong>CheXpert / NIH ChestX-ray14</strong></td>
+      <td>Chest X-ray datasets with labels</td>
+    </tr>
+    <tr>
+      <td><strong>TCGA</strong> (The Cancer Genome Atlas)</td>
+      <td>Multi-omics cancer data (bridges research and clinical)</td>
+    </tr>
+    <tr>
+      <td><strong>UK Biobank</strong></td>
+      <td>Large-scale health and genomics data (~500K participants)</td>
+    </tr>
+  </tbody>
+</table>]]></content><author><name></name></author><category term="AI" /><category term="Biomedical Science" /><category term="Medical Imaging" /><category term="Clinical Data" /><category term="EHR" /><category term="DICOM" /><category term="Radiology" /><summary type="html"><![CDATA[An introduction to medical imaging and electronic health records for AI/ML practitioners entering clinical AI.]]></summary></entry><entry><title type="html">Biomedical Basics for AI/ML People</title><link href="https://yuanxue.github.io/2026/02/11/biomedical-basics.html" rel="alternate" type="text/html" title="Biomedical Basics for AI/ML People" /><published>2026-02-11T23:00:00-08:00</published><updated>2026-02-11T23:00:00-08:00</updated><id>https://yuanxue.github.io/2026/02/11/biomedical-basics</id><content type="html" xml:base="https://yuanxue.github.io/2026/02/11/biomedical-basics.html"><![CDATA[<ul id="markdown-toc">
+  <li><a href="#biological-foundations" id="markdown-toc-biological-foundations">🌱 Biological Foundations</a>    <ul>
+      <li><a href="#the-central-dogma-dna--rna--protein" id="markdown-toc-the-central-dogma-dna--rna--protein">The Central Dogma: DNA → RNA → Protein</a>        <ul>
+          <li><a href="#step-1-replication-dna--dna" id="markdown-toc-step-1-replication-dna--dna">Step 1: Replication (DNA → DNA)</a></li>
+          <li><a href="#step-2-transcription-dna--rna" id="markdown-toc-step-2-transcription-dna--rna">Step 2: Transcription (DNA → RNA)</a></li>
+          <li><a href="#step-3-translation-rna--protein" id="markdown-toc-step-3-translation-rna--protein">Step 3: Translation (RNA → Protein)</a></li>
+          <li><a href="#notable-exception-reverse-transcription" id="markdown-toc-notable-exception-reverse-transcription">Notable Exception: Reverse Transcription</a></li>
+        </ul>
+      </li>
+      <li><a href="#proteins--structural-biology-the-building-phase" id="markdown-toc-proteins--structural-biology-the-building-phase">Proteins &amp; Structural Biology (The “Building” Phase)</a>        <ul>
+          <li><a href="#protein-folding-sequence--shape" id="markdown-toc-protein-folding-sequence--shape">Protein Folding (sequence → shape)</a></li>
+          <li><a href="#conformation--dynamics-shape-moves" id="markdown-toc-conformation--dynamics-shape-moves">Conformation &amp; Dynamics (shape moves)</a></li>
+        </ul>
+      </li>
+      <li><a href="#from-genes-to-biological-function-the-action-phase" id="markdown-toc-from-genes-to-biological-function-the-action-phase">From Genes to Biological Function (The “Action” Phase)</a>        <ul>
+          <li><a href="#genotype-vs-phenotype" id="markdown-toc-genotype-vs-phenotype">Genotype vs. Phenotype</a></li>
+          <li><a href="#gene-regulation-the-cellular-control-system" id="markdown-toc-gene-regulation-the-cellular-control-system">Gene Regulation: The Cellular Control System</a></li>
+          <li><a href="#proteins-as-functional-units" id="markdown-toc-proteins-as-functional-units">Proteins as Functional Units</a></li>
+        </ul>
+      </li>
+      <li><a href="#systems-biology" id="markdown-toc-systems-biology">Systems Biology</a>        <ul>
+          <li><a href="#biological-pathways--networks" id="markdown-toc-biological-pathways--networks">Biological Pathways &amp; Networks</a></li>
+          <li><a href="#from-variant-to-disease" id="markdown-toc-from-variant-to-disease">From Variant to Disease</a></li>
+        </ul>
+      </li>
+    </ul>
+  </li>
+  <li><a href="#measurement--experimental-systems" id="markdown-toc-measurement--experimental-systems">Measurement &amp; Experimental Systems</a>    <ul>
+      <li><a href="#the-sequencing-spectrum" id="markdown-toc-the-sequencing-spectrum">The Sequencing Spectrum</a></li>
+      <li><a href="#the-journey-of-a-sequence-from-cell-to-byte" id="markdown-toc-the-journey-of-a-sequence-from-cell-to-byte">The Journey of a Sequence: From Cell to Byte</a>        <ul>
+          <li><a href="#phase-1-the-wet-lab-the-physical-front-end" id="markdown-toc-phase-1-the-wet-lab-the-physical-front-end">Phase 1: The Wet Lab (The Physical “Front-End”)</a></li>
+          <li><a href="#phase-2-the-dry-lab-the-computational-back-end" id="markdown-toc-phase-2-the-dry-lab-the-computational-back-end">Phase 2: The Dry Lab (The Computational “Back-End”)</a></li>
+        </ul>
+      </li>
+      <li><a href="#molecular-assays-measuring-activity--behavior" id="markdown-toc-molecular-assays-measuring-activity--behavior">Molecular Assays: Measuring Activity &amp; Behavior</a>        <ul>
+          <li><a href="#genetic--functional-engineering" id="markdown-toc-genetic--functional-engineering">Genetic &amp; Functional Engineering</a></li>
+          <li><a href="#protein--biomarker-quantification" id="markdown-toc-protein--biomarker-quantification">Protein &amp; Biomarker Quantification</a></li>
+          <li><a href="#cellular-phenotyping" id="markdown-toc-cellular-phenotyping">Cellular Phenotyping</a></li>
+        </ul>
+      </li>
+      <li><a href="#automation--robotics-scaling-the-wet-lab" id="markdown-toc-automation--robotics-scaling-the-wet-lab">Automation &amp; Robotics: Scaling the Wet Lab</a>        <ul>
+          <li><a href="#the-automated-environment" id="markdown-toc-the-automated-environment">The Automated Environment</a></li>
+          <li><a href="#mechanical-stress--biological-artifacts" id="markdown-toc-mechanical-stress--biological-artifacts">Mechanical Stress &amp; Biological Artifacts</a></li>
+        </ul>
+      </li>
+      <li><a href="#throughput-vs-depth-the-data-funnel" id="markdown-toc-throughput-vs-depth-the-data-funnel">Throughput vs. Depth: The Data Funnel</a>        <ul>
+          <li><a href="#high-throughput-the-top-of-the-funnel" id="markdown-toc-high-throughput-the-top-of-the-funnel">High-Throughput (The “Top of the Funnel”)</a></li>
+          <li><a href="#high-resolution-the-bottom-of-the-funnel" id="markdown-toc-high-resolution-the-bottom-of-the-funnel">High-Resolution (The “Bottom of the Funnel”)</a></li>
+        </ul>
+      </li>
+      <li><a href="#experimental-hierarchy-choosing-the-right-substrate" id="markdown-toc-experimental-hierarchy-choosing-the-right-substrate">Experimental Hierarchy: Choosing the right “substrate”</a>        <ul>
+          <li><a href="#digital--molecular-the-atomic-level" id="markdown-toc-digital--molecular-the-atomic-level">Digital &amp; Molecular (The “Atomic” Level)</a></li>
+          <li><a href="#cellular--organoid-the-functional-level" id="markdown-toc-cellular--organoid-the-functional-level">Cellular &amp; Organoid (The “Functional” Level)</a></li>
+          <li><a href="#organismal-the-systems-level" id="markdown-toc-organismal-the-systems-level">Organismal (The “Systems” Level)</a></li>
+        </ul>
+      </li>
+      <li><a href="#the-reality-of-the-lab-constraints--failure-modes" id="markdown-toc-the-reality-of-the-lab-constraints--failure-modes">The Reality of the Lab: Constraints &amp; Failure Modes</a>        <ul>
+          <li><a href="#the-garbage-in-garbage-out-principle-integrity" id="markdown-toc-the-garbage-in-garbage-out-principle-integrity">The “Garbage In, Garbage Out” Principle (Integrity)</a></li>
+          <li><a href="#systematic-bias--hidden-features-context" id="markdown-toc-systematic-bias--hidden-features-context">Systematic Bias &amp; “Hidden Features” (Context)</a></li>
+        </ul>
+      </li>
+      <li><a href="#the-economy-of-evidence-replicates--controls" id="markdown-toc-the-economy-of-evidence-replicates--controls">The Economy of Evidence: Replicates &amp; Controls</a>        <ul>
+          <li><a href="#the-n-problem-replicates" id="markdown-toc-the-n-problem-replicates">The “n” Problem: Replicates</a></li>
+          <li><a href="#the-baseline-problem-controls" id="markdown-toc-the-baseline-problem-controls">The “Baseline” Problem: Controls</a></li>
+          <li><a href="#the-cost-of-truth" id="markdown-toc-the-cost-of-truth">The Cost of “Truth”</a></li>
+        </ul>
+      </li>
+      <li><a href="#agentic-lab-awareness-the-future" id="markdown-toc-agentic-lab-awareness-the-future">Agentic Lab Awareness: The Future</a></li>
+    </ul>
+  </li>
+  <li><a href="#biomedical-data--bioinformatics" id="markdown-toc-biomedical-data--bioinformatics">Biomedical Data &amp; Bioinformatics</a>    <ul>
+      <li><a href="#the-omics-stack-a-multi-layered-blueprint" id="markdown-toc-the-omics-stack-a-multi-layered-blueprint">The Omics Stack: A Multi-Layered Blueprint</a></li>
+      <li><a href="#the-digital-dictionary" id="markdown-toc-the-digital-dictionary">The Digital Dictionary</a>        <ul>
+          <li><a href="#data-formats" id="markdown-toc-data-formats">Data Formats</a></li>
+          <li><a href="#key-tools--algorithms" id="markdown-toc-key-tools--algorithms">Key Tools &amp; Algorithms</a></li>
+        </ul>
+      </li>
+      <li><a href="#the-bioinformatics-pipeline" id="markdown-toc-the-bioinformatics-pipeline">The Bioinformatics Pipeline</a>        <ul>
+          <li><a href="#biological-databases-the-library" id="markdown-toc-biological-databases-the-library">Biological Databases (The “Library”)</a></li>
+        </ul>
+      </li>
+    </ul>
+  </li>
+  <li><a href="#statistical-genetics-modeling--ai" id="markdown-toc-statistical-genetics-modeling--ai">Statistical Genetics, Modeling &amp; AI</a>    <ul>
+      <li><a href="#statistical-genetics-linking-variants-to-traits" id="markdown-toc-statistical-genetics-linking-variants-to-traits">Statistical Genetics: Linking Variants to Traits</a>        <ul>
+          <li><a href="#gwas--manhattan-plots" id="markdown-toc-gwas--manhattan-plots">GWAS &amp; Manhattan Plots</a></li>
+          <li><a href="#the-logic-of-inheritance-ld--heritability" id="markdown-toc-the-logic-of-inheritance-ld--heritability">The Logic of Inheritance (LD &amp; Heritability)</a></li>
+          <li><a href="#polygenic-risk-scores-prs--eqtls" id="markdown-toc-polygenic-risk-scores-prs--eqtls">Polygenic Risk Scores (PRS) &amp; eQTLs</a></li>
+        </ul>
+      </li>
+      <li><a href="#representation-learning-for-biology" id="markdown-toc-representation-learning-for-biology">Representation Learning for Biology</a>        <ul>
+          <li><a href="#biological-language-models-1d-sequences" id="markdown-toc-biological-language-models-1d-sequences">Biological Language Models (1D Sequences)</a></li>
+          <li><a href="#geometric-deep-learning-3d-structures--graphs" id="markdown-toc-geometric-deep-learning-3d-structures--graphs">Geometric Deep Learning (3D Structures &amp; Graphs)</a></li>
+          <li><a href="#benchmarks--competitions" id="markdown-toc-benchmarks--competitions">Benchmarks &amp; Competitions</a></li>
+        </ul>
+      </li>
+    </ul>
+  </li>
+  <li><a href="#drug-discovery--translation" id="markdown-toc-drug-discovery--translation">Drug Discovery &amp; Translation</a>    <ul>
+      <li><a href="#the-industrial-funnel-timeline--economics" id="markdown-toc-the-industrial-funnel-timeline--economics">The Industrial Funnel: Timeline &amp; Economics</a></li>
+      <li><a href="#how-a-typical-drug-discovery-workflow-looks" id="markdown-toc-how-a-typical-drug-discovery-workflow-looks">How a Typical Drug Discovery Workflow Looks</a></li>
+      <li><a href="#where-ai-can-help" id="markdown-toc-where-ai-can-help">Where AI can help.</a></li>
+    </ul>
+  </li>
+  <li><a href="#references" id="markdown-toc-references">References</a></li>
+</ul>
+
+<p>If you come from an AI/ML background and want to work on biomedical problems, the sheer volume of biology jargon can feel overwhelming. This post is a concise reference — it won’t make you a biologist, but it will give you enough vocabulary and intuition to read papers, understand datasets, and have productive conversations with domain experts.</p>
+
+<p>We’ll cover the major areas where AI is making an impact in biomedical research: <strong>molecular biology</strong>, <strong>genomics</strong>, <strong>proteins</strong>, and <strong>drug discovery</strong>. For the clinical practice side — medical imaging and electronic health records — see the companion post <a href="/2026/02/13/clinical-ai-basics/">Clinical AI Basics for ML People</a>.</p>
+
+<p>Biology (what exists)
+   ↓
+Measurement &amp; lab experiments (how biology becomes data)
+   ↓
+Bioinformatics (How measurements become datasets)
+   ↓
+Statistical genetics &amp; AI (How models learn from those datasets)
+   ↓
+Applications (how predictions are used)
+   ↓
+Agents (how systems coordinate the whole loop)</p>
+
+<h1 id="biological-foundations">🌱 Biological Foundations</h1>
+
+<h2 id="the-central-dogma-dna--rna--protein">The Central Dogma: DNA → RNA → Protein</h2>
+
+<table>
+  <thead>
+    <tr>
+      <th>Term</th>
+      <th>What It Is</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td><strong>DNA</strong></td>
+      <td>A double-stranded molecule made of 4 nucleotide bases: A, T, C, G. Organized into genes.</td>
+    </tr>
+    <tr>
+      <td><strong>Gene</strong></td>
+      <td>A segment of DNA that encodes a specific protein (or functional RNA). Humans have ~20,000 protein-coding genes.</td>
+    </tr>
+    <tr>
+      <td><strong>RNA</strong></td>
+      <td>Single-stranded copy of a gene. <strong>mRNA</strong> (messenger RNA) carries the protein recipe. Other types (tRNA, rRNA, miRNA) have regulatory roles.</td>
+    </tr>
+    <tr>
+      <td><strong>Protein</strong></td>
+      <td>A molecule made of amino acids, built from instructions in a gene. Proteins do most of the work in cells — catalyzing reactions, signaling, providing structure, and more.</td>
+    </tr>
+  </tbody>
+</table>
+
+<figure style="text-align: center;">
+  <p><img src="/assets/images/dna_nucleotides.png" width="70%" alt="DNA double helix structure showing the four nucleotide bases (A, T, C, G), base pairs, and sugar-phosphate backbone." /></p>
+  <figcaption>
+    <div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>The DNA double helix is formed by two complementary strands of nucleotide bases (A, T, C, G) connected by base pairs along a sugar-phosphate backbone. (Source: &lt;a href="https://www.fjc.gov/content/361230/DNA-basics-nucleotides-genes-genome"&gt;Federal Judicial Center&lt;/a&gt;)
+</code></pre></div>    </div>
+  </figcaption>
+</figure>
+
+<figure style="text-align: center;">
+  <p><img src="/assets/images/dna_genes_genome.png" width="70%" alt="DNA strand organized into genes with noncoding regions, each gene encoding a unique protein." /></p>
+  <figcaption>
+    <div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>DNA is organized into genes, which code for proteins that work together to enable cells to function. Noncoding regions separate the genes. (Source: &lt;a href="https://www.fjc.gov/content/361230/DNA-basics-nucleotides-genes-genome"&gt;Federal Judicial Center&lt;/a&gt;)
+</code></pre></div>    </div>
+  </figcaption>
+</figure>
+
+<p>The Central Dogma of molecular biology is a concept that outlines the flow of genetic information within a biological system. The key steps in the Central Dogma are shown below:</p>
+
+<figure style="text-align: center;">
+  <p><img src="/assets/images/central_dogma.png" width="70%" alt="Central Dogma of Molecular Biology: DNA replication, transcription to RNA, and translation to Protein." /></p>
+  <figcaption>
+    <div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>Figure 1: The Central Dogma — DNA replicates itself, is transcribed into RNA, and RNA is translated into Protein. Reverse transcription (RNA → DNA) occurs in retroviruses. (Source: &lt;a href="https://www.geeksforgeeks.org/biology/central-dogma-steps-guide/"&gt;GeeksforGeeks&lt;/a&gt;)
+</code></pre></div>    </div>
+  </figcaption>
+</figure>
+
+<h3 id="step-1-replication-dna--dna">Step 1: Replication (DNA → DNA)</h3>
+
+<p>Before a cell divides, it must copy its entire genome so each daughter cell gets a complete set of instructions. <strong>DNA replication</strong> is this copying process.</p>
+
+<h3 id="step-2-transcription-dna--rna">Step 2: Transcription (DNA → RNA)</h3>
+
+<p><strong>Transcription</strong> is the process of copying a gene from DNA into a messenger RNA (mRNA) molecule. This happens inside the <strong>cell nucleus</strong>.</p>
+
+<p>After transcription, the mRNA undergoes processing (capping, splicing out introns, adding a poly-A tail) before leaving the nucleus.</p>
+
+<h3 id="step-3-translation-rna--protein">Step 3: Translation (RNA → Protein)</h3>
+
+<p><strong>Translation</strong> is the process of reading the mRNA sequence to assemble a chain of amino acids (a protein). This happens at <strong>ribosomes</strong> in the <strong>cytoplasm</strong>. The polypeptide chain then folds into its functional 3D structure — <strong>the protein</strong>.</p>
+
+<h3 id="notable-exception-reverse-transcription">Notable Exception: Reverse Transcription</h3>
+
+<p>In retroviruses (e.g., HIV), the enzyme <strong>reverse transcriptase</strong> copies RNA back into DNA — reversing the usual flow. This was a major discovery that showed the central dogma is a general principle, not an absolute rule.</p>
+
+<p>The next two sections cover proteins from two complementary angles: <strong>Proteins &amp; Structural Biology</strong> covers sequence → shape → dynamics (<em>the what</em>), while <strong>From Genes to Biological Function</strong> covers genotype/phenotype → gene regulation → protein function → molecular interactions (<em>the so what</em>).</p>
+
+<h2 id="proteins--structural-biology-the-building-phase">Proteins &amp; Structural Biology (The “Building” Phase)</h2>
+
+<table>
+  <thead>
+    <tr>
+      <th>Term</th>
+      <th>What It Is</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td><strong>Amino acid</strong></td>
+      <td>The building block of proteins. There are 20 standard amino acids, each with a 1-letter code (e.g., A = Alanine, G = Glycine).</td>
+    </tr>
+    <tr>
+      <td><strong>Protein sequence</strong></td>
+      <td>A chain of amino acids, also called a polypeptide. Typical length: 100–1,000+ residues.</td>
+    </tr>
+    <tr>
+      <td><strong>Primary structure</strong></td>
+      <td>The linear amino acid sequence.</td>
+    </tr>
+    <tr>
+      <td><strong>Secondary structure</strong></td>
+      <td>Local folding patterns: <strong>alpha helices</strong> (spirals) and <strong>beta sheets</strong> (flat, pleated).</td>
+    </tr>
+    <tr>
+      <td><strong>Tertiary structure</strong></td>
+      <td>The full 3D fold of a single protein chain.</td>
+    </tr>
+    <tr>
+      <td><strong>Quaternary structure</strong></td>
+      <td>Multiple protein chains assembled together into a complex.</td>
+    </tr>
+  </tbody>
+</table>
+
+<figure style="text-align: center;">
+  <p><img src="/assets/images/protein_structure_levels.jpg" width="70%" alt="Four levels of protein structure: primary (amino acid chain), secondary (helix), tertiary (3D fold), and quaternary (multi-chain complex)." /></p>
+  <figcaption>
+    <div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>The four levels of protein structure — from the linear amino acid sequence (primary) through local folding patterns (secondary), the full 3D fold (tertiary), to multi-chain complexes (quaternary). (Source: &lt;a href="https://biologydictionary.net/protein-structure/"&gt;Biology Dictionary&lt;/a&gt;)
+</code></pre></div>    </div>
+  </figcaption>
+</figure>
+
+<h3 id="protein-folding-sequence--shape">Protein Folding (sequence → shape)</h3>
+
+<p>The sequence of amino acids determines how a protein folds into its 3D structure — but predicting that structure from sequence alone was one of biology’s grand challenges for over 50 years. In 2020, DeepMind’s <a href="https://www.nature.com/articles/s41586-021-03819-2">AlphaFold2</a> achieved near-experimental accuracy in the CASP14 competition, effectively solving the problem for single-chain proteins. The follow-up <a href="https://www.nature.com/articles/s41586-024-07487-w">AlphaFold3</a> (2024) extended predictions to protein complexes, nucleic acids, and small molecules. The folding process is driven by physical forces: hydrophobic residues pack into the interior, hydrogen bonds stabilize helices and sheets, and disulfide bonds lock parts of the structure in place.</p>
+
+<p>Misfolded proteins are implicated in diseases like Alzheimer’s (amyloid-beta plaques), Parkinson’s (alpha-synuclein aggregates), and prion diseases. <strong>Structure determines function</strong> — a protein’s 3D shape dictates what it can bind to and what reactions it can catalyze.</p>
+
+<h3 id="conformation--dynamics-shape-moves">Conformation &amp; Dynamics (shape moves)</h3>
+
+<p>Proteins are not rigid — they flex, breathe, and shift between <strong>conformational states</strong>. A protein may have an “open” and “closed” conformation, and ligand binding can induce conformational changes (<strong>induced fit</strong>). Some proteins function as molecular switches, toggling between active and inactive conformations (e.g., GTPases like RAS).</p>
+
+<figure style="text-align: center;">
+  <p><img src="https://www.creative-biostructure.com/upload/molecular-dynamics-simulations-1.jpg" width="70%" alt="Molecular dynamics simulation showing protein conformational changes over time." /></p>
+  <figcaption>
+    <div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>Molecular dynamics simulations capture how proteins flex and shift between conformational states over time. (Source: &lt;a href="https://www.creative-biostructure.com/"&gt;Creative Biostructure&lt;/a&gt;)
+</code></pre></div>    </div>
+  </figcaption>
+</figure>
+
+<p>Understanding dynamics matters for drug design: a drug must fit the protein in its relevant conformation, and some drugs work by trapping the protein in a specific state. Techniques like <strong>molecular dynamics (MD) simulation</strong> model protein motion by computing the physical forces on every atom at femtosecond (10⁻¹⁵ s) time steps, producing trajectories of how the protein moves over time. Classical MD tools like <a href="https://www.gromacs.org/">GROMACS</a> and <a href="https://openmm.org/">OpenMM</a> can simulate microsecond-scale dynamics, while specialized hardware like <a href="https://www.science.org/doi/10.1126/science.1187409">Anton</a> has reached millisecond timescales. More recently, ML-based approaches are learning to predict conformational ensembles directly — bypassing expensive simulation altogether.</p>
+
+<h2 id="from-genes-to-biological-function-the-action-phase">From Genes to Biological Function (The “Action” Phase)</h2>
+
+<table>
+  <thead>
+    <tr>
+      <th>Level</th>
+      <th>Key Player</th>
+      <th>Analogy</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td><strong>Genotype</strong></td>
+      <td>DNA Variants (SNPs, Indels)</td>
+      <td>The Blueprint</td>
+    </tr>
+    <tr>
+      <td><strong>Regulation</strong></td>
+      <td>Transcription Factors, Epigenetics, Splicing</td>
+      <td>The Project Manager</td>
+    </tr>
+    <tr>
+      <td><strong>Function</strong></td>
+      <td>Proteins, Active Sites</td>
+      <td>The Physical Infrastructure</td>
+    </tr>
+    <tr>
+      <td><strong>Phenotype</strong></td>
+      <td>Traits, Disease, Drug Response</td>
+      <td>The Building’s Performance</td>
+    </tr>
+  </tbody>
+</table>
+
+<p>The central dogma tells you how a gene becomes a protein. Protein structure tells you what shape it takes. But how do genes actually relate to what an organism <em>does</em>, its traits, its diseases?</p>
+
+<h3 id="genotype-vs-phenotype">Genotype vs. Phenotype</h3>
+
+<p>At the most basic level, individuals differ in their DNA sequence (<strong>genotype</strong>) — genetic variation at the gene level. But genetic variation alone does not determine outcomes - what you observe (traits, disease risk, drug response) (<strong>phenotype</strong>).</p>
+
+<p>The same genome can produce very different phenotypes depending on which genes are expressed, how they are regulated, and what environment the organism is in.Understanding this gap and the many layers between code and consequence is the central challenge of <strong>modern genetics</strong>.</p>
+
+<p><strong>Genetic variation:</strong></p>
+
+<p>Let’s start by separating what is encoded in DNA from what is ultimately expressed and observed. Not everyone’s DNA is the same. Genetic variation is what makes individuals different and what underlies susceptibility to disease. Most genetic variation is <strong>germline</strong>—inherited from our parents and present in every cell from birth—forming the blueprint of our unique biology. However, variation can also be <strong>somatic</strong>, occurring in specific cells throughout our lives due to environmental factors or aging. These changes, whether inherited or acquired, fall into several structural categories:</p>
+
+<ul>
+  <li>
+    <p><strong>SNPs</strong> (single nucleotide polymorphisms): Single base changes (e.g., A → G). The most common type of variation — millions per genome. While most are “neutral,” their impact on phenotype depends on their locations as described below.</p>
+  </li>
+  <li>
+    <p><strong>Indels</strong>: Insertions or deletions of short sequences (1–50 base pairs). These can be particularly disruptive if they shift the “reading frame” of a gene.</p>
+  </li>
+  <li>
+    <p><strong>Structural variants</strong>: Larger rearrangements — deletions, duplications, inversions, translocations (&gt;50 bp). Less common but can have large effects.</p>
+  </li>
+  <li>
+    <p><strong>Copy number variants (CNVs)</strong>: Regions where the number of copies differs between individuals.</p>
+  </li>
+</ul>
+
+<p><strong>Molecular consequences of variants:</strong></p>
+
+<p>The impact of a genetic variant is determined by its “context” – whether it lands in the instructions for building a protein or the instructions for regulating it. A single mutation can be as harmless as a silent typo or as catastrophic as a missing engine part.</p>
+
+<figure style="text-align: center;">
+  <p><img src="https://images.squarespace-cdn.com/content/v1/5e2065dbee32211da549a93c/1621587361990-6M9RP445YV62U5IRYEXK/Screenshot+2021-05-21+at+09.55.46.png?format=2500w" width="70%" alt="Anatomy of a gene showing promoter, UTRs, and protein-coding exons from DNA to protein." /></p>
+  <figcaption>
+    <div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>The Anatomy of a Gene: This diagram illustrates the flow of genetic information from DNA to Protein. The Promoter and UTRs (orange) are non-coding regions that regulate when and how much protein is made. The Protein-coding regions (grey) are the "Exons," where coding variants like missense or nonsense mutations directly alter the final protein product. Think of this as a factory assembly line. The Promoter is the "On" switch, the UTRs are the speed controllers, and the Exons (grey) are the actual raw materials. Coding variants change the materials themselves, while non-coding variants change how the machinery operates.
+</code></pre></div>    </div>
+  </figcaption>
+</figure>
+
+<p><strong>Coding variants</strong> occur within the “exons” of a gene and directly alter the protein product:</p>
+
+<ul>
+  <li><strong>Missense</strong>: A single base change results in a different amino acid. This can subtly change protein stability or completely “break” an active site.</li>
+  <li><strong>Nonsense</strong>: A change creates a premature “stop” signal, resulting in a truncated, usually non-functional protein.</li>
+  <li><strong>Frameshift</strong>: Usually caused by Indels, these shift the entire “reading frame” of the DNA, garbling every amino acid that follows.</li>
+</ul>
+
+<figure style="text-align: center;">
+  <p><img src="/assets/images/noncoding_variants_regulation.png" width="70%" alt="Non-coding variants and non-coding regulation showing variants in enhancers, lncRNAs, and other regulatory elements." /></p>
+  <figcaption>
+    <div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>The Regulatory Landscape: A detailed look at the "98%" of the genome that does not code for proteins. Red triangles indicate Variants occurring in regulatory elements like Enhancers and LncRNAs. Because these regions act as "volume knobs" for gene expression, they are the primary sites where variations linked to complex diseases (like diabetes or depression) are found in GWAS. This represents the "Software" of the genome. While the Exons (dark blue) provide the code for the hardware, elements like Enhancers and miRNAs act as the operating system. Variants here don't break the machine, but they "reprogram" it, leading to the subtle changes in expression levels often seen in complex psychiatric and metabolic conditions. (Source: &lt;a href="https://louis.pressbooks.pub/generalbiology1leclab/chapter/regulation-of-gene-expression/"&gt;Regulation of Gene Expression — General Biology&lt;/a&gt;)
+</code></pre></div>    </div>
+  </figcaption>
+</figure>
+
+<p><strong>Non-coding variants</strong> occur in the 98% of the genome that does not code for proteins. Rather than changing the “hardware,” they alter the “software” (gene regulation):
+- They can change expression levels (how much protein is made) or splicing patterns (how the protein is assembled).
+- Because they act as “volume knobs,” most variations identified in GWAS (Genome-Wide Association Studies) for complex diseases like diabetes or depression are non-coding.</p>
+
+<p><strong>Variant Interpretation</strong>: Most variants are benign (harmless) or “variants of uncertain significance” (VUS). Distinguishing these from pathogenic (disease-causing) mutations is the primary challenge of clinical genomics and a major focus for AI models.</p>
+
+<h3 id="gene-regulation-the-cellular-control-system">Gene Regulation: The Cellular Control System</h3>
+
+<p>Having a genetic variant is only the first layer—whether it actually affects an organism depends on which genes are expressed, when, and where. While every cell in your body shares the same genome, a neuron looks and behaves nothing like a liver cell because of <strong>gene regulation</strong>: the process of turning specific genes on (expressed) or off (silenced).</p>
+
+<figure style="text-align: center;">
+  <p><img src="https://louis.pressbooks.pub/app/uploads/sites/26/2022/04/84.png" width="70%" alt="Overview of gene regulation mechanisms." /></p>
+  <figcaption>
+    <div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>Overview of gene regulation. (Source: &lt;a href="https://louis.pressbooks.pub/generalbiology1leclab/chapter/regulation-of-gene-expression/"&gt;Regulation of Gene Expression — General Biology&lt;/a&gt;)
+</code></pre></div>    </div>
+  </figcaption>
+</figure>
+
+<h4 id="structural-access-epigenetics--chromatin"><strong>Structural Access: Epigenetics &amp; Chromatin</strong></h4>
+
+<figure style="text-align: center;">
+  <p><img src="https://media.springernature.com/full/springer-static/image/art%3A10.1038%2Fs41392-024-02030-9/MediaObjects/41392_2024_2030_Fig1_HTML.png?as=webp" width="70%" alt="Epigenetic mechanisms including DNA methylation, histone modification, and chromatin remodeling." /></p>
+  <figcaption>
+    <div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>Epigenetic mechanisms regulating gene expression. (Source: &lt;a href="https://doi.org/10.1038/s41392-024-02030-9"&gt;Signal Transduction and Targeted Therapy, Springer Nature&lt;/a&gt;)
+</code></pre></div>    </div>
+  </figcaption>
+</figure>
+
+<p>Epigenetics studies how cells control gene activity without changing the DNA sequence.”Epi-“means on or above in Greek,and “epigenetic” describes factors beyond the genetic code. Epigenetic changes are modifications to DNA that regulate whether genes are turned on or off. These modifications are attached to DNA and do not change the sequence of DNA building blocks.</p>
+
+<p>Before a gene can be read, the DNA must be physically accessible.</p>
+
+<p><strong>Epigenetics</strong> — Chemical modifications that change gene activity without altering the DNA sequence:</p>
+
+<ul>
+  <li>
+    <p><strong>DNA methylation</strong>: Adding methyl groups to cytosine bases. Generally silences gene expression. Patterns differ across cell types and change with age and disease.</p>
+  </li>
+  <li>
+    <p><strong>Histone modification</strong>: DNA wraps around histone proteins like thread on spools. Chemical modifications (acetylation, methylation, phosphorylation) to histones control how tightly DNA is packed:</p>
+
+    <ul>
+      <li>
+        <p>loosely packed (<strong>euchromatin</strong>) = accessible for transcription;</p>
+      </li>
+      <li>
+        <p>tightly packed (<strong>heterochromatin</strong>) = silenced.</p>
+      </li>
+    </ul>
+  </li>
+</ul>
+
+<p><strong>Chromatin accessibility</strong> — Physical accessibility of DNA regions matters. Tightly packed chromatin is inaccessible to transcription machinery.</p>
+
+<h4 id="the-decision-makers-transcription-factors-tfs"><strong>The Decision Makers: Transcription Factors (TFs)</strong></h4>
+
+<figure style="text-align: center;">
+  <p><img src="https://upload.wikimedia.org/wikipedia/commons/thumb/8/80/Transcription_Factors.svg/3840px-Transcription_Factors.svg.png" width="70%" alt="Transcription factors binding to DNA to regulate gene expression." /></p>
+  <figcaption>
+    <div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>Transcription factors binding to DNA regulatory elements to activate or repress gene transcription. (Source: &lt;a href="https://commons.wikimedia.org/wiki/File:Transcription_Factors.svg"&gt;Wikimedia Commons&lt;/a&gt;)
+</code></pre></div>    </div>
+  </figcaption>
+</figure>
+
+<p>Once the DNA is open, specialized proteins called Transcription Factors bind to specific DNA sequences to activate or repress transcription:</p>
+
+<ul>
+  <li>
+    <p><strong>Promoters</strong>: DNA regions just upstream of a gene where transcription machinery assembles.</p>
+  </li>
+  <li>
+    <p><strong>Enhancers</strong>: Regulatory sequences that can be far from the gene they control, boosting transcription when bound by the right transcription factors.</p>
+  </li>
+  <li>
+    <p><strong>Combinatorial Control</strong>: Transcription factors work combinatorially — genes aren’t controlled by one TF, but by different TF combinations in different cell types (like a “barcode” of several). <strong>Cell-type specificity</strong> means different cell types express different subsets of genes, achieved through cell-type-specific combinations of transcription factors, epigenetic marks, and chromatin states. This is why single-cell technologies (scRNA-seq, scATAC-seq) are so important — they reveal gene regulation at cellular resolution.</p>
+  </li>
+</ul>
+
+<h4 id="post-transcriptional-tuning"><strong>Post-Transcriptional Tuning:</strong></h4>
+<p>Even after a gene is transcribed into RNA, the cell can still change the final outcome:</p>
+
+<ul>
+  <li>
+    <p><strong>Alternative splicing</strong>: A single gene can produce multiple different mRNA variants (and thus different proteins) by including or skipping certain exons. ~95% of human genes undergo alternative splicing.</p>
+  </li>
+  <li>
+    <p><strong>Non-coding RNA</strong>: miRNA, lncRNA, and other RNA molecules that regulate gene expression post-transcriptionally, often by degrading mRNA or blocking translation.</p>
+  </li>
+</ul>
+
+<h3 id="proteins-as-functional-units">Proteins as Functional Units</h3>
+
+<p>After translation, proteins fold into complex 3D shapes to become the “nanomachines” of the cell. A protein’s function is a direct result of its topography—the specific valleys, ridges, and chemical charges on its surface.</p>
+
+<h4 id="mechanism-of-action-the-active-site"><strong>Mechanism of Action: The Active Site</strong></h4>
+
+<p>The “business end” of a protein is usually the active site. This is a specific pocket or cleft designed to interact with other molecules.</p>
+
+<ul>
+  <li>
+    <p><strong>Precision</strong>: Active sites have a precise 3D geometry. Even a single amino acid mutation can “clog” or “warp” this pocket, rendering the protein useless.</p>
+  </li>
+  <li>
+    <p><strong>Induced Fit</strong>: Proteins are not rigid; they are dynamic. When a target molecule approaches, the active site undergoes a conformational shift—essentially “hugging” the target to create a tighter bond. This is known as Induced Fit.</p>
+  </li>
+</ul>
+
+<h4 id="from-structure-to-role-categories-of-function"><strong>From Structure to Role: Categories of Function</strong></h4>
+
+<p>How a protein uses its active site determines its “job description” in the body. Most therapeutic drugs are designed to target one of these specific categories:</p>
+
+<table>
+  <thead>
+    <tr>
+      <th>Category</th>
+      <th>Primary Function</th>
+      <th>Pharmaceutical Context</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td><strong>Enzymes</strong></td>
+      <td>Catalysts: They speed up chemical reactions (e.g., Kinases, Proteases).</td>
+      <td>Many drugs are inhibitors that sit in the active site to stop the enzyme from working.</td>
+    </tr>
+    <tr>
+      <td><strong>Receptors</strong></td>
+      <td>Sensors: They sit on cell membranes and detect external signals (e.g., GPCRs).</td>
+      <td>~34% of FDA-approved drugs target GPCRs to turn cellular signals “on” or “off.”</td>
+    </tr>
+    <tr>
+      <td><strong>Transporters</strong></td>
+      <td>Gates: They move ions or nutrients across the cell membrane.</td>
+      <td>Drugs can block these “gates” to change cell chemistry (e.g., SSRIs for serotonin).</td>
+    </tr>
+    <tr>
+      <td><strong>Structural</strong></td>
+      <td>Scaffolding: Provide mechanical support (e.g., Collagen, Actin).</td>
+      <td>Critical for tissue integrity; often targets for regenerative medicine.</td>
+    </tr>
+    <tr>
+      <td><strong>Antibodies</strong></td>
+      <td>Defense: Recognize and neutralize “non-self” molecules.</td>
+      <td>Monoclonal antibodies are engineered proteins used to “tag” cancer cells for destruction.</td>
+    </tr>
+  </tbody>
+</table>
+
+<h4 id="modulating-function-ligands--binding"><strong>Modulating Function: Ligands &amp; Binding</strong></h4>
+
+<p>To understand how we use drugs to treat disease, we must understand the <strong>Ligand</strong>. A ligand is any molecule (a drug, a hormone, or a nutrient) that binds to a protein to influence its behavior.</p>
+
+<p><strong>Where do Ligands bind?</strong></p>
+
+<p>A drug’s effectiveness depends on where it attaches to the protein:</p>
+
+<ul>
+  <li>
+    <p><strong>Orthosteric (Active) Site</strong>: The drug competes directly with the natural substrate for the “front door.”</p>
+  </li>
+  <li>
+    <p><strong>Allosteric Pocket</strong>: The drug binds to a side “remote control” site. This changes the protein’s shape from a distance, either boosting or muffling its activity.</p>
+  </li>
+</ul>
+
+<h4 id="measuring-success-binding-metrics"><strong>Measuring Success: Binding Metrics</strong></h4>
+
+<p>In drug discovery, we use specific metrics to determine how “sticky” or effective a ligand is. If a protein is the “lock,” these metrics tell us how well the “key” fits and turns.</p>
+
+<p><strong>Affinity: How “sticky” is the bond?</strong></p>
+
+<p>Binding Affinity measures the strength of the attraction between a ligand and the protein.</p>
+
+<ul>
+  <li>
+    <p>$K_d$ (Dissociation Constant): This measures the concentration of a drug needed to occupy 50% of the protein targets.</p>
+  </li>
+  <li>
+    <p>Rule of Thumb: Lower $K_d$ = Tighter Binding. A drug with a nanomolar ($nM$) $K_d$ is much more potent than one with a micromolar ($\mu M$) $K_d$.</p>
+  </li>
+</ul>
+
+<p><strong>Efficacy: How well does it stop the process?</strong></p>
+
+<p>While $K_d$ measures “stickiness,” these metrics measure the actual biological impact:</p>
+
+<ul>
+  <li>
+    <p>$IC_{50}$: The concentration of a drug required to inhibit a biological process by 50%. This is highly useful for screening, but can change depending on the lab conditions (assay-dependent).</p>
+  </li>
+  <li>
+    <p>$K_i$ (Inhibition Constant): Unlike $IC_{50}$, $K_i$ is an intrinsic property. It reflects the true “power” of an inhibitor regardless of how much enzyme is used in the experiment.</p>
+  </li>
+</ul>
+
+<h2 id="systems-biology">Systems Biology</h2>
+
+<p>Biological systems are more than the sum of their parts. <strong>Systems biology</strong> studies how molecular components interact to produce emergent behaviors — cell signaling, homeostasis, disease.</p>
+
+<h3 id="biological-pathways--networks">Biological Pathways &amp; Networks</h3>
+
+<p>Genes and their protein products don’t work in isolation. They interact in <strong>pathways</strong> and <strong>networks</strong> — coordinated molecular events that carry out biological functions.</p>
+
+<ul>
+  <li>
+    <p><strong>Signaling pathways (The Communication)</strong>: Relay information from outside the cell to the nucleus, triggering changes in gene expression or cell behavior. Examples: the <strong>MAPK/RAS pathway</strong> (frequently mutated in cancer), <strong>Wnt pathway</strong> (cell growth and differentiation), <strong>Notch pathway</strong> (cell fate decisions). Identifying “driver mutations” in pathways like MAPK/RAS is a core task in oncology.</p>
+  </li>
+  <li>
+    <p><strong>Metabolic pathways (The Factory)</strong>: Chains of enzyme-catalyzed chemical reactions that produce or break down molecules (e.g., glycolysis, the TCA cycle).</p>
+  </li>
+  <li>
+    <p><strong>Gene Regulatory Networks (The Control Logic)</strong>: Transcription factors don’t just regulate genes; they regulate each other. This creates complex feedback loops that allow a cell to “decide” its identity (e.g., becoming a muscle cell vs. a neuron) or respond to stress.</p>
+  </li>
+  <li>
+    <p><strong>Protein-protein interaction (PPI) networks</strong>: Physical interactions between proteins, mapped experimentally (yeast two-hybrid, co-immunoprecipitation) and computationally (<strong>STRING</strong> database). PPI networks reveal functional modules and disease-associated protein communities.</p>
+  </li>
+</ul>
+
+<!-- Understanding pathways matters for AI because individual gene associations are often noisy, but **pathway-level signals** are more robust and interpretable. Databases like **KEGG**, **Reactome**, and **Gene Ontology (GO)** catalog these pathways and functional annotations. -->
+
+<h3 id="from-variant-to-disease">From Variant to Disease</h3>
+
+<p>How does a DNA change lead to disease? The system-level view:</p>
+
+<ol>
+  <li>A <strong>variant</strong> alters a protein’s function or a gene’s expression level</li>
+  <li>The altered protein disrupts a <strong>biological pathway</strong></li>
+  <li>The disrupted pathway leads to a disease <strong>phenotype</strong> (e.g., uncontrolled cell growth → cancer)</li>
+</ol>
+
+<p><strong>Monogenic vs. polygenic diseases:</strong></p>
+
+<ul>
+  <li>
+    <p><strong>Monogenic</strong>: Caused by variants in a single gene (e.g. cystic fibrosis (CFTR gene)). These are the “low-hanging fruit” for AI.</p>
+  </li>
+  <li>
+    <p><strong>Polygenic</strong>: Influenced by many variants of small effect spread across the genome, plus environmental factors. Examples: type 2 diabetes, coronary artery disease. These require <strong>Polygenic Risk Scores (PRS)</strong> —a statistical sum of risk across the whole genome.</p>
+  </li>
+</ul>
+
+<p><strong>Why Variant Interpretation is Challenging</strong></p>
+
+<p>Not all variants cause disease. <strong>Variant interpretation</strong> – distinguishing between pathogenic (harmful), benign (harmless), and Variants of Uncertain Significance (VUS) is the primary challenge of clinical genomics. This is difficult because biological systems are not linear:</p>
+
+<ul>
+  <li>
+    <p><strong>Epistasis (Genetic Context)</strong> — The effect of one variant depends on variants at other genes. Gene A’s impact may only appear when gene B carries a specific variant. This makes prediction harder because variants don’t act independently — their effects are context-dependent.</p>
+  </li>
+  <li>
+    <p><strong>Robustness &amp; redundancy</strong> — Biological systems have backup mechanisms. Not all mutations cause disease. If Gene A is broken, it may have no phenotypic effect because Gene B, a paralog (a related gene from a duplication event) can kick in and compensate. This <strong>genetic redundancy</strong> is why predicting the impact of a variant is so difficult.</p>
+  </li>
+</ul>
+
+<h1 id="measurement--experimental-systems">Measurement &amp; Experimental Systems</h1>
+
+<p><em>How biology becomes data — the “sensors” of the biological world.</em></p>
+
+<p>To work with biological data, one must understand that it is not “born” digital. It is the result of a deliberate translation process. This pillar covers the “what” (Omics), the “how” (Sequencing), and the physical “where” (The Wet Lab). This section also describes the industrial scale at which that data is produced as in 2026. It serves as a bridge between the “Wet Lab” and the “Big Data” required for modern AI.</p>
+
+<h2 id="the-sequencing-spectrum">The Sequencing Spectrum</h2>
+
+<p><strong>Sequencing</strong> is the process of determining the exact order of bases (A, T, C, G) in a DNA or RNA molecule. It’s how we “read” biological data. The core technologies (<a href="https://www.illumina.com/science/technology/next-generation-sequencing.html">Illumina</a>, <a href="https://www.pacb.com/technology/hifi-sequencing/">PacBio</a>, <a href="https://nanoporetech.com/platform/technology">Oxford Nanopore</a>) and the multidimensional views they provide span from genomics to metabolomics.</p>
+
+<figure style="text-align: center;">
+  <p><img src="https://sequencing.com/sites/default/files/wysiwyg/283026/whole_genome_sequencing.jpg" width="70%" alt="Overview of the whole genome sequencing process." /></p>
+  <figcaption>
+    <div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>Overview of the whole genome sequencing process. (Source: &lt;a href="https://sequencing.com"&gt;Sequencing.com&lt;/a&gt;)
+</code></pre></div>    </div>
+  </figcaption>
+</figure>
+
+<ul>
+  <li>Whole Genome (WGS) vs. Exome (WES):
+    <ul>
+      <li><strong>Whole Genome Sequencing (WGS)</strong>: Read the entire genome. Expensive but comprehensive.</li>
+      <li><strong>Whole Exome Sequencing (WES)</strong>: Read only the protein-coding regions (~1-2% of the genome). Cheaper, still captures most disease-relevant variants.</li>
+    </ul>
+  </li>
+  <li>The Resolution Gap:
+    <ul>
+      <li><strong>Bulk RNA-seq</strong>: Measures the average gene expression across a tissue sample (a mixture of thousands/millions of cells).</li>
+      <li><strong>Single-cell RNA-seq (scRNA-seq)</strong>: A newer technology, measures RNA-seq at individual cell resolution. Produces a very sparse, high-dimensional matrix (cells × genes) ideal for manifold learning and clustering.</li>
+    </ul>
+  </li>
+  <li>Read Lengths:
+    <ul>
+      <li>
+        <p><strong>Short-read</strong> sequencing (e.g., Illumina) produces many small fragments (~150 base pairs) that must be assembled or aligned to a reference genome — like solving a jigsaw puzzle.</p>
+      </li>
+      <li>
+        <p><strong>Long-read</strong> sequencing (e.g., PacBio, Oxford Nanopore) reads much longer stretches (10,000+ base pairs), capturing structural complexity and reducing assembly ambiguity but with higher error rates.</p>
+      </li>
+    </ul>
+  </li>
+</ul>
+
+<h2 id="the-journey-of-a-sequence-from-cell-to-byte">The Journey of a Sequence: From Cell to Byte</h2>
+
+<p>The path from a biological sample to a digital file is viewed as a two-phase factory process.</p>
+
+<h3 id="phase-1-the-wet-lab-the-physical-front-end">Phase 1: The Wet Lab (The Physical “Front-End”)</h3>
+
+<figure style="text-align: center;">
+  <p><img src="https://www.researchgate.net/profile/Stefan-Wilkening/publication/235440335/figure/fig1/AS:214025330794500@1428039023378/Library-preparation-pipeline-DNA-isolation-is-performed-with-a-96-head-liquid-handling.png" width="70%" alt="Library preparation pipeline for DNA sequencing." /></p>
+  <figcaption>
+    <div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>Library preparation pipeline — from DNA isolation through sequencing using automated liquid handling. (Source: &lt;a href="https://www.researchgate.net/publication/235440335"&gt;Wilkening et al., ResearchGate&lt;/a&gt;)
+</code></pre></div>    </div>
+  </figcaption>
+</figure>
+
+<p>Before a computer can see a genome, the DNA must be physically prepared into a “sequencable” library.</p>
+
+<ul>
+  <li>
+    <p><strong>Sample Collection &amp; Extraction</strong>: DNA/RNA is isolated from biological matter. High yield and integrity (unbroken strands) are the goals.</p>
+  </li>
+  <li>
+    <p><strong>Fragmentation</strong>: DNA is physically shattered into manageable pieces (300–600bp) using sound waves (Sonication) or enzymes.</p>
+  </li>
+  <li>
+    <p><strong>Library Preparation</strong>:</p>
+
+    <ul>
+      <li>
+        <p>End Repair: Smoothing the broken ends of the DNA.</p>
+      </li>
+      <li>
+        <p>Adapter Ligation: Gluing synthetic DNA “adapters” to the ends. These act as “hooks” for the sequencer and “barcodes” (indexes) so multiple patients can be run in the same machine.</p>
+      </li>
+    </ul>
+  </li>
+  <li>
+    <p><strong>Sequencing</strong>: The library is loaded into a sequencer. The machine records fluorescent flashes as each base is added, outputting raw FASTQ files.</p>
+  </li>
+</ul>
+
+<h3 id="phase-2-the-dry-lab-the-computational-back-end">Phase 2: The Dry Lab (The Computational “Back-End”)</h3>
+
+<p>The digital pipeline takes the raw text strings and organizes them into a coherent map.</p>
+
+<ul>
+  <li>
+    <p><strong>Quality Control (FASTQ)</strong>: Checking “confidence scores” using tools like <strong>FastQC</strong>.</p>
+  </li>
+  <li>
+    <p><strong>Alignment (BAM)</strong>: Mapping fragments to a Reference Genome (the digital map) using aligners like BWA-MEM.</p>
+  </li>
+  <li>
+    <p><strong>Processing</strong>: Removing PCR Duplicates (clones that skew data) using Samtools or Picard.</p>
+  </li>
+  <li>
+    <p><strong>Variant Calling (VCF)</strong>: Identifying differences from the reference using GATK or DeepVariant.</p>
+  </li>
+  <li>
+    <p><strong>Annotation</strong>: Adding biological context (e.g., “This mutation is in the BRCA1 gene”) using VEP.</p>
+  </li>
+</ul>
+
+<h2 id="molecular-assays-measuring-activity--behavior">Molecular Assays: Measuring Activity &amp; Behavior</h2>
+
+<p>Beyond sequencing, standardized experimental procedures are the physical “sensors” used to measure specific biological variables:</p>
+
+<p>Sequencing tells you the blueprint/the code (e.g., “Does this patient have a mutation?”) and what is possible. <strong>Molecular Assays</strong> tell you the activity (what is actually happening). They measure quantity and behavior.These are physical “sensors” or experiments and provide the functional “ground truth” for biological models.</p>
+
+<h3 id="genetic--functional-engineering">Genetic &amp; Functional Engineering</h3>
+
+<ul>
+  <li>
+    <p><strong>PCR (Polymerase Chain Reaction)</strong>: The “photocopier.” It amplifies specific DNA segments for detection. qPCR adds a layer of quantification, measuring how much of a specific gene is present.</p>
+  </li>
+  <li>
+    <p><strong>CRISPR Screens</strong>: The “editor.” By systematically knocking out genes across a population, these screens identify which genes are essential for survival or drug resistance, creating massive datasets for Machine Learning.</p>
+  </li>
+</ul>
+
+<figure style="text-align: center;">
+  <p><img src="https://www.scilifelab.se/wp-content/uploads/2021/09/Screenshot-2021-09-17-at-15.20.18-2048x1664.png" width="70%" alt="Overview of a pooled CRISPR screen workflow." /></p>
+  <figcaption>
+    <div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>Overview of a pooled CRISPR screen workflow. (Source: &lt;a href="https://www.scilifelab.se/"&gt;SciLifeLab&lt;/a&gt;)
+</code></pre></div>    </div>
+  </figcaption>
+</figure>
+
+<h3 id="protein--biomarker-quantification">Protein &amp; Biomarker Quantification</h3>
+
+<ul>
+  <li>
+    <p><strong>ELISA</strong>: The “digital scale” for proteins. It quantifies the exact concentration of proteins (like antibodies or hormones) in a liquid sample. It is the standard for clinical diagnostics.</p>
+  </li>
+  <li>
+    <p><strong>Western Blot</strong>: The “ID check.” It confirms the presence and size of a specific protein. While lower throughput than ELISA, it is the gold standard for validation.</p>
+  </li>
+</ul>
+
+<h3 id="cellular-phenotyping">Cellular Phenotyping</h3>
+
+<ul>
+  <li>
+    <p><strong>Flow Cytometry (FACS)</strong>: The “high-speed inspector.” It analyzes thousands of individual cells per second as they pass through a laser, measuring size, complexity, and surface markers.</p>
+  </li>
+  <li>
+    <p><strong>Cell Viability Assays</strong>: The “fitness test.” A simple binary readout—does the cell live or die after treatment? This is the primary metric for drug-response modeling.</p>
+  </li>
+</ul>
+
+<h2 id="automation--robotics-scaling-the-wet-lab">Automation &amp; Robotics: Scaling the Wet Lab</h2>
+
+<p>In modern discovery, the lab bench has evolved into an industrial High-Throughput Screening (HTS) environment. We use robotics to generate the massive datasets required for biological foundation models and to create a standardized environment for millions of living “sensors” (cells) to be measured simultaneously.</p>
+
+<h3 id="the-automated-environment">The Automated Environment</h3>
+<p>Automation acts as the interface between the biologist and the cell. These systems don’t just move liquid; they manage the physical context of the experiment:</p>
+
+<ul>
+  <li>
+    <p>Liquid Handling Systems: These serve as the “digital pipettes,” delivering reagents to 384 or 1536-well plates. This allows us to test “Perturbations”—observing how cells react to thousands of different drug combinations or genetic edits in parallel.</p>
+  </li>
+  <li>
+    <p>High-Content Imaging: Robotic microscopes capture the “morphology” (shape and structure) of cells. By taking millions of photos, we can use AI to detect subtle biological shifts—like a nucleus shrinking or a mitochondria fragmenting—that a human eye would miss.</p>
+  </li>
+</ul>
+
+<h3 id="mechanical-stress--biological-artifacts">Mechanical Stress &amp; Biological Artifacts</h3>
+<p>When biology is scaled by machines, the machines themselves become part of the biological environment. This introduces specific “Machine-Driven” variables:</p>
+
+<ul>
+  <li>
+    <p>The “Edge Effect”: Even in a controlled lab, physics applies. Liquid in the outer wells of a plate evaporates faster than in the center. This changes the concentration of the growth media, meaning the cells on the “edge” are under more osmotic stress than those in the middle.</p>
+  </li>
+  <li>
+    <p>Vibration &amp; Shear Stress: Robots move plates at high speeds. The physical sloshing and vibration can trigger stress-response pathways in sensitive cells, meaning the “data” sometimes reflects the robot’s movement rather than the drug’s effect.</p>
+  </li>
+</ul>
+
+<h2 id="throughput-vs-depth-the-data-funnel">Throughput vs. Depth: The Data Funnel</h2>
+
+<p>In biological discovery, there is no “free lunch.” You must constantly navigate the inverse relationship between High-Throughput (Breadth) and High-Resolution (Depth). This creates a funnel-shaped pipeline: you start with a million digital guesses and end with one human-ready drug.</p>
+
+<h3 id="high-throughput-the-top-of-the-funnel">High-Throughput (The “Top of the Funnel”)</h3>
+
+<p>This is where Big Data is born. The goal is to cast the widest possible net to feed Machine Learning models.</p>
+
+<ul>
+  <li>
+    <p>The Scale: Generating $100,000+$ data points in a single campaign.</p>
+  </li>
+  <li>
+    <p>The Content: Measurements are often “shallow.” You might screen a library of compounds to see if they physically “stick” to a protein, but you won’t know if they are toxic to a living system.</p>
+  </li>
+  <li>
+    <p>The Drivers: Powered by Robotics, Automated Liquid Handling, and Next-Gen Sequencing.</p>
+  </li>
+</ul>
+
+<h3 id="high-resolution-the-bottom-of-the-funnel">High-Resolution (The “Bottom of the Funnel”)</h3>
+
+<p>This is where biological “truth” is verified. The goal is deep characterization and safety validation before moving to humans.</p>
+
+<ul>
+  <li>
+    <p>The Scale: Extremely low throughput. Due to cost and ethical constraints, you may only test $5–10$ final candidates.</p>
+  </li>
+  <li>
+    <p>The Content: “Deep” multidimensional data. This includes how a drug is metabolized by a liver, how it affects the immune system, and its long-term toxicity.</p>
+  </li>
+  <li>
+    <p>The Drivers: Powered by Complex Organoids, Animal Models, and Clinical Trials.</p>
+  </li>
+</ul>
+
+<h2 id="experimental-hierarchy-choosing-the-right-substrate">Experimental Hierarchy: Choosing the right “substrate”</h2>
+
+<p>We categorize experiments by their Informational Depth and biological complexity. There is a fundamental trade-off: as you move up the hierarchy toward human relevance, you lose experimental control and increase cost. This is the “Substrate” on which the biological code is executed.</p>
+
+<h3 id="digital--molecular-the-atomic-level">Digital &amp; Molecular (The “Atomic” Level)</h3>
+
+<p>At this stage, we focus on specific molecules in isolation.</p>
+
+<ul>
+  <li>
+    <p>In silico (Digital): Experiments performed entirely on a computer (e.g., ML models, molecular docking, or protein folding simulations). These are the fastest and cheapest but remain “hypothetical” until validated in the physical world.</p>
+  </li>
+  <li>
+    <p>In vitro (Molecular): “In glass.” Measuring specific “bits” of data in a test tube or dish. Examples include checking if a drug binds to a single protein or using PCR to see if a gene is “on.” Highly controllable and cheap, but lacks the context of life.</p>
+  </li>
+</ul>
+
+<h3 id="cellular--organoid-the-functional-level">Cellular &amp; Organoid (The “Functional” Level)</h3>
+
+<p>Here, we measure how the code interacts with a living cell. This is the primary substrate for High-Throughput Screening.</p>
+
+<ul>
+  <li>
+    <p>Cell Lines: Immortalized cells grown in the lab (e.g., HeLa, HEK293). They are standardized and reproducible “workhorses,” but because they’ve grown in dishes for decades, they may not faithfully represent real human tissue.</p>
+  </li>
+  <li>
+    <p>Organoids: 3D cell cultures that self-organize into miniature “mini-organs.” These are more biologically realistic than flat cell lines and are increasingly used to bridge the gap between a dish and a body.</p>
+  </li>
+</ul>
+
+<h3 id="organismal-the-systems-level">Organismal (The “Systems” Level)</h3>
+<p>To understand how a drug or mutation affects a whole body—including the immune system and metabolism—we move In vivo (into living organisms).</p>
+
+<ul>
+  <li>
+    <p>Model Organisms: We choose proxies based on the question. E. coli and yeast are used for basic cellular machinery; worms (C. elegans) and flies (Drosophila) for development; and mice for complex organ systems.</p>
+  </li>
+  <li>
+    <p>The “Gold Standard”: Animal models and clinical trials are the ultimate “Reality Check.” They are essential for translation but are expensive, slow, and ethically constrained.</p>
+  </li>
+</ul>
+
+<table>
+  <thead>
+    <tr>
+      <th>Substrate</th>
+      <th>Experimental Control</th>
+      <th>Biological Relevance</th>
+      <th>Cost / Time</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td>Digital (In silico)</td>
+      <td>Total</td>
+      <td>Low (Hypothetical)</td>
+      <td>Near Zero / Instant</td>
+    </tr>
+    <tr>
+      <td>Molecular (In vitro)</td>
+      <td>High</td>
+      <td>Low (Isolated)</td>
+      <td>Low / Hours</td>
+    </tr>
+    <tr>
+      <td>Cellular (Ex vivo)</td>
+      <td>Medium</td>
+      <td>Medium (Functional)</td>
+      <td>Moderate / Days</td>
+    </tr>
+    <tr>
+      <td>Organismal (In vivo)</td>
+      <td>Low</td>
+      <td>High (Systemic)</td>
+      <td>Very High / Months</td>
+    </tr>
+  </tbody>
+</table>
+
+<h2 id="the-reality-of-the-lab-constraints--failure-modes">The Reality of the Lab: Constraints &amp; Failure Modes</h2>
+
+<p>Biological data is never “clean” at the source. To build reliable models, one must account for the physical limitations of the lab—the “noise” that exists before a single byte is written to a server.</p>
+
+<h3 id="the-garbage-in-garbage-out-principle-integrity">The “Garbage In, Garbage Out” Principle (Integrity)</h3>
+
+<ul>
+  <li>
+    <p><strong>Sample Prep Reality</strong>: The digital file is only as good as the pipette work. If the cell lysis (breaking the cell) is too harsh, the DNA/RNA degrades. If stabilization is slow, the “activity” you measure reflects the cell’s death response rather than its natural state.</p>
+  </li>
+  <li>
+    <p><strong>Destructive Testing</strong>: Most high-resolution assays are terminal. To sequence a cell, you must destroy it. This creates a biological “Uncertainty Principle”: you cannot measure a single cell’s RNA and then its protein; you must rely on “sister” cells (clones), introducing an inherent layer of estimation.</p>
+  </li>
+</ul>
+
+<h3 id="systematic-bias--hidden-features-context">Systematic Bias &amp; “Hidden Features” (Context)</h3>
+
+<ul>
+  <li>
+    <p><strong>Batch Effects</strong>: Biology is hypersensitive to the environment. Samples processed on a humid Tuesday by Technician A often look fundamentally different from those processed on a dry Friday by Technician B.</p>
+  </li>
+  <li>
+    <p><strong>Confounders</strong>: Experimental design can accidentally “bake in” error. If “Disease” samples are processed in Lab A and “Healthy” samples in Lab B, the resulting data measures the difference in the labs’ equipment, not the biology of the disease. Experiments run on different days, by different people, or with different reagent lots often produce systematic differences unrelated to biology. This is the single biggest confounder in biomedical data and a primary reason models fail when moved to a different lab’s data. Always ask: “Were cases and controls processed in the same batch?”</p>
+  </li>
+</ul>
+
+<h2 id="the-economy-of-evidence-replicates--controls">The Economy of Evidence: Replicates &amp; Controls</h2>
+
+<p>In the digital world, copying data is free. In the “Wet Lab,” every data point has a literal price tag. To move from a “noisy” measurement to a biological “truth,” we use a specific architecture of validation:</p>
+
+<h3 id="the-n-problem-replicates">The “n” Problem: Replicates</h3>
+<p>A single measurement in biology is never trusted. We use two layers of redundancy to separate signal from noise:</p>
+
+<ul>
+  <li>
+    <p>Technical Replicates: Measuring the same sample three times. This tells us if our robots or sensors are precise. If these three numbers vary, your hardware is shaky.</p>
+  </li>
+  <li>
+    <p>Biological Replicates: Measuring three different mice or cell cultures. This tells us if the biology is consistent. This is the “real” variance that AI models must learn to navigate.</p>
+  </li>
+</ul>
+
+<h3 id="the-baseline-problem-controls">The “Baseline” Problem: Controls</h3>
+<p>An experiment without a control is just an observation; it’s not data.</p>
+
+<ul>
+  <li>
+    <p>Positive Controls: “We know this drug kills cells. Did it kill them today?” (Confirms the “sensor” is working).</p>
+  </li>
+  <li>
+    <p>Negative Controls (The Baseline): “What do the cells do if we do nothing?” (Establishes the “0” on your digital scale).</p>
+  </li>
+  <li>
+    <p>The “Knockout” Validation: If an ML model predicts Gene X is the cause of a disease, the gold standard is a “Knockout” experiment—physically removing Gene X to see if the disease disappears.</p>
+  </li>
+</ul>
+
+<h3 id="the-cost-of-truth">The Cost of “Truth”</h3>
+<p>This is why AI-driven discovery is a funnel. You might start with 1,000,000 digital predictions (In silico), but by the time you account for triple replicates and multiple controls, you may only have the budget to physically validate 10 of them.</p>
+
+<h2 id="agentic-lab-awareness-the-future">Agentic Lab Awareness: The Future</h2>
+
+<p>An emerging frontier: AI agents for <strong>biomedical hypothesis generation</strong> — systems that can read literature, query databases, analyze experimental results, and propose new hypotheses or experimental designs. Examples include <strong>Biomni</strong>-style agents that combine language models with structured biomedical knowledge.</p>
+
+<p>But useful agents must understand physical constraints. Before suggesting a hypothesis, they need to assess <strong>synthesizability</strong> (can the proposed molecule actually be made?), <strong>assay feasibility</strong> (does a suitable experimental readout exist?), and <strong>cost/time budgets</strong> (is this validation realistic for the lab?). Without this grounding, AI suggestions become “computationally plausible but experimentally useless.”</p>
+
+<h1 id="biomedical-data--bioinformatics">Biomedical Data &amp; Bioinformatics</h1>
+
+<p><em>How biology becomes machine-readable — the digital infrastructure.</em></p>
+
+<p>To work with biological data, one must understand that it is not “born” digital. It is the result of a deliberate translation process. This pillar covers the “What” (Omics), the “How” (The Pipeline), and the “Where” (The Databases).</p>
+
+<h2 id="the-omics-stack-a-multi-layered-blueprint">The Omics Stack: A Multi-Layered Blueprint</h2>
+
+<p>In biology, the suffix <strong>-omics</strong> means “studying the totality of X.” Rather than looking at one gene, we look at the entire system. Think of this as a full-stack architecture:</p>
+
+<ul>
+  <li>
+    <p><strong>Genomics</strong>: Studying all the DNA. This is the permanent, static blueprint of the organism.</p>
+  </li>
+  <li>
+    <p><strong>Epigenomics</strong>: Chemical modifications (switches) that tell the cell which parts of the DNA to read without changing the sequence itself.</p>
+  </li>
+  <li>
+    <p><strong>Transcriptomics</strong>: Studying all the RNA. These are the temporary “messages” being sent from the DNA to the protein factories. It represents gene expression—what the cell is doing right now.</p>
+  </li>
+  <li>
+    <p><strong>Proteomics</strong>: Studying all the proteins. These are the actual machines that do the work (enzymes, muscle, antibodies).</p>
+  </li>
+  <li>
+    <p><strong>Metabolomics</strong>: Studying small molecules (metabolites). This is the chemical output of the cell’s activity—the final “exhaust” of the biological engine.</p>
+  </li>
+</ul>
+
+<p><strong>Multi-omics</strong> is the holy grail of AI in biology: integrating these layers into a single, holistic model to predict how a change in the DNA (Genomics) results in a change in health (Metabolomics).</p>
+
+<h2 id="the-digital-dictionary">The Digital Dictionary</h2>
+<p>To build models, you must speak the language of the file formats. Here is how biological data maps to common ML structures:</p>
+
+<h3 id="data-formats">Data Formats</h3>
+
+<table>
+  <thead>
+    <tr>
+      <th>Format</th>
+      <th>Purpose</th>
+      <th>ML Analogy</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td><strong><a href="https://www.ncbi.nlm.nih.gov/genbank/fastaformat/">FASTA</a> / <a href="https://support.illumina.com/bulletins/2016/04/fastq-files-explained.html">FASTQ</a></strong></td>
+      <td>Raw sequences &amp; quality scores</td>
+      <td>Raw text / Strings with weights</td>
+    </tr>
+    <tr>
+      <td><strong><a href="https://samtools.github.io/hts-specs/">BAM / CRAM</a></strong></td>
+      <td>Aligned reads (mapped to a reference)</td>
+      <td>Anchored/Localized features</td>
+    </tr>
+    <tr>
+      <td><strong><a href="https://samtools.github.io/hts-specs/VCFv4.3.pdf">VCF</a></strong></td>
+      <td>Variant Call Format (mutations)</td>
+      <td>Sparse feature matrix of differences</td>
+    </tr>
+    <tr>
+      <td><strong><a href="https://www.rcsb.org/">PDB</a> / <a href="https://mmcif.wwpdb.org/">mmCIF</a></strong></td>
+      <td>3D Atomic coordinates</td>
+      <td>3D Point clouds / Graphs</td>
+    </tr>
+    <tr>
+      <td><strong><a href="https://anndata.readthedocs.io/">AnnData / h5ad</a></strong></td>
+      <td>Annotated data (used in single-cell)</td>
+      <td>Metadata-rich tensors (HDF5-based)</td>
+    </tr>
+  </tbody>
+</table>
+
+<figure style="text-align: center;">
+  <p><img src="https://compgenomr.github.io/book/images/fastaPic.png" width="70%" alt="Example of a FASTA file format showing sequence header and nucleotide sequence." /></p>
+  <figcaption>
+    <div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>Example of the FASTA file format — each entry begins with a header line (starting with &gt;) followed by the nucleotide or amino acid sequence. (Source: &lt;a href="https://compgenomr.github.io/book/"&gt;Computational Genomics with R&lt;/a&gt;)
+</code></pre></div>    </div>
+  </figcaption>
+</figure>
+
+<figure style="text-align: center;">
+  <p><img src="https://cdn.rcsb.org/rcsb-pdb/content/5fc537b03fb4b83beba83b23/Organization.jpg" width="70%" alt="Organization of a PDB entry showing atomic coordinates, metadata, and structural annotations." /></p>
+  <figcaption>
+    <div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>Organization of a PDB entry — each entry contains atomic coordinates, experimental metadata, and structural annotations for a biomolecular structure. (Source: &lt;a href="https://www.rcsb.org/"&gt;RCSB Protein Data Bank&lt;/a&gt;)
+</code></pre></div>    </div>
+  </figcaption>
+</figure>
+
+<h3 id="key-tools--algorithms">Key Tools &amp; Algorithms</h3>
+
+<ul>
+  <li><strong>Alignment</strong> (<a href="https://blast.ncbi.nlm.nih.gov/">BLAST</a>, <a href="https://github.com/lh3/bwa">BWA</a>, <a href="https://bowtie-bio.sourceforge.net/bowtie2/">Bowtie2</a>): Finding where a sequence “fits” in the genome.</li>
+  <li><strong>Assembly</strong>: Stitching short fragments into a continuous sequence.</li>
+  <li><strong>Variant Calling</strong> (<a href="https://gatk.broadinstitute.org/">GATK</a>): Identifying SNPs or Indels from aligned reads.</li>
+  <li><strong>Differential Expression</strong> (<a href="https://bioconductor.org/packages/DESeq2/">DESeq2</a> / <a href="https://bioconductor.org/packages/edgeR/">edgeR</a>): Statistical analysis of gene expression changes from RNA-seq count data.</li>
+  <li><strong>Single-cell Analysis</strong> (<a href="https://scanpy.readthedocs.io/">Scanpy</a> / <a href="https://satijalab.org/seurat/">Seurat</a>): Clustering, visualization, and trajectory inference for scRNA-seq data.</li>
+</ul>
+
+<figure style="text-align: center;">
+  <p><img src="https://scanpy.readthedocs.io/en/stable/_images/7c615842aa3a955f46581c1333bbb91b74a2fb9d38b7f18966a67a39cb1ce0f2.png" width="70%" alt="Scanpy UMAP visualization of single-cell RNA-seq clustering." /></p>
+  <figcaption>
+    <div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>Single-cell clustering and UMAP visualization produced by Scanpy. (Source: &lt;a href="https://scanpy.readthedocs.io/"&gt;Scanpy documentation&lt;/a&gt;)
+</code></pre></div>    </div>
+  </figcaption>
+</figure>
+
+<ul>
+  <li><strong>Visualization</strong>: <a href="https://pymol.org/">PyMOL</a> or <a href="https://www.cgl.ucsf.edu/chimerax/">ChimeraX</a> for 3D structures; <a href="https://genome.ucsc.edu/">UCSC Genome Browser</a> for linear genomic data.</li>
+  <li><strong>Cheminformatics</strong> (<a href="https://www.rdkit.org/">RDKit</a>): Working with molecules (SMILES parsing, fingerprints, descriptors).</li>
+</ul>
+
+<h2 id="the-bioinformatics-pipeline">The Bioinformatics Pipeline</h2>
+
+<p>For an ML practitioner, the entry point is usually a clean matrix. However, understanding the “Upstream” steps is vital for debugging Batch Effects and Confounders.</p>
+
+<ol>
+  <li>
+    <p>Preprocessing (Quality Control): Raw reads arrive as FASTQ files. We use tools like <a href="https://www.bioinformatics.babraham.ac.uk/projects/fastqc/">FastQC</a> to trim “adapters” (synthetic DNA hooks) and filter out low-quality reads.</p>
+  </li>
+  <li>
+    <p>Alignment (Mapping): We find where a sequence “fits” in the genome by mapping it to a reference map, creating a BAM file. (Analogous to anchoring raw text to a specific coordinate).</p>
+  </li>
+  <li>
+    <p>Quantification &amp; Calling:</p>
+
+    <ul>
+      <li>
+        <p>RNA-seq: We count how many times a gene was “read” to create a Gene Expression Matrix.</p>
+      </li>
+      <li>
+        <p>DNA-seq: We identify mutations (SNPs or Indels) to create a VCF file.</p>
+      </li>
+    </ul>
+  </li>
+  <li>
+    <p>Downstream Interpretation: We use statistical tools like <a href="https://bioconductor.org/packages/DESeq2/">DESeq2</a> to find “Differential Expression” (which genes changed between healthy and sick?) and <a href="https://www.ensembl.org/info/docs/tools/vep/">VEP</a> to add context (is this mutation in a known cancer gene?).</p>
+  </li>
+</ol>
+
+<h3 id="biological-databases-the-library">Biological Databases (The “Library”)</h3>
+<p>Data is useless without context. These curated repositories provide the ground truth for training ML models.</p>
+
+<ul>
+  <li>
+    <p><strong>Genomes:</strong> <a href="https://www.ncbi.nlm.nih.gov/genbank/">GenBank/NCBI</a> (sequences), <a href="https://www.ensembl.org/">Ensembl</a> (annotations &amp; comparative genomics), <a href="https://www.ncbi.nlm.nih.gov/clinvar/">ClinVar</a> (variant-disease associations), <a href="https://gnomad.broadinstitute.org/">gnomAD</a> (population allele frequencies).</p>
+  </li>
+  <li>
+    <p><strong>Proteins:</strong> <a href="https://www.uniprot.org/">UniProt</a> (sequences &amp; function — hundreds of millions of entries), <a href="https://www.rcsb.org/">PDB</a> (experimentally determined 3D structures, ~220K), <a href="https://alphafold.ebi.ac.uk/">AlphaFold DB</a> (predicted structures for ~200M proteins). The gap between known sequences and known structures is why structure prediction is such an important problem.</p>
+  </li>
+  <li>
+    <p><strong>Pathways &amp; Function:</strong> <a href="http://geneontology.org/">Gene Ontology/GO</a> (standardized function vocabulary), <a href="https://www.genome.jp/kegg/">KEGG</a> (pathway maps), <a href="https://reactome.org/">Reactome</a> (curated human pathways), <a href="https://string-db.org/">STRING</a> (protein-protein interaction networks).</p>
+  </li>
+  <li>
+    <p><strong>Drugs &amp; Chemistry:</strong> <a href="https://www.ebi.ac.uk/chembl/">ChEMBL</a> (bioactivity data), <a href="https://pubchem.ncbi.nlm.nih.gov/">PubChem</a> (compound properties), <a href="https://zinc.docking.org/">ZINC</a> (~1B purchasable molecules for virtual screening), <a href="https://go.drugbank.com/">DrugBank</a> (drug mechanisms &amp; pharmacology).</p>
+  </li>
+</ul>
+
+<h1 id="statistical-genetics-modeling--ai">Statistical Genetics, Modeling &amp; AI</h1>
+
+<p><em>How we infer and predict — the “intelligence” layer.</em></p>
+
+<p>Once biology is digitized, we must interpret it. This layer moves from <strong>Statistical Genetics</strong> (asking “What causes this disease?”) to <strong>Representation Learning</strong> (asking “Can we simulate or design this system?”).</p>
+
+<h2 id="statistical-genetics-linking-variants-to-traits">Statistical Genetics: Linking Variants to Traits</h2>
+
+<p>Statistical genetics is the framework used to determine if a genetic mutation actually matters. It treats the population as a massive, natural experiment to find the “ground truth” linking Genotype (the code) to Phenotype (the trait).</p>
+
+<h3 id="gwas--manhattan-plots">GWAS &amp; Manhattan Plots</h3>
+
+<p>A <strong>Genome-Wide Association Study (GWAS)</strong> scans millions of variants across thousands of individuals to find SNPs statistically associated with a disease.</p>
+
+<ul>
+  <li>
+    <p>The Result: A <strong>Manhattan Plot</strong>—a visualization of p-values across the genome. High “peaks” indicate loci (locations) where the genetic signal is strongest.</p>
+  </li>
+  <li>
+    <p>The Insight: GWAS typically finds that most traits are polygenic, meaning they are influenced by thousands of variants with tiny individual effects, rather than a single “smoking gun” gene.</p>
+  </li>
+</ul>
+
+<figure style="text-align: center;">
+  <p><img src="https://upload.wikimedia.org/wikipedia/commons/4/4f/Manhattan_plot_from_a_GWAS_of_kidney_stone_disease.png" width="70%" alt="Manhattan plot from a GWAS of kidney stone disease showing several strongly associated risk loci." /></p>
+  <figcaption>
+    <div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>An illustration of a Manhattan plot depicting several strongly associated risk loci. Each dot represents a SNP, with the X-axis showing genomic location and Y-axis showing association level. This example is taken from a GWA study investigating kidney stone disease, so the peaks indicate genetic variants that are found more often in individuals with kidney stones. (Source: &lt;a href="https://commons.wikimedia.org/wiki/File:Manhattan_plot_from_a_GWAS_of_kidney_stone_disease.png"&gt;Wikimedia Commons&lt;/a&gt;)
+</code></pre></div>    </div>
+  </figcaption>
+</figure>
+
+<h3 id="the-logic-of-inheritance-ld--heritability">The Logic of Inheritance (LD &amp; Heritability)</h3>
+
+<ul>
+  <li>
+    <p><strong>Linkage Disequilibrium (LD)</strong>: Genetic variants that are physically close on a chromosome tend to be inherited together as a block. A GWAS “hit” may not be the causal mutation; it might just be a nearby “tag” correlated with the actual driver. Fine-mapping is the process of pinpointing the true causal variant within an LD block.</p>
+  </li>
+  <li>
+    <p><strong>Heritability</strong>: The proportion of trait variation (e.g., height or heart disease risk) explained by genetics vs. environment.</p>
+    <ul>
+      <li><strong>Broad-sense Heritability</strong>: The total proportion of variation due to genetics. The proportion of trait variation explained by genetics (vs. environment). Height is ~80% heritable; most diseases are 30–60%.</li>
+      <li><strong>SNP heritability</strong> is the fraction explained by common variants alone always lower than total heritability. The Missing Heritability Problem: SNP-based models often explain less variation than we observe in families, suggesting many rare or complex variants remain hidden from our current models.</li>
+    </ul>
+  </li>
+</ul>
+
+<h3 id="polygenic-risk-scores-prs--eqtls">Polygenic Risk Scores (PRS) &amp; eQTLs</h3>
+
+<ul>
+  <li><strong>Polygenic Risk Score (PRS)</strong>: A linear model that sums up an individual’s risk alleles weighted by their effect size:</li>
+</ul>
+
+\[\text{PRS} = \sum_{i=1}^{n} \beta_i \times g_i\]
+
+<p>where $\beta_i$ is the effect size of variant $i$ and $g_i$ is the individual’s genotype (0, 1, or 2 copies of the risk allele). It predicts disease susceptibility but often struggles with “transferability” across different ancestries.</p>
+
+<ul>
+  <li><strong>eQTL (Expression Quantitative Trait Locus)</strong>: Variants that influence gene expression levels. Linking GWAS hits to eQTLs helps explain <em>how</em> a variant affects biology — it changes how much of a gene is expressed, rather than changing the protein itself.</li>
+</ul>
+
+<p>For ML practitioners, statistical genetics data is attractive because the datasets are large (biobanks with 500K+ individuals), the labels are well-defined (disease diagnosis, quantitative traits), and the features are structured (genotype matrices). But beware of population stratification, LD structure, and the fact that most GWAS signals are in non-coding regions whose function is poorly understood.</p>
+
+<h2 id="representation-learning-for-biology">Representation Learning for Biology</h2>
+
+<p>To use AI effectively, we must represent biological entities in a way that neural networks can “understand.”</p>
+
+<h3 id="biological-language-models-1d-sequences">Biological Language Models (1D Sequences)</h3>
+
+<p>These models are <em>LLMs for DNA &amp; Proteins</em>. 
+They treat biological sequences like a language, learning the functional patterns of biological strings through self-supervised learning on massive databases.</p>
+
+<ul>
+  <li><strong>DNA/RNA models</strong>. These models learn to predict the next base in a genome, allowing them to identify “grammatical” errors (pathogenic variants) or predict gene expression directly from sequence.
+    <ul>
+      <li>Notable models: <strong><a href="https://www.science.org/doi/10.1126/science.ado9336">Evo</a></strong> (long-context DNA generation), <strong><a href="https://www.nature.com/articles/s41592-023-02106-w">Nucleotide Transformer</a></strong> (genomic variant effect prediction), <strong><a href="https://www.nature.com/articles/s41592-021-01252-x">Enformer</a></strong> (gene expression from sequence).</li>
+    </ul>
+  </li>
+  <li><strong>Protein models</strong>. These learn the “evolutionary grammar” of amino acids. They are used to predict protein function and design entirely new sequences that have never existed in nature. Applications include function prediction (GO term prediction) and protein design (generating sequences that fold into desired structures).
+    <ul>
+      <li>Notable models: <strong><a href="https://www.science.org/doi/10.1126/science.adp2138">ESM-3</a></strong> (multimodal protein representation), <strong><a href="https://ieeexplore.ieee.org/document/9477085">ProtTrans</a></strong> (protein sequence embeddings).</li>
+    </ul>
+  </li>
+</ul>
+
+<h3 id="geometric-deep-learning-3d-structures--graphs">Geometric Deep Learning (3D Structures &amp; Graphs)</h3>
+
+<p>Instead of flat strings, these models operate on spatial coordinates and networks, treating biology as a physical machine where shape dictates function.</p>
+
+<ul>
+  <li><strong>Structure Prediction &amp; Modeling</strong>: Predicting how a sequence folds into a 3D shape or how complex molecules interact.
+    <ul>
+      <li>Notable models: <strong><a href="https://www.nature.com/articles/s41586-024-07487-w">AlphaFold 3</a></strong> (biomolecular complex prediction), <strong><a href="https://www.science.org/doi/10.1126/science.abj8754">RoseTTAFold</a></strong> (structure prediction),</li>
+    </ul>
+  </li>
+  <li><strong>Generative Protein Design (Diffusion)</strong>: treats protein design like image generation: it starts with a cloud of random “noise” (disorganized atoms) and iteratively refines it into a precise, functional 3D shape. This “denoising” process allows scientists to “write” proteins with atomic accuracy to solve specific medical challenges that natural evolution never addressed.
+    <ul>
+      <li>Notable Model: <strong><a href="https://www.nature.com/articles/s41586-023-06415-8">RFdiffusion</a></strong> (structure-based protein design).</li>
+    </ul>
+  </li>
+  <li><strong>Graph-Based Representations</strong>: Treating molecules as graphs (atoms as nodes, bonds as edges) or mapping biological networks (Protein-protein interaction and gene regulatory maps).
+    <ul>
+      <li>Notable Model: <strong><a href="https://pubs.rsc.org/en/content/articlelanding/2018/sc/c7sc02664a">MoleculeNet</a></strong> (GNNs for drug property prediction).</li>
+      <li>Biological Networks: <strong><a href="https://www.biorxiv.org/content/10.64898/2026.01.26.701665v1">DMG-PPI</a></strong> — dual-channel graph learning that reveals similarity and complementarity in protein-protein interaction networks (Tang et al., 2026). <strong><a href="https://www.biorxiv.org/content/10.64898/2026.01.28.702229v1">GATv2 for GRN</a></strong> — Graph Attention Networks (GATv2) applied to gene regulatory networks for predicting direct reprogramming factors (Kawasaki et al., 2026).</li>
+    </ul>
+  </li>
+</ul>
+
+<h3 id="benchmarks--competitions">Benchmarks &amp; Competitions</h3>
+
+<p>These resources below provide the standardized datasets and competitions that drive the field forward.</p>
+
+<table>
+  <thead>
+    <tr>
+      <th>Resource</th>
+      <th>Category</th>
+      <th>Purpose</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td><strong><a href="https://tdcommons.ai/">Therapeutics Data Commons (TDC)</a></strong></td>
+      <td>Drug Discovery</td>
+      <td>ML-ready datasets for safety, solubility, and efficacy.</td>
+    </tr>
+    <tr>
+      <td><strong><a href="https://moleculenet.org/">MoleculeNet</a></strong></td>
+      <td>Chemistry</td>
+      <td>Benchmark for property prediction on molecular graphs.</td>
+    </tr>
+    <tr>
+      <td><strong><a href="https://predictioncenter.org/">CASP</a></strong></td>
+      <td>Structure</td>
+      <td>The “Olympics” of protein structure prediction (where AlphaFold debuted).</td>
+    </tr>
+    <tr>
+      <td><strong><a href="https://github.com/songlab-cal/tape">TAPE</a></strong></td>
+      <td>Embeddings</td>
+      <td>Benchmarks for evaluating how well a model “understands” protein sequences.</td>
+    </tr>
+    <tr>
+      <td><strong><a href="https://dreamchallenges.org/">DREAM Challenges</a></strong></td>
+      <td>Systems Bio</td>
+      <td>Crowdsourced challenges for solving complex translational medicine problems.</td>
+    </tr>
+  </tbody>
+</table>
+
+<h1 id="drug-discovery--translation">Drug Discovery &amp; Translation</h1>
+<p><em>From Digital Prediction to Clinical Reality.</em></p>
+
+<table>
+  <thead>
+    <tr>
+      <th>Term</th>
+      <th>What It Is</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td><strong>Drug target</strong></td>
+      <td>A biological molecule (often a protein) that the drug acts on.</td>
+    </tr>
+    <tr>
+      <td><strong>Small molecule</strong></td>
+      <td>A low molecular weight compound (&lt;900 Da) that can enter cells. Most traditional drugs.</td>
+    </tr>
+    <tr>
+      <td><strong>Biologic</strong></td>
+      <td>A large, complex molecule made from living systems (antibodies, vaccines, gene therapies).</td>
+    </tr>
+    <tr>
+      <td><strong>SMILES</strong></td>
+      <td>A text notation for representing molecular structures (e.g., <code class="language-plaintext highlighter-rouge">CC(=O)Oc1ccccc1C(=O)O</code> is aspirin).</td>
+    </tr>
+    <tr>
+      <td><strong>Molecular graph</strong></td>
+      <td>A molecule represented as a graph: atoms = nodes, bonds = edges.</td>
+    </tr>
+    <tr>
+      <td><strong>Binding affinity</strong></td>
+      <td>How strongly a drug binds to its target.</td>
+    </tr>
+    <tr>
+      <td><strong>ADMET</strong></td>
+      <td>Absorption, Distribution, Metabolism, Excretion, Toxicity — key pharmacokinetic properties a drug must have.</td>
+    </tr>
+    <tr>
+      <td><strong>High-throughput screening (HTS)</strong></td>
+      <td>Testing thousands–millions of compounds against a target in automated experiments.</td>
+    </tr>
+    <tr>
+      <td><strong>Virtual screening</strong></td>
+      <td>Using computational methods to score/filter compounds before synthesis.</td>
+    </tr>
+  </tbody>
+</table>
+
+<h2 id="the-industrial-funnel-timeline--economics">The Industrial Funnel: Timeline &amp; Economics</h2>
+
+<p>Drug development is a brutal filtering process. As we saw in the Throughput vs. Depth section, we start with millions of candidates and end with one approved therapy.</p>
+
+<table>
+  <thead>
+    <tr>
+      <th>Stage</th>
+      <th>What Happens</th>
+      <th>Typical Timeline</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td><strong>Target identification</strong></td>
+      <td>Find a biological molecule (usually a protein) involved in the disease.</td>
+      <td>1–2 years</td>
+    </tr>
+    <tr>
+      <td><strong>Hit discovery</strong></td>
+      <td>Screen for molecules that interact with the target.</td>
+      <td>1–2 years</td>
+    </tr>
+    <tr>
+      <td><strong>Lead optimization</strong></td>
+      <td>Refine hit molecules to improve potency, selectivity, and safety.</td>
+      <td>2–3 years</td>
+    </tr>
+    <tr>
+      <td><strong>Preclinical</strong></td>
+      <td>Test in cell models and animals for safety and efficacy.</td>
+      <td>1–2 years</td>
+    </tr>
+    <tr>
+      <td><strong>Clinical trials</strong></td>
+      <td>Test in humans. Phase I (safety), Phase II (efficacy), Phase III (large-scale).</td>
+      <td>5–7 years</td>
+    </tr>
+    <tr>
+      <td><strong>Regulatory approval</strong></td>
+      <td>FDA / EMA review.</td>
+      <td>1–2 years</td>
+    </tr>
+  </tbody>
+</table>
+
+<p>It will take ~10–15 years end-to-end with &gt;$1 billion on average. Biology is non-linear. Approximately 90% of drugs that look “perfect” in a computer or a mouse fail when they reach human clinical trials. This is the Translation Gap your models are trying to bridge.</p>
+
+<h2 id="how-a-typical-drug-discovery-workflow-looks">How a Typical Drug Discovery Workflow Looks</h2>
+
+<figure style="text-align: center;">
+  <p><img src="https://www.researchgate.net/publication/378872737/figure/fig2/AS:11431281253362827@1718849380083/A-schematic-diagram-illustrating-the-drug-discovery-pipeline-including-all-stages-from.png" width="70%" alt="Drug discovery pipeline from target identification to clinical trials" /></p>
+  <figcaption>
+    <div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>A schematic diagram illustrating the drug discovery pipeline, including all stages from target identification to clinical approval. (Source: &lt;a href="https://www.researchgate.net/publication/378872737"&gt;ResearchGate&lt;/a&gt;)
+</code></pre></div>    </div>
+  </figcaption>
+</figure>
+
+<p>Modern drug discovery is a closed-loop system between the Dry Lab and the Wet Lab.</p>
+
+<ol>
+  <li>Target identification → literature + omics data → select a protein target</li>
+  <li>Structure determination → obtain or predict 3D structure (PDB, AlphaFold)</li>
+  <li>Virtual screening → “Dock” millions of compounds against the protein digitally to see which ones fit → rank candidates</li>
+  <li>Property prediction → predict ADMET, solubility, toxicity (e.g., “Will this drug dissolve in water?” or “Will it damage the liver?”).</li>
+  <li>Lead optimization → iterative design-make-test cycle</li>
+  <li>Experimental validation → synthesize top candidates, test in vitro/in vivo</li>
+</ol>
+
+<h2 id="where-ai-can-help">Where AI can help.</h2>
+
+<ul>
+  <li><strong>Molecular property prediction</strong>: Predicting solubility, toxicity, binding affinity from SMILES or molecular graphs (GNNs, transformers).</li>
+  <li><strong>De novo molecule generation</strong>: Designing new molecules with desired properties (VAEs, diffusion models, reinforcement learning).</li>
+  <li><strong>Virtual screening</strong>: Scoring large compound libraries against a target (docking + ML scoring functions).</li>
+  <li><strong>Retrosynthesis</strong>: Planning how to synthesize a target molecule from available reagents (sequence-to-sequence models).</li>
+  <li><strong>Drug repurposing</strong>: Predicting new uses for existing drugs using knowledge graphs and link prediction.</li>
+  <li><strong>Clinical trial optimization</strong>: Patient stratification, endpoint prediction, trial design.</li>
+</ul>
+
+<h1 id="references">References</h1>
+
+<ul>
+  <li><a href="https://www.fjc.gov/content/361230/DNA-basics-nucleotides-genes-genome">DNA Basics: Nucleotides, Genes, and Genomes</a> — Federal Judicial Center</li>
+  <li><a href="https://www.geeksforgeeks.org/biology/central-dogma-steps-guide/">Central Dogma: Steps Guide</a> — GeeksforGeeks</li>
+  <li><a href="https://biologydictionary.net/protein-structure/">Protein Structure</a> — Biology Dictionary</li>
+  <li>Jumper, J. et al. <a href="https://www.nature.com/articles/s41586-021-03819-2">Highly accurate protein structure prediction with AlphaFold</a>. <em>Nature</em> 596, 583–589 (2021).</li>
+  <li>Abramson, J. et al. <a href="https://www.nature.com/articles/s41586-024-07487-w">Accurate structure prediction of biomolecular interactions with AlphaFold 3</a>. <em>Nature</em> 630, 493–500 (2024).</li>
+  <li>Shaw, D.E. et al. <a href="https://www.science.org/doi/10.1126/science.1187409">Millisecond-scale molecular dynamics simulations on Anton</a>. <em>SC ‘09</em> (2009).</li>
+  <li><a href="https://louis.pressbooks.pub/generalbiology1leclab/chapter/regulation-of-gene-expression/">Regulation of Gene Expression</a> — General Biology I Lecture &amp; Lab</li>
+  <li><a href="https://www.nature.com/scitable/topicpage/protein-function-14123348/">Protein Function</a> — Nature Scitable</li>
+</ul>]]></content><author><name></name></author><category term="AI" /><category term="Biomedical Science" /><category term="Biomedical" /><category term="Genomics" /><category term="Proteins" /><category term="Drug Discovery" /><summary type="html"><![CDATA[An introduction to biomedical science for AI/ML practitioners — covering molecular biology, genomics, proteins, and drug discovery.]]></summary></entry><entry><title type="html">Demystifying Gradients</title><link href="https://yuanxue.github.io/2025/12/26/demystify-gradients.html" rel="alternate" type="text/html" title="Demystifying Gradients" /><published>2025-12-26T23:17:56-08:00</published><updated>2025-12-26T23:17:56-08:00</updated><id>https://yuanxue.github.io/2025/12/26/demystify-gradients</id><content type="html" xml:base="https://yuanxue.github.io/2025/12/26/demystify-gradients.html"><![CDATA[<ul id="markdown-toc">
   <li><a href="#mathematical-definition-and-concepts" id="markdown-toc-mathematical-definition-and-concepts">Mathematical Definition and Concepts</a>    <ul>
       <li><a href="#gradient" id="markdown-toc-gradient">Gradient</a></li>
       <li><a href="#compute-gradients-in-neural-network" id="markdown-toc-compute-gradients-in-neural-network">Compute Gradients in Neural Network</a>        <ul>
@@ -652,7 +2285,7 @@ Layer: bias | Norm: 2.6719 | Max: -2.6719
 
 <h1 id="summary">Summary</h1>
 
-<p>Architectural choices like residual connections and normalization lay the foundation for stable gradient flow, but monitoring and controlling gradients is what keeps large model training on track. Effective trainers treat gradient inspection as a first-class diagnostic tool. Just like life is a continuous hill-climbing journey towards your goals, gradients represent each strategic step. Happy <strong>gradient ascending in 2026!</strong></p>]]></content><author><name></name></author><category term="AI" /><category term="LLM" /><category term="Deep Learning" /><category term="Gradients" /><category term="Normalization" /><category term="Residuals" /><category term="Clipping" /></entry><entry><title type="html">Reflections on Richard Sutton’s Interview: Part II — Goal and Acting</title><link href="https://yuanxue.github.io/2025/10/26/reflection-sutton-part2.html" rel="alternate" type="text/html" title="Reflections on Richard Sutton’s Interview: Part II — Goal and Acting" /><published>2025-10-26T00:00:00-07:00</published><updated>2025-10-26T00:00:00-07:00</updated><id>https://yuanxue.github.io/2025/10/26/reflection-sutton-part2</id><content type="html" xml:base="https://yuanxue.github.io/2025/10/26/reflection-sutton-part2.html"><![CDATA[<ul id="markdown-toc">
+<p>Architectural choices like residual connections and normalization lay the foundation for stable gradient flow, but monitoring and controlling gradients is what keeps large model training on track. Effective trainers treat gradient inspection as a first-class diagnostic tool. Just like life is a continuous hill-climbing journey towards your goals, gradients represent each strategic step. Happy <strong>gradient ascending in 2026!</strong></p>]]></content><author><name></name></author><category term="AI" /><category term="LLM" /><category term="Deep Learning" /><category term="Gradients" /><category term="Normalization" /><category term="Residuals" /><category term="Clipping" /><summary type="html"><![CDATA[A practitioner-focused explanation of gradient behavior, diagnostics, and stability techniques in large language model training.]]></summary></entry><entry><title type="html">Reflections on Richard Sutton’s Interview: Part II — Goal and Acting</title><link href="https://yuanxue.github.io/2025/10/26/reflection-sutton-part2.html" rel="alternate" type="text/html" title="Reflections on Richard Sutton’s Interview: Part II — Goal and Acting" /><published>2025-10-26T00:00:00-07:00</published><updated>2025-10-26T00:00:00-07:00</updated><id>https://yuanxue.github.io/2025/10/26/reflection-sutton-part2</id><content type="html" xml:base="https://yuanxue.github.io/2025/10/26/reflection-sutton-part2.html"><![CDATA[<ul id="markdown-toc">
   <li><a href="#suttons-view-intelligence-requires-a-goal" id="markdown-toc-suttons-view-intelligence-requires-a-goal">Sutton’s View: Intelligence Requires a Goal</a></li>
   <li><a href="#two-approaches-to-rl" id="markdown-toc-two-approaches-to-rl">Two Approaches to RL</a></li>
   <li><a href="#llms-as-policies" id="markdown-toc-llms-as-policies">LLMs as Policies</a></li>
