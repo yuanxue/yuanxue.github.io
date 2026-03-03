@@ -2,6 +2,7 @@
 layout: post
 title: "Demystifying Gradients"
 date:   2025-12-27 00:17:56 -0700
+description: "A practitioner-focused explanation of gradient behavior, diagnostics, and stability techniques in large language model training."
 tags: [Gradients, Normalization, Residuals, Clipping]
 categories: [AI, LLM, Deep Learning]
 mermaid: true
