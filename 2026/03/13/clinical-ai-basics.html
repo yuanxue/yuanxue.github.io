@@ -1,0 +1,330 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head><head>
+  <meta charset="utf-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1"><!-- Begin Jekyll SEO tag v2.8.0 -->
+<title>Clinical AI Basics for ML People | Yuan (Emily) Xue</title>
+<meta name="generator" content="Jekyll v4.4.1" />
+<meta property="og:title" content="Clinical AI Basics for ML People" />
+<meta property="og:locale" content="en_US" />
+<meta name="description" content="An introduction to medical imaging and electronic health records for AI/ML practitioners entering clinical AI." />
+<meta property="og:description" content="An introduction to medical imaging and electronic health records for AI/ML practitioners entering clinical AI." />
+<link rel="canonical" href="https://yuanxue.github.io/2026/03/13/clinical-ai-basics.html" />
+<meta property="og:url" content="https://yuanxue.github.io/2026/03/13/clinical-ai-basics.html" />
+<meta property="og:site_name" content="Yuan (Emily) Xue" />
+<meta property="og:type" content="article" />
+<meta property="article:published_time" content="2026-03-13T00:00:00-07:00" />
+<meta name="twitter:card" content="summary" />
+<meta property="twitter:title" content="Clinical AI Basics for ML People" />
+<script type="application/ld+json">
+{"@context":"https://schema.org","@type":"BlogPosting","dateModified":"2026-03-13T00:00:00-07:00","datePublished":"2026-03-13T00:00:00-07:00","description":"An introduction to medical imaging and electronic health records for AI/ML practitioners entering clinical AI.","headline":"Clinical AI Basics for ML People","mainEntityOfPage":{"@type":"WebPage","@id":"https://yuanxue.github.io/2026/03/13/clinical-ai-basics.html"},"url":"https://yuanxue.github.io/2026/03/13/clinical-ai-basics.html"}</script>
+<!-- End Jekyll SEO tag -->
+<link rel="stylesheet" href="/assets/main.css"><link type="application/atom+xml" rel="alternate" href="https://yuanxue.github.io/feed.xml" title="Yuan (Emily) Xue" /></head>
+<script data-goatcounter="https://yuanxue.goatcounter.com/count"
+        async src="//gc.zgo.at/count.js"></script>
+  </head>
+  <body><header class="site-header" role="banner">
+
+  <div class="wrapper"><a class="site-title" rel="author" href="/">Yuan (Emily) Xue</a><nav class="site-nav">
+        <input type="checkbox" id="nav-trigger" class="nav-trigger" />
+        <label for="nav-trigger">
+          <span class="menu-icon">
+            <svg viewBox="0 0 18 15" width="18px" height="15px">
+              <path d="M18,1.484c0,0.82-0.665,1.484-1.484,1.484H1.484C0.665,2.969,0,2.304,0,1.484l0,0C0,0.665,0.665,0,1.484,0 h15.032C17.335,0,18,0.665,18,1.484L18,1.484z M18,7.516C18,8.335,17.335,9,16.516,9H1.484C0.665,9,0,8.335,0,7.516l0,0 c0-0.82,0.665-1.484,1.484-1.484h15.032C17.335,6.031,18,6.696,18,7.516L18,7.516z M18,13.516C18,14.335,17.335,15,16.516,15H1.484 C0.665,15,0,14.335,0,13.516l0,0c0-0.82,0.665-1.483,1.484-1.483h15.032C17.335,12.031,18,12.695,18,13.516L18,13.516z"/>
+            </svg>
+          </span>
+        </label>
+
+        <div class="trigger"><a class="page-link" href="/blog/">Blog</a><a class="page-link" href="/">Home</a></div>
+      </nav></div>
+</header>
+<main class="page-content" aria-label="Content">
+      <div class="wrapper">
+        <article class="post h-entry" itemscope itemtype="http://schema.org/BlogPosting">
+
+  <header class="post-header">
+    <h1 class="post-title p-name" itemprop="name headline">Clinical AI Basics for ML People</h1>
+    <p class="post-meta">
+      <time class="dt-published" datetime="2026-03-13T00:00:00-07:00" itemprop="datePublished">Mar 13, 2026
+      </time></p>
+      <script>
+      window.MathJax = {
+        tex: {
+          inlineMath: [['$', '$'], ['\\(', '\\)']],
+          displayMath: [['$$', '$$'], ['\\[', '\\]']]
+        },
+        svg: {
+          fontCache: 'global'
+        }
+      };
+    </script>
+    <script src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-svg.js"></script>
+  </header>
+
+    <nav class="post-toc" aria-label="Table of Contents">
+    
+  </nav>
+
+  <div class="post-content e-content" itemprop="articleBody">
+    <ul id="markdown-toc">
+  <li><a href="#medical-imaging" id="markdown-toc-medical-imaging">Medical Imaging</a>    <ul>
+      <li><a href="#imaging-modalities" id="markdown-toc-imaging-modalities">Imaging Modalities</a></li>
+      <li><a href="#key-terms" id="markdown-toc-key-terms">Key Terms</a></li>
+      <li><a href="#where-ai-fits-in" id="markdown-toc-where-ai-fits-in">Where AI Fits In</a></li>
+    </ul>
+  </li>
+  <li><a href="#clinical-data--electronic-health-records" id="markdown-toc-clinical-data--electronic-health-records">Clinical Data &amp; Electronic Health Records</a>    <ul>
+      <li><a href="#key-terms-1" id="markdown-toc-key-terms-1">Key Terms</a></li>
+      <li><a href="#key-challenges-for-ml" id="markdown-toc-key-challenges-for-ml">Key Challenges for ML</a></li>
+      <li><a href="#where-ai-fits-in-1" id="markdown-toc-where-ai-fits-in-1">Where AI Fits In</a></li>
+    </ul>
+  </li>
+  <li><a href="#clinical-databases--benchmarks" id="markdown-toc-clinical-databases--benchmarks">Clinical Databases &amp; Benchmarks</a></li>
+</ul>
+
+<p>This is the companion post to <a href="/2026/02/12/biomedical-basics/">Biomedical Basics for AI/ML People</a>, which covers molecular biology, genomics, proteins, and drug discovery. Here we focus on the <strong>clinical practice</strong> side — the data that comes from hospitals and patient care.</p>
+
+<p>We’ll cover two major areas where AI is making an impact: <strong>medical imaging</strong> and <strong>electronic health records (EHR)</strong>.</p>
+
+<h1 id="medical-imaging">Medical Imaging</h1>
+
+<h2 id="imaging-modalities">Imaging Modalities</h2>
+
+<table>
+  <thead>
+    <tr>
+      <th>Modality</th>
+      <th>What It Captures</th>
+      <th>Typical Data Format</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td><strong>X-ray</strong></td>
+      <td>2D projection of dense structures (bones, lungs).</td>
+      <td>2D grayscale image</td>
+    </tr>
+    <tr>
+      <td><strong>CT</strong> (Computed Tomography)</td>
+      <td>3D volume from multiple X-ray angles. Good for anatomy.</td>
+      <td>3D volume (stack of 2D slices)</td>
+    </tr>
+    <tr>
+      <td><strong>MRI</strong> (Magnetic Resonance Imaging)</td>
+      <td>3D soft tissue detail using magnetic fields. Multiple contrast types (T1, T2, FLAIR).</td>
+      <td>3D volume, often multi-channel</td>
+    </tr>
+    <tr>
+      <td><strong>Ultrasound</strong></td>
+      <td>Real-time imaging using sound waves. Common for obstetrics, cardiac.</td>
+      <td>2D or 3D, often video</td>
+    </tr>
+    <tr>
+      <td><strong>PET</strong> (Positron Emission Tomography)</td>
+      <td>Metabolic activity using radioactive tracers. Often combined with CT (PET/CT).</td>
+      <td>3D volume, low resolution</td>
+    </tr>
+    <tr>
+      <td><strong>Histopathology</strong></td>
+      <td>Microscopic images of tissue (biopsies). Stained and digitized as whole slide images.</td>
+      <td>Very large 2D images (gigapixel-scale)</td>
+    </tr>
+    <tr>
+      <td><strong>Fundoscopy / OCT</strong></td>
+      <td>Retinal imaging. Fundus photos (2D) or OCT scans (3D cross-sections).</td>
+      <td>2D or 3D</td>
+    </tr>
+  </tbody>
+</table>
+
+<h2 id="key-terms">Key Terms</h2>
+
+<table>
+  <thead>
+    <tr>
+      <th>Term</th>
+      <th>What It Is</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td><strong>DICOM</strong></td>
+      <td>The standard file format for medical images. Contains pixel data + rich metadata (patient info, acquisition parameters).</td>
+    </tr>
+    <tr>
+      <td><strong>Segmentation</strong></td>
+      <td>Delineating structures (organs, tumors) in an image.</td>
+    </tr>
+    <tr>
+      <td><strong>CAD</strong> (Computer-Aided Detection/Diagnosis)</td>
+      <td>Systems that flag suspicious regions for a radiologist to review.</td>
+    </tr>
+    <tr>
+      <td><strong>ROI</strong> (Region of Interest)</td>
+      <td>A marked area in an image for analysis.</td>
+    </tr>
+    <tr>
+      <td><strong>Whole Slide Image (WSI)</strong></td>
+      <td>A digitized pathology slide, often 100,000 × 100,000 pixels.</td>
+    </tr>
+    <tr>
+      <td><strong>Radiomics</strong></td>
+      <td>Extracting quantitative features from medical images.</td>
+    </tr>
+  </tbody>
+</table>
+
+<h2 id="where-ai-fits-in">Where AI Fits In</h2>
+
+<ul>
+  <li><strong>Classification</strong>: Disease detection from images (e.g., diabetic retinopathy from fundus photos, pneumonia from chest X-rays).</li>
+  <li><strong>Segmentation</strong>: Organ and tumor delineation in CT/MRI (U-Net and variants dominate).</li>
+  <li><strong>Detection</strong>: Localizing lesions, nodules, or fractures (object detection on medical images).</li>
+  <li><strong>Registration</strong>: Aligning images from different time points or modalities.</li>
+  <li><strong>Report generation</strong>: Generating radiology reports from images (vision-language models).</li>
+  <li><strong>Digital pathology</strong>: Classifying cancer subtypes and grading from whole slide images (multiple instance learning).</li>
+</ul>
+
+<h1 id="clinical-data--electronic-health-records">Clinical Data &amp; Electronic Health Records</h1>
+
+<h2 id="key-terms-1">Key Terms</h2>
+
+<table>
+  <thead>
+    <tr>
+      <th>Term</th>
+      <th>What It Is</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td><strong>EHR</strong> (Electronic Health Record)</td>
+      <td>A patient’s digital medical record: diagnoses, medications, labs, notes, imaging.</td>
+    </tr>
+    <tr>
+      <td><strong>ICD codes</strong></td>
+      <td>Standardized codes for diagnoses (e.g., ICD-10: E11.9 = Type 2 diabetes). ~70,000 codes.</td>
+    </tr>
+    <tr>
+      <td><strong>CPT codes</strong></td>
+      <td>Codes for medical procedures.</td>
+    </tr>
+    <tr>
+      <td><strong>Lab values</strong></td>
+      <td>Numeric test results (blood glucose, hemoglobin, etc.) with reference ranges.</td>
+    </tr>
+    <tr>
+      <td><strong>Clinical notes</strong></td>
+      <td>Free-text notes written by clinicians. Rich but unstructured.</td>
+    </tr>
+    <tr>
+      <td><strong>FHIR</strong></td>
+      <td>A modern standard for exchanging healthcare data via APIs.</td>
+    </tr>
+    <tr>
+      <td><strong>Cohort</strong></td>
+      <td>A group of patients defined by shared characteristics for a study.</td>
+    </tr>
+    <tr>
+      <td><strong>Phenotyping</strong></td>
+      <td>Identifying patients with a specific condition from EHR data (not always straightforward).</td>
+    </tr>
+    <tr>
+      <td><strong>De-identification</strong></td>
+      <td>Removing personally identifiable information from medical data. Required for research use.</td>
+    </tr>
+  </tbody>
+</table>
+
+<h2 id="key-challenges-for-ml">Key Challenges for ML</h2>
+
+<ul>
+  <li><strong>Data access</strong>: Medical data is heavily regulated (HIPAA in the US, GDPR in the EU). Getting access is hard and slow.</li>
+  <li><strong>Missing data</strong>: Clinical data is collected for care, not research. Missingness is the norm, not the exception — and it’s often informative (a missing test may mean the doctor didn’t think it was needed).</li>
+  <li><strong>Irregular time series</strong>: Vital signs and labs are recorded at irregular intervals, unlike the uniform grids ML models typically expect.</li>
+  <li><strong>Label noise</strong>: Diagnoses in EHRs are billing codes, not ground-truth labels. A code may be present for “rule-out” purposes.</li>
+  <li><strong>Class imbalance</strong>: Rare diseases are, by definition, rare. Most clinical prediction tasks are highly imbalanced.</li>
+  <li><strong>Distribution shift</strong>: Patient populations, clinical practices, and coding conventions vary across hospitals.</li>
+</ul>
+
+<h2 id="where-ai-fits-in-1">Where AI Fits In</h2>
+
+<ul>
+  <li><strong>Clinical prediction</strong>: Readmission, mortality, sepsis, and deterioration risk scoring from EHR time series.</li>
+  <li><strong>NLP on clinical notes</strong>: Named entity recognition, relation extraction, and summarization (Med-BERT, Clinical-T5).</li>
+  <li><strong>Medical coding</strong>: Auto-assigning ICD/CPT codes to clinical encounters.</li>
+  <li><strong>Federated learning</strong>: Training models across hospitals without sharing patient data.</li>
+  <li><strong>Foundation models</strong>: Large models pre-trained on broad clinical data, fine-tuned for specific tasks (Med-PaLM, BioGPT).</li>
+</ul>
+
+<h1 id="clinical-databases--benchmarks">Clinical Databases &amp; Benchmarks</h1>
+
+<table>
+  <thead>
+    <tr>
+      <th>Resource</th>
+      <th>What It Contains</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td><strong>MIMIC</strong></td>
+      <td>De-identified ICU patient records (EHR benchmark)</td>
+    </tr>
+    <tr>
+      <td><strong>CheXpert / NIH ChestX-ray14</strong></td>
+      <td>Chest X-ray datasets with labels</td>
+    </tr>
+    <tr>
+      <td><strong>TCGA</strong> (The Cancer Genome Atlas)</td>
+      <td>Multi-omics cancer data (bridges research and clinical)</td>
+    </tr>
+    <tr>
+      <td><strong>UK Biobank</strong></td>
+      <td>Large-scale health and genomics data (~500K participants)</td>
+    </tr>
+  </tbody>
+</table>
+
+  </div><a class="u-url" href="/2026/03/13/clinical-ai-basics.html" hidden></a>
+</article>
+
+      </div>
+    </main><footer class="site-footer h-card">
+  <data class="u-url" href="/"></data>
+
+  <div class="wrapper">
+
+    <h2 class="footer-heading">Yuan (Emily) Xue</h2>
+
+    <div class="footer-col-wrapper">
+      <div class="footer-col footer-col-1">
+        <ul class="contact-list">
+          <li class="p-name">Yuan (Emily) Xue</li><li><a class="u-email" href="mailto:yuanxue00@gmail.com">yuanxue00@gmail.com</a></li></ul>
+      </div>
+
+      <div class="footer-col footer-col-2"><ul class="social-media-list"><li><a href="https://www.linkedin.com/in/yuan-emily-xue-3483012"><svg class="svg-icon"><use xlink:href="/assets/minima-social-icons.svg#linkedin"></use></svg> <span class="username">yuan-emily-xue-3483012</span></a></li><li><a href="https://www.x.com/yuanxue00"><svg class="svg-icon"><use xlink:href="/assets/minima-social-icons.svg#twitter"></use></svg> <span class="username">yuanxue00</span></a></li></ul>
+</div>
+
+      <div class="footer-col footer-col-3">
+        <p>(last updated: April 2026)</p>
+      </div>
+    </div>
+
+  </div>
+
+</footer>
+
+      <script src="https://cdn.jsdelivr.net/npm/mermaid@10/dist/mermaid.min.js"></script>
+      <script>
+        document.addEventListener('DOMContentLoaded', function () {
+          mermaid.initialize({
+            startOnLoad: true,
+            securityLevel: 'loose' // allows <br/> in labels
+          });
+        });
+      </script>
+    
+  </body>
+</html>
