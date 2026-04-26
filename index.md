@@ -16,6 +16,18 @@ I currently serve as the Head of Enterprise AI at Scale AI. Previously I worked 
 
 # Recent Publications {#selected-papers}
 
+-   [**Coverage, Not Averages: Semantic Stratification for Trustworthy Retrieval Evaluation**](https://arxiv.org/abs/2604.20763) \
+    Andrew Klearman, Radu Revutchi, Rohin Garg, Rishav Chakravarti, Samuel Marc Denton, Yuan Xue\
+    \[Under submission 2026\]
+
+-   [**VeRO: An Evaluation Harness for Agents to Optimize Agents**](https://arxiv.org/abs/2602.22480) \
+    Varun Ursekar, Apaar Shanker, Veronica Chatrath, Yuan (Emily) Xue, Sam Denton\
+    \[Under submission 2026\]
+
+-   [**LHAW: Controllable Underspecification for Long-Horizon Tasks**](https://arxiv.org/abs/2602.10525) \
+    George Pu, Michael S. Lee, Udari Madhushani Sehwag, David J. Lee, Bryan Zhu, Yash Maurya, Mohit Raghavendra, Yuan Xue, Samuel Marc Denton\
+    \[ICLR 2026 Workshop on Lifelong Agents\]
+
 -   [**Judging with Confidence: Calibrating Autoraters to Preference Distributions**](https://arxiv.org/abs/2510.00263)\
     Zhuohang Li, Xiaowei Li, Chengyu Huang, Guowang Li, Katayoon Goshvadi, Bo Dai, Dale Schuurmans, Paul Zhou, Hamid Palangi, Yiwen Song, Palash Goyal, Murat Kantarcioglu, Bradley A. Malin, Yuan Xue\
     \[Under submission 2025\]
