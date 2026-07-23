@@ -118,6 +118,18 @@ Vanderbilt](https://scholar.google.com/citations?user=jcatRRIAAAAJ&hl=en)
     \[ARPA-H Workshop on Simulation and Causal Models for AI Evaluation
     and Regulation, July 2026\]
 
+-   [**From Models to Systems: Engineering Trustworthy AI
+    Agents**](assets/purdue_cerias_keynote_2026.html)\
+    Yuan Xue\
+    \[Keynote at Purdue CERIAS Annual Cybersecurity Symposium, April
+    2026\]
+
+-   [**From Models to Systems: Engineering Trustworthy AI
+    Agents**](assets/vanderbilt_isis_keynote_2026.html)\
+    Yuan Xue\
+    \[Vanderbilt University Research Seminar, April 2026\] *(Slightly
+    updated from the Purdue talk)*
+
 -   [**Evaluating Large Language Models - Principles, Approaches, and
     Applications**](https://drive.google.com/file/d/1bmWTaSUvskJjRL0guHNrK7gXzRnpad0a/view?usp=sharing)\
     Bo Li, Irina Sigler, Yuan Xue\
