@@ -112,10 +112,16 @@ Vanderbilt](https://scholar.google.com/citations?user=jcatRRIAAAAJ&hl=en)
 
 # Talks {#online-talks}
 
+-   [**From Textbook Causality to Regulatory Evidence: Building the
+    Evaluation Substrate for Clinical AI**](assets/arpah_causal_evaluation_substrate_2026.pdf)\
+    Yuan (Emily) Xue\
+    \[ARPA-H Workshop on Simulation and Causal Models for AI Evaluation
+    and Regulation, July 2026\]
+
 -   [**Evaluating Large Language Models - Principles, Approaches, and
     Applications**](https://drive.google.com/file/d/1bmWTaSUvskJjRL0guHNrK7gXzRnpad0a/view?usp=sharing)\
     Bo Li, Irina Sigler, Yuan Xue\
     \[[NeurIPS Tutorial
     2024](https://neurips.cc/virtual/2024/tutorial/99524)\]
 
-(last updated: Oct 2025)
+(last updated: July 2026)
