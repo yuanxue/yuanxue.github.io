@@ -1,4 +1,5 @@
 ---
+published: false
 layout: post
 title: "Test Blog Post for Verification"
 date:   2026-07-20 00:17:56 -0700

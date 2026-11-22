@@ -6,7 +6,7 @@ tags: [Reinforcement Learning, LLM, World Model, Sutton]
 categories: [LLM, AI, Deep Learning]
 mermaid: true
 ---
-
+* TOC
 {:toc}
 
 ### Sutton’s View: Lack of World Model in LLMs
