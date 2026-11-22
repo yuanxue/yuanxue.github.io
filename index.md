@@ -16,11 +16,47 @@ I currently serve as the Head of Enterprise AI at Scale AI. Previously I worked 
 
 # Recent Publications {#selected-papers}
 
+-   [**MA-Bench: Measuring Operational Planning in Language Models**](https://arxiv.org/abs/2610.19138) \
+    Rodney Lafuente-Mercado, Robert Sincero, Phil Sage, Yuan Xue\
+    \[2026\]
+
+-   [**CoverSynth: Coverage-Guided Generation of Retrieval Evaluation Sets**](https://arxiv.org/abs/2610.15409) \
+    Anahita Sharma, Apaar Shanker, Rishav Chakravarti, Sneha Srinivasan, Vijay Kalmath, Dylan Wilbur, Yuan Li, Sara Bolouki, Yuan Xue\
+    \[2026\]
+
+-   [**Studying Without a Syllabus: Task-Agnostic Environment Preprocessing**](https://arxiv.org/abs/2609.10824) \
+    Vinay Samuel, Varun Ursekar, Vijay S. Kalmath, Apaar Shanker, Veronica Chatrath, Yuan Xue\
+    \[2026\]
+
+-   [**READY or Not: Reliable Enterprise Agent Deployment**](https://arxiv.org/abs/2609.02095) \
+    Veronica Chatrath, Bryan Zhu, Jingxuan Fan, George Pu, Soham Dinesh Tiwari, Soham Dan, Ryan Young, Yuan Li, Yuang Yao, Apaar Shanker, Minglai Yang, Daniel Yue Zhang, Yunzhong He, Ying Liu, Chenguang Wang, Zhijun Yin, Yuan Xue\
+    \[2026\]
+
+-   [**CliniCARE-Bench: Clinical Calibrated Audit of Medical Reasoning in EHR**](https://arxiv.org/abs/2608.07796) \
+    Veronica Chatrath, Bryan Zhu, George Pu, Jingxuan Fan, Apaar Shanker, Varun Ursekar, Anahita Sharma, Jason Qin, Keqi Han, Soham Dinesh Tiwari, Soham Dan, Vijay Kalmath, Yuan Li, Daniel Yue Zhang, Chenguang Wang, Zainab Doctor, Zhijun Yin, Nigam H. Shah, Yuan Xue\
+    \[2026\]
+
+-   [**HarnessOpt-Bench: Evaluating LLMs at Harness Optimization**](https://arxiv.org/abs/2608.06301) \
+    Varun Ursekar, Apaar Shanker, Yash Maurya, Shehab Yasser, Vijay S. Kalmath, Veronica Chatrath, Yuan Xue\
+    \[2026\]
+
+-   [**The ACUTE Protocol: Operationalizing Language Model Activations for Better Calibration, Utility, and Trust**](https://arxiv.org/abs/2606.07822) \
+    Nishant Subramani, Palash Goyal, Yiwen Song, Mani Malek, Yuan Xue, Tomas Pfister, Hamid Palangi\
+    \[Accepted to ICML 2026\]
+
+-   [**PSEBench: A Controllable and Verifiable Benchmark for Evaluating LLMs in Patient Safety Event Triage**](https://arxiv.org/abs/2606.05463) \
+    Keqi Han, Ryan Young, Annabel Strauss, Lindsey Hughes, Katharine M. Nesbitt, Nicole Schueler, Che Ngufor, Carl Yang, Yuan Xue, Zhijun Yin\
+    \[2026\]
+
+-   [**Insights Generator: Systematic Corpus-Level Trace Diagnostics for LLM Agents**](https://arxiv.org/abs/2605.21347) \
+    Akshay Manglik, Vijay S. Kalmath, Jason Qin, Apaar Shanker, Kaustubh Deshpande, Yash Maurya, Veronica Chatrath, Levi Lentz, Yuan Xue\
+    \[2026\]
+
 -   [**Coverage, Not Averages: Semantic Stratification for Trustworthy Retrieval Evaluation**](https://arxiv.org/abs/2604.20763) \
     Andrew Klearman, Radu Revutchi, Rohin Garg, Rishav Chakravarti, Samuel Marc Denton, Yuan Xue\
     \[Accepted to ICML 2026\]
 
--   [**VeRO: An Evaluation Harness for Agents to Optimize Agents**](https://arxiv.org/abs/2602.22480) \
+-   [**VeRO: A Harness for Agents to Optimize Agents**](https://arxiv.org/abs/2602.22480) \
     Varun Ursekar, Apaar Shanker, Veronica Chatrath, Yuan (Emily) Xue, Sam Denton\
     \[Accepted to ICML 2026\]
 
@@ -45,7 +81,7 @@ I currently serve as the Head of Enterprise AI at Scale AI. Previously I worked 
    Listed as Emily Xue, one of the 3,410 authors\
     \[2025\]
 
--   [**Gemini 1.5: Unlocking Multimodal Understanding Across Millions of Tokens of Context**](https://arxiv.org/abs/1906.04716)\
+-   [**Gemini 1.5: Unlocking Multimodal Understanding Across Millions of Tokens of Context**](https://arxiv.org/abs/2403.05530)\
     Listed as Emily Xue, one of the 1,037 authors\
     \[2024\]
 
